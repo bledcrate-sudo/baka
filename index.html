@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0e17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Love or Attachment? — Discover Your True Feelings</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --love: #e84393;
+    --attachment: #6c5ce7;
+    --bg: #0f0e17;
+    --card: #1a1929;
+    --text: #fffffe;
+    --muted: #a7a9be;
+    --accent: #ff8906;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+  }
+
+  .bg-blobs {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-blobs .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+    animation: float 12s ease-in-out infinite alternate;
+  }
+  .blob-1 { width: 340px; height: 340px; background: var(--love); top: -5%; left: -10%; }
+  .blob-2 { width: 280px; height: 280px; background: var(--attachment); bottom: -5%; right: -10%; animation-delay: -4s; }
+  .blob-3 { width: 220px; height: 220px; background: var(--accent); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -8s; }
+
+  @keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, -20px) scale(1.08); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 620px;
+    padding: 72px 16px 72px;
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeUp 0.4s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* INTRO */
+  .intro-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 40px 24px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .intro-icon { font-size: 52px; margin-bottom: 14px; }
+
+  .intro-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, var(--love), var(--attachment));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .intro-card p {
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 28px;
+    font-size: 0.93rem;
+  }
+
+  .btn-start {
+    background: linear-gradient(135deg, var(--love), var(--attachment));
+    color: #fff;
+    border: none;
+    padding: 18px 48px;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    max-width: 320px;
+    touch-action: manipulation;
+    transition: opacity 0.15s, transform 0.15s;
+    -webkit-appearance: none;
+  }
+  .btn-start:active { opacity: 0.85; transform: scale(0.98); }
+
+  /* QUIZ */
+  .quiz-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 28px 20px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .progress-wrap { margin-bottom: 24px; }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--love), var(--attachment));
+    border-radius: 10px;
+    transition: width 0.45s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  .question-number {
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+
+  .question-sub {
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-bottom: 22px;
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .answer-btn {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    color: var(--text);
+    padding: 15px 16px;
+    border-radius: 16px;
+    font-size: 0.93rem;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    line-height: 1.45;
+    min-height: 56px;
+    touch-action: manipulation;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    -webkit-appearance: none;
+    width: 100%;
+  }
+  .answer-btn:active {
+    background: rgba(255,255,255,0.09);
+    transform: scale(0.985);
+  }
+  .answer-btn.selected {
+    background: linear-gradient(135deg, rgba(232,67,147,0.14), rgba(108,92,231,0.14));
+    border-color: var(--love);
+  }
+
+  .answer-key {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .answer-btn.selected .answer-key { background: var(--love); }
+
+  /* RESULT */
+  .result-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 36px 24px 32px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .result-icon { font-size: 58px; margin-bottom: 14px; }
+
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .result-subtitle {
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .meter-wrap { margin: 0 auto 28px; max-width: 100%; }
+  .meter-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .meter-label-love { color: var(--love); }
+  .meter-label-attach { color: var(--attachment); }
+  .meter-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .meter-love {
+    height: 100%;
+    background: linear-gradient(90deg, var(--love), #fd79a8);
+    border-radius: 10px;
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  }
+
+  .result-breakdown {
+    text-align: left;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .result-breakdown h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .trait {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .trait-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .trait strong { color: var(--text); }
+
+  .btn-restart {
+    margin-top: 28px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text);
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    touch-action: manipulation;
+    transition: background 0.2s, transform 0.15s;
+    -webkit-appearance: none;
+  }
+  .btn-restart:active {
+    background: rgba(255,255,255,0.07);
+    transform: scale(0.98);
+  }
+
+  @media (min-width: 500px) {
+    .intro-card { padding: 48px 40px; }
+    .intro-card h1 { font-size: 2rem; }
+    .quiz-card { padding: 36px 32px 32px; }
+    .question-text { font-size: 1.35rem; }
+    .result-card { padding: 48px 40px 40px; }
+    .result-title { font-size: 1.8rem; }
+    .answer-btn { font-size: 0.95rem; padding: 16px 20px; }
+    .btn-start { width: auto; }
+    .btn-restart { width: auto; }
+    .container { padding: 80px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<div style="position:fixed; top:0; left:0; right:0; z-index:10; text-align:center; padding: 14px 20px; padding-top: max(14px, env(safe-area-inset-top)); font-family:'Playfair Display',serif; font-size:0.88rem; color:rgba(255,255,255,0.4); letter-spacing:0.5px; pointer-events:none; background: linear-gradient(to bottom, rgba(15,14,23,0.7) 60%, transparent); backdrop-filter: blur(2px);">
+  for my love, <em>israe</em>
+</div>
+
+<div style="position:fixed; bottom:0; left:0; right:0; z-index:10; text-align:center; padding: 14px 20px; padding-bottom: max(14px, env(safe-area-inset-bottom)); font-family:'Playfair Display',serif; font-size:0.88rem; color:rgba(255,255,255,0.4); letter-spacing:1px; pointer-events:none; background: linear-gradient(to top, rgba(15,14,23,0.7) 60%, transparent); backdrop-filter: blur(2px);">
+  — R
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="screen active" id="intro">
+    <div class="intro-card">
+      <div class="intro-icon">💗</div>
+      <h1>Love or Attachment?</h1>
+      <p>
+        Love and emotional attachment can feel strikingly similar, yet they come from very different places.<br><br>
+        This quiz draws from <strong>attachment theory</strong> (Bowlby &amp; Ainsworth), the <strong>Triangular Theory of Love</strong> (Sternberg), and research on <strong>emotional dependency</strong> to help you understand what you're truly feeling.<br><br>
+        <strong>20 questions · ~3 minutes</strong>
+      </p>
+      <button class="btn-start" onclick="startQuiz()">Discover My Feelings</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="quiz">
+    <div class="quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span id="progressLabel">Question 1 of 20</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+      <div class="question-number" id="qNumber">Question 1</div>
+      <div class="question-text" id="qText"></div>
+      <div class="question-sub" id="qSub"></div>
+      <div class="answers" id="answers"></div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="result">
+    <div class="result-card">
+      <div class="result-icon" id="resultIcon"></div>
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+      <div class="meter-wrap">
+        <div class="meter-labels">
+          <span class="meter-label-love">❤️ Love</span>
+          <span class="meter-label-attach">🔗 Attachment</span>
+        </div>
+        <div class="meter-bar">
+          <div class="meter-love" id="meterLove"></div>
+        </div>
+      </div>
+      <div class="result-breakdown" id="breakdown"></div>
+      <button class="btn-restart" onclick="restart()">Take It Again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "When you think about this person not being in your life anymore, what's your first reaction?",
+    sub: "Be honest with your gut feeling — not what you think the 'right' answer is.",
+    answers: [
+      { text: "I'd be sad, but I'd want them to be happy wherever they are", love: 3, attach: 0 },
+      { text: "I feel genuine pain, but I know I'd eventually heal", love: 2, attach: 1 },
+      { text: "I feel panic — I can't imagine my life without them", love: 0, attach: 3 },
+      { text: "My chest tightens and I try not to think about it", love: 0, attach: 2 }
+    ]
+  },
+  {
+    text: "When they succeed at something big, what's happening inside you?",
+    sub: "Think about a real moment if you can.",
+    answers: [
+      { text: "I feel genuinely proud, as if their joy is mine", love: 3, attach: 0 },
+      { text: "I'm happy but a small part wonders 'will they still need me?'", love: 1, attach: 2 },
+      { text: "I feel threatened — what if they outgrow me?", love: 0, attach: 3 },
+      { text: "I'm happy and motivated to grow alongside them", love: 2, attach: 0 }
+    ]
+  },
+  {
+    text: "They haven't texted back in several hours. What goes through your mind?",
+    sub: "This reveals your baseline anxiety pattern.",
+    answers: [
+      { text: "They're probably busy — I'll hear from them later", love: 3, attach: 0 },
+      { text: "I notice it but go about my day normally", love: 2, attach: 0 },
+      { text: "I start checking my phone repeatedly and feel uneasy", love: 0, attach: 2 },
+      { text: "I spiral — are they ignoring me? Did I do something wrong?", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "If they told you they needed space for a while, how would you react?",
+    sub: "Space is one of the clearest tests of love vs. attachment.",
+    answers: [
+      { text: "I'd respect it fully and use the time for myself too", love: 3, attach: 0 },
+      { text: "I'd respect it, though I'd miss them", love: 2, attach: 1 },
+      { text: "I'd say I understand but keep reaching out anyway", love: 0, attach: 2 },
+      { text: "I'd feel rejected and anxious the entire time", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "When you disagree about something important, what's your pattern?",
+    sub: "Conflict styles reveal the foundation of a connection.",
+    answers: [
+      { text: "I try to understand their side even when it's hard", love: 3, attach: 0 },
+      { text: "I get anxious that the disagreement will push them away", love: 0, attach: 3 },
+      { text: "I give in quickly to avoid tension", love: 0, attach: 2 },
+      { text: "We can disagree and still feel secure with each other", love: 2, attach: 0 }
+    ]
+  },
+  {
+    text: "Be honest: do you love who they actually are, or who you want them to be?",
+    sub: "This one requires real self-reflection.",
+    answers: [
+      { text: "I love them as they are — flaws and all", love: 3, attach: 0 },
+      { text: "Mostly who they are, but I wish they'd change a few things", love: 2, attach: 1 },
+      { text: "I often imagine a 'better version' of them", love: 0, attach: 2 },
+      { text: "I'm in love with the potential I see in them", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "How do you feel about their close friendships and other relationships?",
+    sub: "Jealousy patterns are deeply revealing.",
+    answers: [
+      { text: "I'm glad they have a full life and people who care about them", love: 3, attach: 0 },
+      { text: "I'm mostly fine, with occasional twinges of jealousy", love: 2, attach: 1 },
+      { text: "I feel uncomfortable when they're very close with others", love: 0, attach: 2 },
+      { text: "I feel threatened and want to be their most important person", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "When you're apart for an extended time, what dominates your emotional state?",
+    sub: "Think about a real period of separation.",
+    answers: [
+      { text: "I miss them but I'm still engaged with my own life", love: 3, attach: 0 },
+      { text: "I think about them often and feel a warm ache", love: 2, attach: 1 },
+      { text: "I feel incomplete — like a part of me is missing", love: 0, attach: 2 },
+      { text: "I can barely function and count the moments until we reunite", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "Why do you want to be with this person?",
+    sub: "The 'why' behind desire separates love from need.",
+    answers: [
+      { text: "They make life richer — I admire and respect who they are", love: 3, attach: 0 },
+      { text: "We have great chemistry and deep connection", love: 2, attach: 1 },
+      { text: "They fill an emptiness I feel when I'm alone", love: 0, attach: 3 },
+      { text: "I'm afraid of what I'd feel without them", love: 0, attach: 2 }
+    ]
+  },
+  {
+    text: "If they were happy with someone else, could you eventually accept that?",
+    sub: "Perhaps the hardest question. Take your time.",
+    answers: [
+      { text: "It would hurt deeply, but their happiness matters most to me", love: 3, attach: 0 },
+      { text: "Eventually, yes — but it would take a very long time", love: 2, attach: 1 },
+      { text: "No — the thought makes me feel sick", love: 0, attach: 3 },
+      { text: "I'd rather they were unhappy alone than happy with someone else", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "How much of your self-worth is tied to this person wanting you?",
+    sub: "This measures emotional dependency — a key attachment marker.",
+    answers: [
+      { text: "I know my worth regardless of how they feel about me", love: 3, attach: 0 },
+      { text: "Their affection boosts my confidence, but I'm okay without it", love: 2, attach: 1 },
+      { text: "When they pull away, I start questioning my own value", love: 0, attach: 2 },
+      { text: "My sense of self completely depends on their validation", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "Do you sometimes confuse missing them with missing the feeling they give you?",
+    sub: "There's an important difference between missing a person and missing a sensation.",
+    answers: [
+      { text: "I miss them as a person — their laugh, their mind, their presence", love: 3, attach: 0 },
+      { text: "A bit of both, honestly", love: 1, attach: 1 },
+      { text: "I think I mostly miss how they make me feel", love: 0, attach: 2 },
+      { text: "I crave the emotional high of being wanted by them", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "When things are going well between you, do you worry about when it will end?",
+    sub: "Anticipatory anxiety is a hallmark of anxious attachment.",
+    answers: [
+      { text: "No — I enjoy the present moment with them", love: 3, attach: 0 },
+      { text: "Occasionally a small worry creeps in, but I dismiss it", love: 2, attach: 1 },
+      { text: "Yes — I'm often waiting for the other shoe to drop", love: 0, attach: 2 },
+      { text: "I sabotage good moments because I'm terrified of losing them", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "How do you handle it when they see things differently than you?",
+    sub: "Love allows space for two separate people.",
+    answers: [
+      { text: "I find it interesting — different perspectives make things richer", love: 3, attach: 0 },
+      { text: "I'm fine with it as long as we agree on the big stuff", love: 2, attach: 0 },
+      { text: "I feel anxious and need us to be aligned on everything", love: 0, attach: 2 },
+      { text: "I take it personally — if they loved me, they'd see it my way", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "Have you ever stayed in or pursued this connection out of fear rather than joy?",
+    sub: "Fear-driven connection is the core of attachment without love.",
+    answers: [
+      { text: "No — I'm here because I genuinely want to be", love: 3, attach: 0 },
+      { text: "Maybe once or twice during rough patches", love: 2, attach: 1 },
+      { text: "Yes — leaving feels scarier than staying, even when it hurts", love: 0, attach: 3 },
+      { text: "I'm not sure if I can tell the difference anymore", love: 0, attach: 2 }
+    ]
+  },
+  {
+    text: "When you imagine your future, what role do they play?",
+    sub: "Your vision of the future reveals your emotional architecture.",
+    answers: [
+      { text: "They're a partner walking beside me — we each have our own paths too", love: 3, attach: 0 },
+      { text: "They're central, but I have my own dreams as well", love: 2, attach: 1 },
+      { text: "They ARE my future — I can't picture it without them", love: 0, attach: 2 },
+      { text: "I don't plan my future because I don't know if they'll be in it", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "After a fight, what motivates you to make up?",
+    sub: "The motivation behind reconciliation is very telling.",
+    answers: [
+      { text: "I care about them and want us to understand each other better", love: 3, attach: 0 },
+      { text: "I hate the distance and want to feel close again", love: 1, attach: 2 },
+      { text: "The anxiety of them being upset with me is unbearable", love: 0, attach: 3 },
+      { text: "I want to resolve it so we can both grow from it", love: 2, attach: 0 }
+    ]
+  },
+  {
+    text: "How do you feel about your own identity within this connection?",
+    sub: "Healthy love preserves individuality.",
+    answers: [
+      { text: "I'm still fully myself — this connection adds to who I am", love: 3, attach: 0 },
+      { text: "I've grown in some ways and compromised in others", love: 2, attach: 1 },
+      { text: "I've lost track of who I am outside of this connection", love: 0, attach: 3 },
+      { text: "I change myself to be what I think they want", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "If a trusted friend told you this connection wasn't healthy, how would you react?",
+    sub: "Our reaction to outside perspective reveals our awareness level.",
+    answers: [
+      { text: "I'd genuinely listen and reflect on their concern", love: 3, attach: 0 },
+      { text: "I'd consider it, but also trust my own judgment", love: 2, attach: 0 },
+      { text: "I'd get defensive — no one understands what we have", love: 0, attach: 2 },
+      { text: "I've already heard this and I ignore it every time", love: 0, attach: 3 }
+    ]
+  },
+  {
+    text: "Right now, in this very moment — what does this person represent to you?",
+    sub: "The final question. Let your deepest truth answer.",
+    answers: [
+      { text: "Someone I deeply admire and choose to share my life with", love: 3, attach: 0 },
+      { text: "Someone I care about, though I'm still figuring things out", love: 2, attach: 1 },
+      { text: "Someone I need — and that need scares me sometimes", love: 0, attach: 3 },
+      { text: "The only person who can make me feel whole", love: 0, attach: 3 }
+    ]
+  }
+];
+
+let currentQ = 0;
+let totalLove = 0;
+let totalAttach = 0;
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startQuiz() {
+  currentQ = 0;
+  totalLove = 0;
+  totalAttach = 0;
+  show('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const pct = Math.round((currentQ / questions.length) * 100);
+
+  document.getElementById('progressLabel').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qNumber').textContent = `Question ${currentQ + 1}`;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('qSub').textContent = q.sub;
+
+  const container = document.getElementById('answers');
+  container.innerHTML = '';
+
+  const keys = ['A', 'B', 'C', 'D'];
+  const shuffled = [...q.answers].sort(() => Math.random() - 0.5);
+
+  shuffled.forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="answer-key">${keys[i]}</span><span>${a.text}</span>`;
+    btn.onclick = () => selectAnswer(btn, a.love, a.attach);
+    container.appendChild(btn);
+  });
+
+  // Re-trigger animation
+  const card = document.querySelector('.quiz-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'fadeUp 0.4s ease';
+}
+
+function selectAnswer(btn, love, attach) {
+  document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  totalLove += love;
+  totalAttach += attach;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 400);
+}
+
+function showResult() {
+  const total = totalLove + totalAttach || 1;
+  const lovePct = Math.round((totalLove / total) * 100);
+  const attachPct = 100 - lovePct;
+
+  show('result');
+
+  setTimeout(() => {
+    document.getElementById('meterLove').style.width = lovePct + '%';
+  }, 200);
+
+  let icon, title, subtitle, traits;
+
+  if (lovePct >= 80) {
+    icon = '💖';
+    title = 'This Is Love';
+    subtitle = 'Your feelings show the hallmarks of genuine, secure love.';
+    traits = [
+      { icon: '🌱', text: '<strong>You support their growth</strong> — even when it takes them in a direction away from you. You root for them as an individual.' },
+      { icon: '🛡️', text: '<strong>You feel secure</strong> — you don\'t need constant reassurance because your confidence comes from within, not from their validation.' },
+      { icon: '🤝', text: '<strong>You respect their autonomy</strong> — their friendships, space, and independence feel like a good thing, not a threat.' },
+      { icon: '💎', text: '<strong>You love who they are</strong> — not an idealized version, not their potential, but the real and imperfect person in front of you.' }
+    ];
+  } else if (lovePct >= 60) {
+    icon = '💛';
+    title = 'Mostly Love, Some Attachment';
+    subtitle = 'Your foundation is love, but some attachment patterns are present.';
+    traits = [
+      { icon: '✅', text: '<strong>Strong emotional foundation</strong> — your core feelings are genuine care and respect for who they are.' },
+      { icon: '⚡', text: '<strong>Some anxiety triggers</strong> — certain situations (distance, conflict, silence) activate attachment patterns that override your loving instincts.' },
+      { icon: '🔍', text: '<strong>Self-awareness is your strength</strong> — recognizing these patterns means you can work with them rather than be controlled by them.' },
+      { icon: '💪', text: '<strong>Room for growth</strong> — building your own emotional security will let the love breathe more freely.' }
+    ];
+  } else if (lovePct >= 40) {
+    icon = '🔮';
+    title = 'A Mix of Both';
+    subtitle = 'Love and attachment are tangled together in roughly equal measure.';
+    traits = [
+      { icon: '❤️', text: '<strong>Real feelings exist here</strong> — this isn\'t "just" attachment. There is genuine care underneath.' },
+      { icon: '🔗', text: '<strong>But dependency is significant</strong> — a large part of your connection is driven by what they provide you emotionally, not just who they are.' },
+      { icon: '🪞', text: '<strong>Your identity may be enmeshed</strong> — it\'s worth asking: who are you when you\'re not thinking about them?' },
+      { icon: '🧭', text: '<strong>Untangling is possible</strong> — therapy or deep self-work can help you separate the love from the fear, and keep what\'s real.' }
+    ];
+  } else if (lovePct >= 20) {
+    icon = '🔗';
+    title = 'Mostly Attachment';
+    subtitle = 'What you\'re feeling is primarily emotional attachment, not love in its healthiest form.';
+    traits = [
+      { icon: '😰', text: '<strong>Fear is the engine</strong> — your connection is driven more by the fear of losing them than by genuine appreciation for who they are.' },
+      { icon: '🫠', text: '<strong>Your self-worth is entangled</strong> — their opinion of you has become the mirror you use to see yourself.' },
+      { icon: '🌀', text: '<strong>You may be addicted to the cycle</strong> — the highs feel like love, but they\'re actually relief from the anxiety of potential loss.' },
+      { icon: '💡', text: '<strong>This is not a life sentence</strong> — attachment patterns are learned, and they can be unlearned. This awareness is the first step.' }
+    ];
+  } else {
+    icon = '⛓️';
+    title = 'This Is Attachment';
+    subtitle = 'Your responses indicate strong emotional dependency rather than love.';
+    traits = [
+      { icon: '🚨', text: '<strong>This is about you, not them</strong> — what you\'re feeling is more about your own unmet needs than about the actual person.' },
+      { icon: '🕳️', text: '<strong>You\'re trying to fill a void</strong> — this person represents safety, validation, or worth that you haven\'t yet built for yourself.' },
+      { icon: '💔', text: '<strong>This pattern will repeat</strong> — even if this person left, you\'d likely recreate the same dynamic with someone else.' },
+      { icon: '🌅', text: '<strong>Healing is absolutely possible</strong> — working with a therapist on your attachment style can transform how you experience all relationships.' }
+    ];
+  }
+
+  document.getElementById('resultIcon').textContent = icon;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultSubtitle').textContent = subtitle;
+
+  let html = `<h3>What Your Answers Reveal</h3>`;
+  traits.forEach(t => {
+    html += `<div class="trait"><span class="trait-icon">${t.icon}</span><span>${t.text}</span></div>`;
+  });
+  html += `
+    <div style="margin-top:28px; padding:20px; background:rgba(255,255,255,0.03); border-radius:14px; border:1px solid rgba(255,255,255,0.06);">
+      <div style="font-size:0.82rem; color:var(--muted); line-height:1.6;">
+        <strong style="color:var(--text);">Your scores:</strong> Love ${lovePct}% · Attachment ${attachPct}%<br><br>
+        Based on Bowlby & Ainsworth's attachment theory, Sternberg's triangular theory of love, and research on emotional dependency patterns.
+        This quiz is for self-reflection purposes and is not a clinical assessment.
+      </div>
+    </div>`;
+
+  document.getElementById('breakdown').innerHTML = html;
+}
+
+function restart() {
+  show('intro');
+}
+</script>
+
+</body>
+</html>
