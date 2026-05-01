@@ -16,6 +16,11 @@
     --love: #e84393;
     --attachment: #6c5ce7;
     --trauma: #00b894;
+    --style-q: #4a90e2;
+    --wound-q: #e17055;
+    --healing-q: #00cec9;
+    --compassion-q: #fdcb6e;
+    --quiz-color: #e84393;
     --bg: #0f0e17;
     --card: #1a1929;
     --card2: #1f1e30;
@@ -150,10 +155,87 @@
   .hub-btn-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
   .hub-btn-arrow { margin-left: auto; color: var(--muted); font-size: 1.1rem; flex-shrink: 0; }
 
-  .hub-btn-love  { border-color: rgba(232,67,147,0.2); }
-  .hub-btn-trauma { border-color: rgba(0,184,148,0.2); }
-  .hub-btn-love:active  { border-color: var(--love); }
-  .hub-btn-trauma:active { border-color: var(--trauma); }
+  .hub-btn-love      { border-color: rgba(232,67,147,0.2); }
+  .hub-btn-trauma    { border-color: rgba(0,184,148,0.2); }
+  .hub-btn-style-q   { border-color: rgba(74,144,226,0.2); }
+  .hub-btn-wound-q   { border-color: rgba(225,112,85,0.2); }
+  .hub-btn-healing-q { border-color: rgba(0,206,201,0.2); }
+  .hub-btn-compassion-q { border-color: rgba(253,203,110,0.2); }
+  .hub-btn-love:active      { border-color: var(--love); }
+  .hub-btn-trauma:active    { border-color: var(--trauma); }
+  .hub-btn-style-q:active   { border-color: var(--style-q); }
+  .hub-btn-wound-q:active   { border-color: var(--wound-q); }
+  .hub-btn-healing-q:active { border-color: var(--healing-q); }
+  .hub-btn-compassion-q:active { border-color: var(--compassion-q); }
+  .hub-btn-style-q .hub-btn-icon    { background: rgba(74,144,226,0.15); }
+  .hub-btn-wound-q .hub-btn-icon    { background: rgba(225,112,85,0.15); }
+  .hub-btn-healing-q .hub-btn-icon  { background: rgba(0,206,201,0.15); }
+  .hub-btn-compassion-q .hub-btn-icon { background: rgba(253,203,110,0.15); }
+
+  /* ─── HUB SECTIONS ─── */
+  .hub-section { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.8px; color: var(--muted); margin: 18px 0 8px 4px; font-weight: 600; }
+
+  /* ─── GENERIC QUIZ SCREENS ─── */
+  .generic-intro-card {
+    background: var(--card); border-radius: 24px;
+    padding: 40px 24px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .generic-intro-card h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.65rem;
+    margin-bottom: 12px; line-height: 1.3;
+    color: var(--quiz-color);
+  }
+  .generic-intro-card p { color: var(--muted); line-height: 1.75; margin-bottom: 28px; font-size: 0.93rem; }
+  .btn-primary-generic {
+    background: var(--quiz-color); color: #fff; border: none;
+    padding: 18px 48px; border-radius: 50px;
+    font-size: 1.05rem; font-weight: 600;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    width: 100%; touch-action: manipulation;
+    transition: opacity 0.15s, transform 0.15s; -webkit-appearance: none;
+  }
+  .btn-primary-generic:active { opacity: 0.85; transform: scale(0.98); }
+  .generic-quiz-card {
+    background: var(--card); border-radius: 24px;
+    padding: 28px 20px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .progress-fill-generic {
+    height: 100%; border-radius: 10px;
+    background: var(--quiz-color);
+    transition: width 0.45s cubic-bezier(.4,0,.2,1); width: 0%;
+  }
+  .question-number-generic {
+    font-size: 0.72rem; color: var(--quiz-color); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
+  }
+  .answer-btn.selected-generic {
+    border-color: var(--quiz-color);
+    background: rgba(255,255,255,0.06);
+  }
+  .answer-btn.selected-generic .answer-key { background: var(--quiz-color); }
+  .generic-result-card {
+    background: var(--card); border-radius: 24px;
+    padding: 36px 24px 32px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .meter-generic {
+    height: 100%; border-radius: 10px;
+    background: var(--quiz-color);
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  }
+
+  @media (min-width: 500px) {
+    .generic-intro-card { padding: 48px 40px; }
+    .generic-intro-card h2 { font-size: 1.9rem; }
+    .generic-quiz-card { padding: 36px 32px 32px; }
+    .generic-result-card { padding: 48px 40px 40px; }
+    .btn-primary-generic { width: auto; padding: 18px 56px; }
+  }
 
   /* ─── INTRO (love quiz) ─── */
   .intro-card {
@@ -432,21 +514,55 @@
     <div class="hub-card">
       <div class="hub-logo">🪐</div>
       <h1>Know Yourself</h1>
-      <p>Two psychological quizzes to help you understand your inner world. Choose what you want to explore.</p>
+      <p>Six psychology-based quizzes to understand your inner world — your relationships, your wounds, and your healing.</p>
       <div class="hub-options">
+        <div class="hub-section">Relationships</div>
         <button class="hub-btn hub-btn-love" onclick="goTo('intro')">
           <div class="hub-btn-icon">💗</div>
           <div>
             <div class="hub-btn-title">Love or Attachment?</div>
-            <div class="hub-btn-sub">Are your feelings rooted in love, or in emotional dependency?</div>
+            <div class="hub-btn-sub">Are your feelings rooted in love, or emotional dependency?</div>
           </div>
           <span class="hub-btn-arrow">›</span>
         </button>
+        <button class="hub-btn hub-btn-style-q" onclick="launchQuiz('attachment')">
+          <div class="hub-btn-icon">🔗</div>
+          <div>
+            <div class="hub-btn-title">What Is My Attachment Style?</div>
+            <div class="hub-btn-sub">Secure, anxious, avoidant, or disorganized — find your pattern.</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <button class="hub-btn hub-btn-wound-q" onclick="launchQuiz('wound')">
+          <div class="hub-btn-icon">🕳️</div>
+          <div>
+            <div class="hub-btn-title">What Is My Core Wound?</div>
+            <div class="hub-btn-sub">Rejection, abandonment, humiliation, betrayal, or injustice?</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <div class="hub-section">Inner World</div>
         <button class="hub-btn hub-btn-trauma" onclick="goTo('trauma-type')">
           <div class="hub-btn-icon">🌿</div>
           <div>
             <div class="hub-btn-title">Did I Resolve My Trauma?</div>
-            <div class="hub-btn-sub">Choose your trauma type and find out where you are in your healing.</div>
+            <div class="hub-btn-sub">Choose your trauma type and find out where you are in healing.</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <button class="hub-btn hub-btn-healing-q" onclick="launchQuiz('healing')">
+          <div class="hub-btn-icon">🌱</div>
+          <div>
+            <div class="hub-btn-title">Am I Healing or Surviving?</div>
+            <div class="hub-btn-sub">Are you processing pain, or just managing its symptoms?</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <button class="hub-btn hub-btn-compassion-q" onclick="launchQuiz('compassion')">
+          <div class="hub-btn-icon">🫶</div>
+          <div>
+            <div class="hub-btn-title">How Self-Compassionate Am I?</div>
+            <div class="hub-btn-sub">Measure your inner voice — kindness or relentless self-criticism?</div>
           </div>
           <span class="hub-btn-arrow">›</span>
         </button>
@@ -555,6 +671,52 @@
         <div class="meter-bar"><div class="meter-resolved" id="meterResolved"></div></div>
       </div>
       <div class="result-breakdown" id="tBreakdown"></div>
+      <button class="btn-restart" onclick="goTo('hub')">← Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ GENERIC INTRO ═══════════ -->
+  <div class="screen" id="generic-intro">
+    <button class="btn-back" onclick="goTo('hub')">‹ Back</button>
+    <div class="generic-intro-card">
+      <div class="intro-icon" id="gIcon"></div>
+      <h2 id="gTitle"></h2>
+      <p id="gDesc"></p>
+      <button class="btn-primary-generic" id="gStartBtn">Begin</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ GENERIC QUIZ ═══════════ -->
+  <div class="screen" id="generic-quiz">
+    <button class="btn-back" onclick="goTo('hub')">‹ Back</button>
+    <div class="generic-quiz-card">
+      <div class="progress-wrap">
+        <div class="progress-info">
+          <span id="gProgressLabel">Question 1</span>
+          <span id="gProgressPct">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill-generic" id="gProgressFill"></div>
+        </div>
+      </div>
+      <div class="question-number-generic" id="gQNum">Question 1</div>
+      <div class="question-text" id="gQText"></div>
+      <div class="question-sub" id="gQSub"></div>
+      <div class="answers" id="gAnswers"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ GENERIC RESULT ═══════════ -->
+  <div class="screen" id="generic-result">
+    <div class="generic-result-card">
+      <div class="result-icon" id="gResultIcon"></div>
+      <div class="result-title" id="gResultTitle"></div>
+      <div class="result-subtitle" id="gResultSubtitle"></div>
+      <div class="meter-wrap" id="gMeterWrap">
+        <div class="meter-labels" id="gMeterLabels"></div>
+        <div class="meter-bar"><div class="meter-generic" id="gMeterFill"></div></div>
+      </div>
+      <div class="result-breakdown" id="gBreakdown"></div>
       <button class="btn-restart" onclick="goTo('hub')">← Back to Home</button>
     </div>
   </div>
@@ -1656,6 +1818,912 @@ function showTraumaResult() {
 
 /* Init */
 buildTraumaTypeList();
+
+/* ════════════════════════════════════
+   GENERIC QUIZ ENGINE
+════════════════════════════════════ */
+let gQuiz = null, gQ = 0, gScores = {}, gScore = 0;
+
+function setQuizColor(c) {
+  document.documentElement.style.setProperty('--quiz-color', c);
+}
+
+function launchQuiz(id) {
+  gQuiz = genericQuizzes[id];
+  setQuizColor(gQuiz.color);
+  document.getElementById('gIcon').textContent = gQuiz.icon;
+  document.getElementById('gTitle').textContent = gQuiz.title;
+  document.getElementById('gDesc').innerHTML = gQuiz.descHtml;
+  document.getElementById('gStartBtn').onclick = () => startGenericQuiz();
+  goTo('generic-intro');
+}
+
+function startGenericQuiz() {
+  gQ = 0; gScore = 0;
+  gScores = {};
+  if (gQuiz.type === 'multiaxis') {
+    Object.keys(gQuiz.categories).forEach(k => gScores[k] = 0);
+  }
+  goTo('generic-quiz');
+  renderGenericQ();
+}
+
+function renderGenericQ() {
+  const q = gQuiz.questions[gQ];
+  const total = gQuiz.questions.length;
+  const pct = Math.round((gQ / total) * 100);
+  document.getElementById('gProgressLabel').textContent = `Question ${gQ + 1} of ${total}`;
+  document.getElementById('gProgressPct').textContent = pct + '%';
+  document.getElementById('gProgressFill').style.width = pct + '%';
+  document.getElementById('gQNum').textContent = `Question ${gQ + 1}`;
+  document.getElementById('gQText').textContent = q.text;
+  document.getElementById('gQSub').textContent = q.sub || '';
+
+  const container = document.getElementById('gAnswers');
+  container.innerHTML = '';
+  const keys = ['A','B','C','D'];
+  [...q.answers].sort(() => Math.random() - 0.5).forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="answer-key">${keys[i]}</span><span>${a.text}</span>`;
+    btn.onclick = () => pickGeneric(btn, a);
+    container.appendChild(btn);
+  });
+
+  const card = document.querySelector('.generic-quiz-card');
+  card.style.animation = 'none'; card.offsetHeight; card.style.animation = 'fadeUp 0.4s ease';
+}
+
+function pickGeneric(btn, answer) {
+  document.querySelectorAll('#gAnswers .answer-btn').forEach(b => b.classList.remove('selected-generic'));
+  btn.classList.add('selected-generic');
+  if (gQuiz.type === 'multiaxis') {
+    const cat = answer.cat;
+    gScores[cat] = (gScores[cat] || 0) + 1;
+  } else {
+    gScore += answer.score;
+  }
+  setTimeout(() => {
+    gQ++;
+    if (gQ < gQuiz.questions.length) renderGenericQ();
+    else showGenericResult();
+  }, 400);
+}
+
+function showGenericResult() {
+  let result;
+  if (gQuiz.type === 'multiaxis') {
+    result = gQuiz.getResult(gScores);
+  } else {
+    const pct = Math.round((gScore / (gQuiz.questions.length * 3)) * 100);
+    result = gQuiz.getResult(pct);
+  }
+
+  goTo('generic-result');
+  document.getElementById('gResultIcon').textContent = result.icon;
+  document.getElementById('gResultTitle').textContent = result.title;
+  document.getElementById('gResultSubtitle').textContent = result.subtitle;
+
+  // meter
+  const meterWrap = document.getElementById('gMeterWrap');
+  const meterFill = document.getElementById('gMeterFill');
+  const meterLabels = document.getElementById('gMeterLabels');
+  if (result.meterPct !== undefined) {
+    meterWrap.style.display = '';
+    meterLabels.innerHTML = `<span style="color:var(--quiz-color)">${result.meterLeft}</span><span style="color:var(--muted)">${result.meterRight}</span>`;
+    setTimeout(() => { meterFill.style.width = result.meterPct + '%'; }, 200);
+  } else {
+    meterWrap.style.display = 'none';
+  }
+
+  let html = `<h3>What Your Answers Reveal</h3>`;
+  result.traits.forEach(t => { html += `<div class="trait"><span class="trait-icon">${t.icon}</span><span>${t.text}</span></div>`; });
+  html += `<div class="scores-box">${result.extra}</div>`;
+  document.getElementById('gBreakdown').innerHTML = html;
+}
+
+/* ════════════════════════════════════
+   QUIZ 3 — ATTACHMENT STYLE
+════════════════════════════════════ */
+const genericQuizzes = {
+
+attachment: {
+  id: 'attachment', color: '#4a90e2',
+  icon: '🔗', title: 'What Is My Attachment Style?',
+  descHtml: `Developed from Ainsworth's Strange Situation studies and Bartholomew & Horowitz's four-category model, this quiz identifies your dominant attachment pattern in close relationships.<br><br><strong>16 questions · ~3 minutes</strong>`,
+  type: 'multiaxis',
+  categories: { S: 'Secure', AX: 'Anxious', AV: 'Avoidant', DA: 'Disorganized' },
+  questions: [
+    { text: "When someone you care about becomes distant or cold, your first reaction is:",
+      sub: "Notice the gut response before rational thought.",
+      answers: [
+        { text: "Give them space — they're probably dealing with something", cat: 'S' },
+        { text: "Immediately worry I did something wrong and reach out", cat: 'AX' },
+        { text: "Match their energy and pull back — distance is comfortable", cat: 'AV' },
+        { text: "Want to reach out, but something freezes me at the same time", cat: 'DA' }
+      ]
+    },
+    { text: "How comfortable are you letting someone truly know who you are?",
+      sub: "",
+      answers: [
+        { text: "I open up gradually once I feel basic trust", cat: 'S' },
+        { text: "I tend to share a lot — sometimes too much, too fast", cat: 'AX' },
+        { text: "I keep most of myself private, even with close people", cat: 'AV' },
+        { text: "I want to be known, but something stops me just before I get there", cat: 'DA' }
+      ]
+    },
+    { text: "When someone expresses deep love or affection for you, you feel:",
+      sub: "",
+      answers: [
+        { text: "Warmth and closeness — I let it in", cat: 'S' },
+        { text: "Relief, but I wonder how long it will last", cat: 'AX' },
+        { text: "A subtle urge to pull back — too much closeness is overwhelming", cat: 'AV' },
+        { text: "Simultaneously drawn in and scared — I don't know which way to turn", cat: 'DA' }
+      ]
+    },
+    { text: "After a conflict with someone close, your first instinct is:",
+      sub: "",
+      answers: [
+        { text: "Resolve it calmly once emotions settle", cat: 'S' },
+        { text: "Make up immediately — the disconnection is unbearable", cat: 'AX' },
+        { text: "Withdraw and process alone, sometimes for a long time", cat: 'AV' },
+        { text: "Both want repair and push the person away simultaneously", cat: 'DA' }
+      ]
+    },
+    { text: "How do you feel about needing other people?",
+      sub: "",
+      answers: [
+        { text: "Natural — asking for support is human, not weakness", cat: 'S' },
+        { text: "I need a lot of reassurance and worry I'm too much for people", cat: 'AX' },
+        { text: "I prefer to handle things myself — I dislike being dependent", cat: 'AV' },
+        { text: "I want support but don't trust it will actually be there", cat: 'DA' }
+      ]
+    },
+    { text: "When a close relationship ends, how do you cope?",
+      sub: "",
+      answers: [
+        { text: "I grieve genuinely, then slowly move forward", cat: 'S' },
+        { text: "I struggle significantly — letting go feels almost impossible", cat: 'AX' },
+        { text: "I detach and move on faster than people seem to expect", cat: 'AV' },
+        { text: "I swing between intense grief and hollow numbness", cat: 'DA' }
+      ]
+    },
+    { text: "How much independence do you need in an intimate relationship?",
+      sub: "",
+      answers: [
+        { text: "A balance — closeness matters and so does my own life", cat: 'S' },
+        { text: "I tend to merge — the relationship becomes my world", cat: 'AX' },
+        { text: "A lot — feeling too close makes me feel trapped", cat: 'AV' },
+        { text: "I honestly don't know — my needs seem to contradict each other", cat: 'DA' }
+      ]
+    },
+    { text: "Do you believe the people you love will stick around?",
+      sub: "",
+      answers: [
+        { text: "Generally yes, unless something significant changes", cat: 'S' },
+        { text: "I fear they'll leave even when nothing is wrong", cat: 'AX' },
+        { text: "People tend to leave, so I try not to get too attached", cat: 'AV' },
+        { text: "I genuinely don't know — security never quite feels real", cat: 'DA' }
+      ]
+    },
+    { text: "When you're in emotional pain, what do you do?",
+      sub: "",
+      answers: [
+        { text: "Feel it, process it, and usually come through the other side", cat: 'S' },
+        { text: "Need to talk it through with someone — I can't sit with it alone", cat: 'AX' },
+        { text: "Shut it down and push through — I don't indulge emotions", cat: 'AV' },
+        { text: "Don't know how to handle it — I either explode or disappear", cat: 'DA' }
+      ]
+    },
+    { text: "What do you fear most in a relationship?",
+      sub: "The quiet fear that lives in the background.",
+      answers: [
+        { text: "That we'll naturally grow apart over time", cat: 'S' },
+        { text: "That they'll stop loving me or leave", cat: 'AX' },
+        { text: "That I'll lose my freedom or feel emotionally smothered", cat: 'AV' },
+        { text: "Both — abandonment and engulfment feel equally terrifying", cat: 'DA' }
+      ]
+    },
+    { text: "At the start of a new relationship, you typically:",
+      sub: "",
+      answers: [
+        { text: "Enjoy the discovery and let things unfold naturally", cat: 'S' },
+        { text: "Get very attached very fast", cat: 'AX' },
+        { text: "Keep emotional distance until I'm sure it's safe", cat: 'AV' },
+        { text: "Go in intensely, then suddenly need to pull back for no clear reason", cat: 'DA' }
+      ]
+    },
+    { text: "When someone close hurts you, you usually:",
+      sub: "",
+      answers: [
+        { text: "Tell them calmly how you feel and work toward repair", cat: 'S' },
+        { text: "Express it immediately and need quick reassurance", cat: 'AX' },
+        { text: "Go quiet and handle it internally — you rarely bring it up", cat: 'AV' },
+        { text: "Feel confused about what you need and often make things worse", cat: 'DA' }
+      ]
+    },
+    { text: "Being alone feels:",
+      sub: "",
+      answers: [
+        { text: "Healthy and restorative — a natural part of life", cat: 'S' },
+        { text: "Tolerable, but I actively prefer being around people", cat: 'AX' },
+        { text: "Preferable — alone is peaceful and predictable", cat: 'AV' },
+        { text: "Both relief and haunting loneliness at the same time", cat: 'DA' }
+      ]
+    },
+    { text: "Your sense of self-worth:",
+      sub: "",
+      answers: [
+        { text: "Is generally stable regardless of what others think", cat: 'S' },
+        { text: "Fluctuates based on how people treat or respond to me", cat: 'AX' },
+        { text: "Appears confident, but there's a private emptiness underneath", cat: 'AV' },
+        { text: "Shifts dramatically and unpredictably — I never quite know where I stand", cat: 'DA' }
+      ]
+    },
+    { text: "When someone tells you they need more from you emotionally:",
+      sub: "",
+      answers: [
+        { text: "I try to understand what they need and honestly assess if I can give it", cat: 'S' },
+        { text: "I feel immediately guilty and try to give more, even too much", cat: 'AX' },
+        { text: "I feel criticized and tend to pull away", cat: 'AV' },
+        { text: "I panic — I want to give more but feel paralyzed and don't know how", cat: 'DA' }
+      ]
+    },
+    { text: "Safety in a relationship feels like:",
+      sub: "Your truest, most honest answer.",
+      answers: [
+        { text: "Warmth and stability — I can be myself without fear", cat: 'S' },
+        { text: "Fragile — something that could disappear at any moment", cat: 'AX' },
+        { text: "Predictable distance — I feel safest when no one is too close", cat: 'AV' },
+        { text: "Something I'm not sure I've truly felt in a relationship", cat: 'DA' }
+      ]
+    }
+  ],
+  getResult(scores) {
+    const cats = ['S','AX','AV','DA'];
+    const sorted = [...cats].sort((a,b) => scores[b] - scores[a]);
+    const primary = sorted[0], secondary = sorted[1];
+    const profiles = {
+      S: {
+        icon: '🌳', title: 'Secure Attachment',
+        subtitle: 'You have a stable, trusting base from which you relate to others.',
+        traits: [
+          { icon: '🤝', text: '<strong>Comfortable with intimacy and independence</strong> — you can be close without losing yourself, and apart without panic.' },
+          { icon: '🛡️', text: '<strong>Internally anchored</strong> — your self-worth doesn\'t depend on others\' moods, distance, or approval.' },
+          { icon: '🗣️', text: '<strong>Communicative under stress</strong> — you express needs directly rather than shutting down or clinging.' },
+          { icon: '💡', text: '<strong>Secure attachment can be earned</strong> — it comes from a safe childhood or from deliberate healing work. Either counts.' }
+        ],
+        extra: 'Secure attachment is the goal, not the starting point for everyone. If you\'re here, you\'ve likely done real work.'
+      },
+      AX: {
+        icon: '🌀', title: 'Anxious Attachment',
+        subtitle: 'You crave deep closeness but fear it will be taken away.',
+        traits: [
+          { icon: '📡', text: '<strong>Hypervigilant for signs of withdrawal</strong> — you read emotional temperatures constantly and react strongly to perceived distance.' },
+          { icon: '💔', text: '<strong>Self-worth tied to others\' responses</strong> — how someone treats you shifts how you feel about yourself, sometimes within minutes.' },
+          { icon: '🔁', text: '<strong>Protest behaviors under threat</strong> — you may escalate, cling, or test the relationship to get reassurance that it\'s still safe.' },
+          { icon: '💡', text: '<strong>Root: inconsistent early caregiving</strong> — your nervous system learned love is unpredictable, so it stays on alert. This pattern can be rewired.' }
+        ],
+        extra: 'Based on Bowlby & Ainsworth. Anxious attachment is the most common pattern — you\'re not alone in this.'
+      },
+      AV: {
+        icon: '🧊', title: 'Dismissive-Avoidant Attachment',
+        subtitle: 'You value self-sufficiency and have learned to need very little from others.',
+        traits: [
+          { icon: '🧱', text: '<strong>Self-reliance as armor</strong> — you\'ve built a functional life that doesn\'t require much from others. It protects you, but also isolates.' },
+          { icon: '🔕', text: '<strong>Emotional shutdown under pressure</strong> — you go cold or quiet. It\'s not indifference — it\'s an old defense mechanism.' },
+          { icon: '🚪', text: '<strong>Closeness triggers discomfort</strong> — intimacy can feel like a threat to your autonomy or a loss of control.' },
+          { icon: '💡', text: '<strong>Root: emotional unavailability</strong> — you learned that needs went unmet, so stopping needing became the only rational response. The need is still there.' }
+        ],
+        extra: 'Avoidant attachment often looks like strength from the outside. Internally it\'s a very old loneliness.'
+      },
+      DA: {
+        icon: '⚡', title: 'Disorganized (Fearful-Avoidant) Attachment',
+        subtitle: 'You want closeness and are afraid of it at the same time.',
+        traits: [
+          { icon: '⚡', text: '<strong>Approach-avoidance conflict</strong> — the person who could comfort you also feels threatening, so you get stuck between reaching and withdrawing.' },
+          { icon: '🌊', text: '<strong>Emotional flooding</strong> — when triggered, your nervous system struggles to regulate. Reactions can feel disproportionate even to you.' },
+          { icon: '🔀', text: '<strong>Confusing to others</strong> — your behavior may seem contradictory because the internal conflict is real and constant.' },
+          { icon: '💡', text: '<strong>Root: frightening or chaotic caregiving</strong> — often linked to early trauma or abuse. This is the hardest pattern, and the most responsive to trauma-informed therapy.' }
+        ],
+        extra: 'Disorganized attachment is less talked about but very real. Healing is possible — EMDR and somatic therapy show strong results.'
+      }
+    };
+    const p = profiles[primary];
+    const sLabel = {S:'Secure',AX:'Anxious',AV:'Avoidant',DA:'Disorganized'}[secondary];
+    return {
+      icon: p.icon, title: p.title, subtitle: p.subtitle, traits: p.traits,
+      meterPct: undefined,
+      extra: `<strong>Primary style:</strong> ${p.title.split(' ')[0]} · <strong>Secondary tendency:</strong> ${sLabel}<br><br>${p.extra}<br><br>Based on: Ainsworth (1978), Hazan & Shaver (1987), Bartholomew & Horowitz (1991).`
+    };
+  }
+},
+
+/* ════════════════════════════════════
+   QUIZ 4 — CORE WOUND
+════════════════════════════════════ */
+wound: {
+  id: 'wound', color: '#e17055',
+  icon: '🕳️', title: 'What Is My Core Wound?',
+  descHtml: `Based on Lise Bourbeau's five wounds theory, this quiz identifies the earliest emotional wound shaping how you relate to yourself and others. There are five: rejection, abandonment, humiliation, betrayal, and injustice.<br><br><strong>15 questions · ~2 minutes</strong>`,
+  type: 'multiaxis',
+  categories: { RE: 'Rejection', AB: 'Abandonment', HU: 'Humiliation', BE: 'Betrayal', IN: 'Injustice' },
+  questions: [
+    { text: "Which fear feels most like a quiet hum underneath your life?",
+      sub: "",
+      answers: [
+        { text: "That I am fundamentally unlovable or don't truly belong", cat: 'RE' },
+        { text: "That I will end up completely and permanently alone", cat: 'AB' },
+        { text: "That I am a burden, an embarrassment, or less than others", cat: 'HU' },
+        { text: "That people will use, deceive, or eventually betray me", cat: 'BE' },
+        { text: "That no matter how hard I try, I'll never be good enough", cat: 'IN' }
+      ]
+    },
+    { text: "What do you find yourself doing to avoid deep emotional pain?",
+      sub: "",
+      answers: [
+        { text: "Withdrawing or disappearing before others can reject me first", cat: 'RE' },
+        { text: "Attaching quickly and doing anything to keep people close", cat: 'AB' },
+        { text: "Making myself small, agreeable, invisible", cat: 'HU' },
+        { text: "Taking control so no one can hold power over me", cat: 'BE' },
+        { text: "Working to be perfect so no one can find fault with me", cat: 'IN' }
+      ]
+    },
+    { text: "Which childhood feeling resonates most deeply?",
+      sub: "",
+      answers: [
+        { text: "Feeling invisible, unwanted, or like I didn't matter", cat: 'RE' },
+        { text: "Feeling alone, unsupported, like I had to manage everything myself", cat: 'AB' },
+        { text: "Feeling ashamed, looked down on, or mocked by others", cat: 'HU' },
+        { text: "Feeling lied to, manipulated, or that I couldn't rely on anyone", cat: 'BE' },
+        { text: "Feeling I was never good enough, no matter what I did", cat: 'IN' }
+      ]
+    },
+    { text: "When you make a mistake in front of others, your first feeling is:",
+      sub: "",
+      answers: [
+        { text: "That they now see I'm not really worth keeping around", cat: 'RE' },
+        { text: "That they might pull away or distance themselves from me", cat: 'AB' },
+        { text: "Deep shame — I want to disappear", cat: 'HU' },
+        { text: "Anger at myself for giving them something to use against me", cat: 'BE' },
+        { text: "Intense self-criticism — I should have done better", cat: 'IN' }
+      ]
+    },
+    { text: "Which inner voice is most familiar to you?",
+      sub: "",
+      answers: [
+        { text: "\"Nobody truly wants me here\"", cat: 'RE' },
+        { text: "\"I'll always be alone in the end\"", cat: 'AB' },
+        { text: "\"I'm a burden or an embarrassment\"", cat: 'HU' },
+        { text: "\"I can't trust anyone — including myself\"", cat: 'BE' },
+        { text: "\"I'll never be enough no matter what I do\"", cat: 'IN' }
+      ]
+    },
+    { text: "When someone compliments you publicly, you feel:",
+      sub: "",
+      answers: [
+        { text: "Surprised — I didn't expect to be noticed in a good way", cat: 'RE' },
+        { text: "Touched, but worried they'll stop feeling that way", cat: 'AB' },
+        { text: "Deeply uncomfortable — positive attention feels dangerous", cat: 'HU' },
+        { text: "Suspicious — wondering what they really want", cat: 'BE' },
+        { text: "Like it doesn't count — you know all the ways you fell short", cat: 'IN' }
+      ]
+    },
+    { text: "What does love have to feel like before you believe it's real?",
+      sub: "",
+      answers: [
+        { text: "Consistent — I need to feel truly wanted, not just tolerated", cat: 'RE' },
+        { text: "Present — I need physical and emotional closeness, often", cat: 'AB' },
+        { text: "Respectful — I need to be treated with dignity, not looked down on", cat: 'HU' },
+        { text: "Honest — I need full transparency and no hidden agendas", cat: 'BE' },
+        { text: "Earned — love feels real when I've done enough to deserve it", cat: 'IN' }
+      ]
+    },
+    { text: "When someone leaves your life, what do you mostly feel?",
+      sub: "",
+      answers: [
+        { text: "Confirmed — part of you always knew you weren't worth staying for", cat: 'RE' },
+        { text: "Devastated — loss activates a very deep, disproportionate pain", cat: 'AB' },
+        { text: "Shame — like their leaving reflects something wrong with you", cat: 'HU' },
+        { text: "Betrayed — even if the leaving was mutual or reasonable", cat: 'BE' },
+        { text: "Resentful — like you gave more than you got", cat: 'IN' }
+      ]
+    },
+    { text: "In relationships, what role do you tend to fall into?",
+      sub: "",
+      answers: [
+        { text: "The one who pulls away first, before they can", cat: 'RE' },
+        { text: "The one who holds on too tight or can't let go", cat: 'AB' },
+        { text: "The helper — making yourself useful to earn your place", cat: 'HU' },
+        { text: "The one in charge — needing control to feel safe", cat: 'BE' },
+        { text: "The over-achiever — earning love through performance", cat: 'IN' }
+      ]
+    },
+    { text: "What does your inner critic say most often?",
+      sub: "",
+      answers: [
+        { text: "\"You don't belong here / you're not wanted\"", cat: 'RE' },
+        { text: "\"You'll always end up alone — no one really stays\"", cat: 'AB' },
+        { text: "\"You're too much / you're an embarrassment\"", cat: 'HU' },
+        { text: "\"You're naive / you can't trust your own judgment\"", cat: 'BE' },
+        { text: "\"You're not good enough / you should have done better\"", cat: 'IN' }
+      ]
+    },
+    { text: "When someone sets a limit with you (says no, pulls back), you feel:",
+      sub: "",
+      answers: [
+        { text: "Like confirmation that you're too much or not worth the effort", cat: 'RE' },
+        { text: "Panic — even a small withdrawal feels like full abandonment", cat: 'AB' },
+        { text: "Embarrassed — like you asked for too much", cat: 'HU' },
+        { text: "Suspicious — wondering what their real motive is", cat: 'BE' },
+        { text: "Frustrated — like it's unfair given everything you've put in", cat: 'IN' }
+      ]
+    },
+    { text: "What do you most crave in a close relationship?",
+      sub: "",
+      answers: [
+        { text: "To feel truly wanted and chosen — not just tolerated", cat: 'RE' },
+        { text: "Constant closeness and reassurance that you won't be left", cat: 'AB' },
+        { text: "To be treated with dignity and never looked down on", cat: 'HU' },
+        { text: "Complete honesty and reliability — no surprises", cat: 'BE' },
+        { text: "Recognition for your effort and fairness in return", cat: 'IN' }
+      ]
+    },
+    { text: "What tends to trigger your strongest emotional reactions?",
+      sub: "",
+      answers: [
+        { text: "Being ignored, dismissed, or made to feel invisible", cat: 'RE' },
+        { text: "People being unavailable, canceling, or pulling away", cat: 'AB' },
+        { text: "Being judged, mocked, or criticized in any form", cat: 'HU' },
+        { text: "Being lied to, deceived, or having trust broken", cat: 'BE' },
+        { text: "Being treated unfairly or having effort go unacknowledged", cat: 'IN' }
+      ]
+    },
+    { text: "Your relationship to your own body tends to feel:",
+      sub: "",
+      answers: [
+        { text: "Like something that sets me apart or makes me less desirable", cat: 'RE' },
+        { text: "Like something I need to maintain so people won't leave", cat: 'AB' },
+        { text: "Like a source of shame I try to hide", cat: 'HU' },
+        { text: "Like something I don't fully trust or feel safe in", cat: 'BE' },
+        { text: "Like something I'm never quite satisfied with", cat: 'IN' }
+      ]
+    },
+    { text: "If you could give your inner child one message, it would be:",
+      sub: "Let instinct answer, not logic.",
+      answers: [
+        { text: "\"You are wanted. You belong here. You are enough.\"", cat: 'RE' },
+        { text: "\"You are not alone. Someone will stay. You don't have to manage everything yourself.\"", cat: 'AB' },
+        { text: "\"You are not a burden. Your worth has nothing to do with what you do.\"", cat: 'HU' },
+        { text: "\"You can trust yourself. Not everyone will hurt you. Safety is real.\"", cat: 'BE' },
+        { text: "\"You don't have to earn your place. You are enough exactly as you are.\"", cat: 'IN' }
+      ]
+    }
+  ],
+  getResult(scores) {
+    const cats = ['RE','AB','HU','BE','IN'];
+    const sorted = [...cats].sort((a,b) => scores[b] - scores[a]);
+    const primary = sorted[0];
+    const profiles = {
+      RE: {
+        icon: '🌫️', title: 'The Wound of Rejection',
+        subtitle: 'Your deepest fear is that you are fundamentally unworthy of love or don\'t belong.',
+        traits: [
+          { icon: '👻', text: '<strong>You disappear before they can reject you</strong> — withdrawing first is an unconscious self-protection strategy.' },
+          { icon: '🪞', text: '<strong>Invisibility as a mask</strong> — staying small, unseen, or independent protects you from the pain of being turned away.' },
+          { icon: '💎', text: '<strong>What you need to hear and believe</strong>: you don\'t have to earn your place. You existed before anyone approved of you.' },
+          { icon: '🌱', text: '<strong>The path forward</strong> — learning to tolerate being seen. Choosing presence over disappearance, even when it\'s scary.' }
+        ],
+        extra: 'Rejection wound often produces extreme self-sufficiency, isolation, and a fear of taking up space. The antidote is belonging — real, chosen, repeated belonging.'
+      },
+      AB: {
+        icon: '🕊️', title: 'The Wound of Abandonment',
+        subtitle: 'Your deepest fear is ending up completely and permanently alone.',
+        traits: [
+          { icon: '🧲', text: '<strong>You cling to connection</strong> — the fear of being left drives you to over-attach, over-give, and tolerate situations that don\'t serve you.' },
+          { icon: '😰', text: '<strong>Any withdrawal feels catastrophic</strong> — a late reply or canceled plan can activate a deep, disproportionate sense of being left.' },
+          { icon: '💎', text: '<strong>What you need to hear and believe</strong>: you are not a burden. People who stay, stay because they want to — not because you performed enough.' },
+          { icon: '🌱', text: '<strong>The path forward</strong> — building a relationship with solitude. Learning that aloneness is not the same as abandonment.' }
+        ],
+        extra: 'Abandonment wound is often confused with anxious attachment — they overlap significantly. The root is usually an emotionally or physically absent caregiver.'
+      },
+      HU: {
+        icon: '🎭', title: 'The Wound of Humiliation',
+        subtitle: 'Your deepest fear is being seen as a burden, an embarrassment, or less than others.',
+        traits: [
+          { icon: '🤲', text: '<strong>You make yourself useful to earn your place</strong> — becoming indispensable protects you from being rejected for who you simply are.' },
+          { icon: '🔇', text: '<strong>You silence and shrink yourself</strong> — opinions, needs, and true feelings get suppressed to avoid becoming a target.' },
+          { icon: '💎', text: '<strong>What you need to hear and believe</strong>: you are not a burden. Your existence doesn\'t require justification.' },
+          { icon: '🌱', text: '<strong>The path forward</strong> — reclaiming the right to be visible. Speaking when you\'d normally go quiet. Taking up space on purpose.' }
+        ],
+        extra: 'Humiliation wound is often rooted in shame-based parenting, public embarrassment, or being mocked for emotional expression in childhood.'
+      },
+      BE: {
+        icon: '🗡️', title: 'The Wound of Betrayal',
+        subtitle: 'Your deepest fear is being deceived, used, or unable to trust anyone — including yourself.',
+        traits: [
+          { icon: '🏰', text: '<strong>Control as protection</strong> — needing to be in charge, to predict, to know what\'s happening before it happens.' },
+          { icon: '👁️', text: '<strong>Hypervigilance for dishonesty</strong> — you read subtext, watch for inconsistency, and find it hard to take people at face value.' },
+          { icon: '💎', text: '<strong>What you need to hear and believe</strong>: not everyone will betray you. Your trust was broken by specific people, not by all people.' },
+          { icon: '🌱', text: '<strong>The path forward</strong> — choosing vulnerability in small, evidence-based steps. Letting trustworthy people be trustworthy.' }
+        ],
+        extra: 'Betrayal wound often produces strength and competence on the outside. Internally, it\'s an exhausting vigilance that makes rest feel unsafe.'
+      },
+      IN: {
+        icon: '⚖️', title: 'The Wound of Injustice',
+        subtitle: 'Your deepest fear is that you\'ll never be good enough, no matter how hard you try.',
+        traits: [
+          { icon: '🏆', text: '<strong>Perfectionism as self-defense</strong> — if you\'re flawless, no one can criticize you. The bar keeps moving because the wound is never satisfied.' },
+          { icon: '🔥', text: '<strong>Chronic self-criticism</strong> — you hold yourself to standards no one could meet and feel genuine shame when you fall short.' },
+          { icon: '💎', text: '<strong>What you need to hear and believe</strong>: you don\'t have to earn love through performance. You are allowed to be average and still be worthy.' },
+          { icon: '🌱', text: '<strong>The path forward</strong> — practicing deliberate imperfection. Letting things be good enough. Separating achievement from self-worth.' }
+        ],
+        extra: 'Injustice wound often comes from cold, demanding, or emotionally rigid caregiving — where love was conditional on performance or behavior.'
+      }
+    };
+    const p = profiles[primary];
+    const secondLabel = profiles[sorted[1]].title.split(' ').slice(-1)[0];
+    return {
+      icon: p.icon, title: p.title, subtitle: p.subtitle, traits: p.traits,
+      meterPct: undefined,
+      extra: `<strong>Primary wound:</strong> ${p.title} · <strong>Secondary pattern:</strong> ${profiles[sorted[1]].title}<br><br>${p.extra}<br><br>Based on: Lise Bourbeau, <em>The 5 Wounds That Prevent You From Being Yourself</em> (2000).`
+    };
+  }
+},
+
+/* ════════════════════════════════════
+   QUIZ 5 — HEALING vs SURVIVING
+════════════════════════════════════ */
+healing: {
+  id: 'healing', color: '#00cec9',
+  icon: '🌱', title: 'Am I Healing or Surviving?',
+  descHtml: `There's a difference between managing pain and actually processing it. Based on trauma processing research (van der Kolk, Peter Levine) and post-traumatic growth theory, this quiz reveals whether you're genuinely healing or still running on survival mode.<br><br><strong>12 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When a difficult memory surfaces unexpectedly, what do you do?",
+      sub: "",
+      answers: [
+        { text: "Let it come, feel it briefly, and it passes without consuming me", score: 3 },
+        { text: "Acknowledge it and gently redirect my attention", score: 2 },
+        { text: "Feel flooded, but it eventually fades on its own", score: 1 },
+        { text: "Immediately suppress it or distract myself from it", score: 0 }
+      ]
+    },
+    { text: "How do you explain your past pain to yourself?",
+      sub: "",
+      answers: [
+        { text: "It happened, it shaped me, and I've integrated it into my story", score: 3 },
+        { text: "I understand most of it and I'm still making sense of parts", score: 2 },
+        { text: "I can explain it logically but it still feels unresolved emotionally", score: 1 },
+        { text: "I avoid thinking about it, or I'm completely consumed by it", score: 0 }
+      ]
+    },
+    { text: "Do you numb with food, screens, substances, busyness, or fantasy?",
+      sub: "Be honest — this is one of the clearest indicators.",
+      answers: [
+        { text: "Rarely — I can sit with discomfort without needing to escape it", score: 3 },
+        { text: "Sometimes, but I notice when I'm doing it", score: 2 },
+        { text: "Often — I use it to manage feelings I don't know how to process", score: 1 },
+        { text: "Constantly — I don't know how to be with myself without distraction", score: 0 }
+      ]
+    },
+    { text: "Can you identify what you're feeling emotionally, in real time?",
+      sub: "",
+      answers: [
+        { text: "Usually yes — I have access to my emotional state", score: 3 },
+        { text: "Sometimes — I can often name it, though there's a lag", score: 2 },
+        { text: "Rarely — I feel 'bad' or 'fine' but can't get more specific", score: 1 },
+        { text: "No — I'm often numb or flooded without knowing why", score: 0 }
+      ]
+    },
+    { text: "Have you worked on the root of your pain, or are you managing its symptoms?",
+      sub: "",
+      answers: [
+        { text: "I've done real root-level work — the source, not just its effects", score: 3 },
+        { text: "Some root work, some symptom management — both happening", score: 2 },
+        { text: "Mostly symptoms — I manage the day-to-day but haven't gone deeper", score: 1 },
+        { text: "All symptoms — I don't even know what the root is", score: 0 }
+      ]
+    },
+    { text: "Can you be triggered without being completely derailed?",
+      sub: "",
+      answers: [
+        { text: "Yes — triggers happen but they don't take over my life for long", score: 3 },
+        { text: "Usually — though big triggers can still knock me sideways for a while", score: 2 },
+        { text: "Unpredictable — some days I handle it, some I completely don't", score: 1 },
+        { text: "No — when triggered I lose hours, days, or my entire emotional state", score: 0 }
+      ]
+    },
+    { text: "Do the coping strategies you use today serve your growth?",
+      sub: "",
+      answers: [
+        { text: "Yes — I've replaced most escapes with tools that actually build something", score: 3 },
+        { text: "Some yes, some still don't — I'm in transition", score: 2 },
+        { text: "Mostly no — I cope to survive, not to grow", score: 1 },
+        { text: "I don't have real coping tools — I just wait for the feeling to pass", score: 0 }
+      ]
+    },
+    { text: "How do you relate to the person you were before the pain?",
+      sub: "",
+      answers: [
+        { text: "With compassion — I understand them and I'm not ashamed of them", score: 3 },
+        { text: "Mostly with care, though some versions of my past self are still hard to face", score: 2 },
+        { text: "With discomfort — I don't like thinking about who I was", score: 1 },
+        { text: "With shame or dissociation — that person feels foreign or embarrassing", score: 0 }
+      ]
+    },
+    { text: "Are you able to have good days without feeling guilty or waiting for them to end?",
+      sub: "",
+      answers: [
+        { text: "Yes — I've given myself permission to feel okay", score: 3 },
+        { text: "Mostly, though sometimes joy brings a wave of anxiety", score: 2 },
+        { text: "Good days feel fragile — I'm always waiting for the other shoe to drop", score: 1 },
+        { text: "No — feeling okay feels dangerous, fake, or like a setup", score: 0 }
+      ]
+    },
+    { text: "Can you share your pain with someone without needing them to fix it?",
+      sub: "",
+      answers: [
+        { text: "Yes — I can share and just feel witnessed", score: 3 },
+        { text: "Getting there — I'm less desperate for solutions than I used to be", score: 2 },
+        { text: "Mostly I still want someone to make it stop", score: 1 },
+        { text: "No — I either don't share it at all, or I expect people to fix what I feel", score: 0 }
+      ]
+    },
+    { text: "When you grow or accomplish something meaningful, how do you relate to it?",
+      sub: "",
+      answers: [
+        { text: "I allow myself to feel good about it — progress feels real", score: 3 },
+        { text: "I appreciate it, though I minimize it sometimes", score: 2 },
+        { text: "I feel it briefly, then the inner critic takes over", score: 1 },
+        { text: "Achievements don't feel real or safe — I wait for them to be taken away", score: 0 }
+      ]
+    },
+    { text: "When you imagine your future, does it feel possible and real?",
+      sub: "This is often one of the last things healing restores.",
+      answers: [
+        { text: "Yes — I have a sense of a real future I'm actively building", score: 3 },
+        { text: "Mostly — I'm cautiously, genuinely hopeful", score: 2 },
+        { text: "Foggy — I can imagine a future but it doesn't quite feel real or mine", score: 1 },
+        { text: "No — the past feels more real than any future ever could", score: 0 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits;
+    if (pct >= 80) {
+      icon = '🌸'; title = 'You Are Genuinely Healing';
+      subtitle = 'Your responses show real, root-level processing — not just coping.';
+      traits = [
+        { icon: '🧭', text: '<strong>You have perspective on your pain</strong> — it\'s part of your story, not the whole story.' },
+        { icon: '🛡️', text: '<strong>Your nervous system has found ground</strong> — you can be triggered without being destabilized for days.' },
+        { icon: '🌱', text: '<strong>You\'ve replaced escape with tools</strong> — your coping strategies are building something, not just maintaining.' },
+        { icon: '🔭', text: '<strong>Your future feels real</strong> — one of the last things to come back in healing, and it\'s here.' }
+      ];
+    } else if (pct >= 60) {
+      icon = '🌿'; title = 'Healing in Progress';
+      subtitle = 'Real work has happened. You\'re not where you started.';
+      traits = [
+        { icon: '✅', text: '<strong>The healing is real</strong> — even when it doesn\'t feel that way. Progress isn\'t always visible from inside.' },
+        { icon: '⚡', text: '<strong>Some triggers still land hard</strong> — that\'s normal and doesn\'t erase what you\'ve built.' },
+        { icon: '🔍', text: '<strong>You have awareness</strong> — you can see patterns even when you can\'t fully stop them yet. That gap closes.' },
+        { icon: '🧭', text: '<strong>Keep going</strong> — you\'re past the hardest part. What\'s left is refinement, not starting over.' }
+      ];
+    } else if (pct >= 40) {
+      icon = '🌑'; title = 'Mostly Surviving';
+      subtitle = 'You\'re managing, but not yet processing. There\'s a difference.';
+      traits = [
+        { icon: '🌊', text: '<strong>The pain is still active</strong> — it\'s influencing responses, relationships, and self-image in real ways.' },
+        { icon: '🪞', text: '<strong>Some insight is present</strong> — you can see parts of the pattern, which is where change begins.' },
+        { icon: '🤝', text: '<strong>Support would shift things here</strong> — this stage often needs more than self-reflection alone can offer.' },
+        { icon: '💡', text: '<strong>Being in the middle is not failure</strong> — it\'s the honest truth of where most people are, most of the time.' }
+      ];
+    } else if (pct >= 20) {
+      icon = '🔒'; title = 'Survival Mode';
+      subtitle = 'Most energy is going toward getting through the day, not toward healing.';
+      traits = [
+        { icon: '😔', text: '<strong>The wound is still close to the surface</strong> — it shapes how you see yourself, others, and what\'s possible.' },
+        { icon: '🧠', text: '<strong>Your nervous system hasn\'t felt safe enough yet</strong> — healing begins when safety is possible, even briefly.' },
+        { icon: '🕯️', text: '<strong>You don\'t have to do this alone</strong> — trauma-informed therapy (EMDR, somatic therapy) is built exactly for this level.' },
+        { icon: '❤️', text: '<strong>You came here for a reason</strong> — the impulse to understand yourself is the beginning of everything.' }
+      ];
+    } else {
+      icon = '⛓️'; title = 'Deep Survival Mode';
+      subtitle = 'The pain is running the show. That\'s not a character flaw — it\'s what unprocessed pain does.';
+      traits = [
+        { icon: '🚨', text: '<strong>At this level, the wound shapes nearly everything</strong> — perception, reaction, relationship, possibility.' },
+        { icon: '🫂', text: '<strong>This is not weakness</strong> — unprocessed trauma is what happens when pain is too large to process alone or without safety.' },
+        { icon: '🌅', text: '<strong>Healing is possible regardless of how long it\'s been</strong> — trauma is not a life sentence. Biology changes.' },
+        { icon: '🛟', text: '<strong>Please reach out to someone</strong> — a trauma-informed therapist can offer what self-reflection cannot.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft: '🌱 Healing',
+      meterRight: '🔒 Surviving',
+      extra: `<strong>Score:</strong> ${pct}% healing · ${100-pct}% still in survival mode<br><br>Based on: van der Kolk (2014) <em>The Body Keeps the Score</em>, Peter Levine's somatic experiencing framework, and Tedeschi & Calhoun's post-traumatic growth research.`
+    };
+  }
+},
+
+/* ════════════════════════════════════
+   QUIZ 6 — SELF-COMPASSION
+════════════════════════════════════ */
+compassion: {
+  id: 'compassion', color: '#fdcb6e',
+  icon: '🫶', title: 'How Self-Compassionate Am I?',
+  descHtml: `Based on Dr. Kristin Neff's Self-Compassion Scale, this quiz measures how you treat yourself when you're struggling — across three dimensions: self-kindness, common humanity, and mindful awareness.<br><br><strong>12 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When you fail at something that matters to you, your first move is:",
+      sub: "",
+      answers: [
+        { text: "Acknowledge it, be kind to myself, and figure out what comes next", score: 3 },
+        { text: "Process what happened, though some self-blame creeps in", score: 2 },
+        { text: "Criticize myself — I should have done better", score: 1 },
+        { text: "Spiral — one failure confirms deep things I believe about myself", score: 0 }
+      ]
+    },
+    { text: "Do you treat yourself with the same kindness you'd offer a good friend in pain?",
+      sub: "",
+      answers: [
+        { text: "Yes — I've learned to be my own friend", score: 3 },
+        { text: "I try, though the critical voice is louder sometimes", score: 2 },
+        { text: "Rarely — I'm far harder on myself than I'd be on anyone else", score: 1 },
+        { text: "Never — I feel I deserve the harshness more than they do", score: 0 }
+      ]
+    },
+    { text: "When you're struggling, do you remember that others struggle too?",
+      sub: "This is the 'common humanity' component — the opposite of isolation.",
+      answers: [
+        { text: "Yes — suffering is part of being human, not evidence of my failure", score: 3 },
+        { text: "Usually, though pain can make me feel alone in it", score: 2 },
+        { text: "Rarely — I often feel like I'm the only one who can't get it together", score: 1 },
+        { text: "Never — I feel completely isolated in what I'm going through", score: 0 }
+      ]
+    },
+    { text: "When you notice a painful emotion, what do you do?",
+      sub: "",
+      answers: [
+        { text: "Observe it with some distance — 'I notice I'm feeling this'", score: 3 },
+        { text: "Feel it and try not to drown in it", score: 2 },
+        { text: "Either suppress it or get completely swept away", score: 1 },
+        { text: "I'm ruled by it — the emotion and my identity feel like the same thing", score: 0 }
+      ]
+    },
+    { text: "How often do you apologize for simply existing, taking up space, or having needs?",
+      sub: "",
+      answers: [
+        { text: "Rarely — I have a right to my space and my needs", score: 3 },
+        { text: "Sometimes, but I'm catching it more", score: 2 },
+        { text: "Often — having needs feels like being a burden", score: 1 },
+        { text: "Constantly — my existence feels like an inconvenience to others", score: 0 }
+      ]
+    },
+    { text: "When life is genuinely hard, you tell yourself:",
+      sub: "",
+      answers: [
+        { text: "\"This is difficult. It makes sense that I'm struggling. I'll get through it.\"", score: 3 },
+        { text: "\"This is hard. I'm doing what I can.\"", score: 2 },
+        { text: "\"Why can't I handle this better? What's wrong with me?\"", score: 1 },
+        { text: "\"I deserve this. Other people wouldn't fall apart like this.\"", score: 0 }
+      ]
+    },
+    { text: "Do you hold your imperfections against yourself?",
+      sub: "",
+      answers: [
+        { text: "No — imperfection is part of being human, not a personal failing", score: 3 },
+        { text: "Sometimes, but I'm gentler than I used to be", score: 2 },
+        { text: "Yes — my flaws feel like evidence of something fundamentally wrong with me", score: 1 },
+        { text: "They define me — I am my worst qualities", score: 0 }
+      ]
+    },
+    { text: "When something goes wrong in your life, how much do you blame yourself?",
+      sub: "",
+      answers: [
+        { text: "I take responsibility where I genuinely should, but no more", score: 3 },
+        { text: "Sometimes I over-blame, but I can usually course-correct", score: 2 },
+        { text: "Most bad outcomes feel like my fault", score: 1 },
+        { text: "Everything bad traces back to my inadequacy", score: 0 }
+      ]
+    },
+    { text: "Can you acknowledge your own suffering without dramatizing or minimizing it?",
+      sub: "",
+      answers: [
+        { text: "Yes — I can say 'this hurts' without spiraling or shutting down", score: 3 },
+        { text: "Getting better — I'm finding the middle ground", score: 2 },
+        { text: "I swing between catastrophizing and 'just get over it'", score: 1 },
+        { text: "I'm stuck in one extreme — always spiraling or always suppressing", score: 0 }
+      ]
+    },
+    { text: "When you imagine how a loving person would speak to you in a hard moment, that voice feels:",
+      sub: "",
+      answers: [
+        { text: "Real — I've internalized that kind of voice over time", score: 3 },
+        { text: "Familiar but still partly external — I know it but don't always feel it", score: 2 },
+        { text: "Foreign — I understand kindness but can't access it for myself", score: 1 },
+        { text: "Completely foreign — that voice has never been directed at me", score: 0 }
+      ]
+    },
+    { text: "After making a choice you later regret, you:",
+      sub: "",
+      answers: [
+        { text: "Process it, extract the lesson, and forgive yourself", score: 3 },
+        { text: "Replay it but eventually let it go", score: 2 },
+        { text: "Replay it for a long time and use it as evidence against yourself", score: 1 },
+        { text: "Carry every regret indefinitely — past mistakes define you", score: 0 }
+      ]
+    },
+    { text: "When you sit quietly alone, your inner voice treats you:",
+      sub: "Silence reveals what we actually believe about ourselves.",
+      answers: [
+        { text: "With warmth or neutrality — it's safe to be with myself", score: 3 },
+        { text: "Mostly okay, with occasional criticism", score: 2 },
+        { text: "Harshly — silence amplifies the self-critical voice", score: 1 },
+        { text: "I avoid being alone and quiet for exactly this reason", score: 0 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits;
+    if (pct >= 80) {
+      icon = '🌻'; title = 'High Self-Compassion';
+      subtitle = 'You treat yourself with genuine kindness when you\'re struggling.';
+      traits = [
+        { icon: '🤗', text: '<strong>You\'ve internalized a kind inner voice</strong> — failure doesn\'t trigger collapse; it triggers care followed by course-correction.' },
+        { icon: '🌍', text: '<strong>You feel your humanity</strong> — you know that struggling is universal, not a personal defect.' },
+        { icon: '🧘', text: '<strong>Mindful awareness</strong> — you can observe emotions without being hijacked by them.' },
+        { icon: '💡', text: '<strong>Self-compassion correlates with higher resilience</strong>, less anxiety, and greater emotional stability. You\'ve built something real.' }
+      ];
+    } else if (pct >= 60) {
+      icon = '🌼'; title = 'Growing Self-Compassion';
+      subtitle = 'You\'re kinder to yourself than you used to be, and it shows.';
+      traits = [
+        { icon: '✅', text: '<strong>Real progress here</strong> — the shift toward self-compassion is one of the hardest inner moves a person can make.' },
+        { icon: '⚡', text: '<strong>The critical voice still has volume</strong> — especially under stress, failure, or comparison.' },
+        { icon: '🔍', text: '<strong>You can catch yourself</strong> — noticing the inner critic is the first step to not obeying it.' },
+        { icon: '🧭', text: '<strong>Keep practicing</strong> — self-compassion is literally a skill, strengthened by repetition.' }
+      ];
+    } else if (pct >= 40) {
+      icon = '⚖️'; title = 'Self-Criticism Is Louder Than Self-Compassion';
+      subtitle = 'Your inner voice is harder on you than you deserve.';
+      traits = [
+        { icon: '🔊', text: '<strong>The inner critic dominates</strong> — mistakes feel like verdicts, not events.' },
+        { icon: '🏝️', text: '<strong>You feel alone in your struggles</strong> — like everyone else has it figured out except you.' },
+        { icon: '🪜', text: '<strong>Small practices help</strong> — even 60 seconds of self-compassionate self-talk during pain can shift the nervous system over time.' },
+        { icon: '📖', text: '<strong>Recommended</strong>: Kristin Neff\'s <em>Self-Compassion</em> or her free exercises at self-compassion.org.' }
+      ];
+    } else if (pct >= 20) {
+      icon = '🌧️'; title = 'Very Low Self-Compassion';
+      subtitle = 'You\'re likely carrying a heavy internal critic that feels permanent — it isn\'t.';
+      traits = [
+        { icon: '🪨', text: '<strong>Shame feels like identity</strong> — not just "I made a mistake" but "I am a mistake."' },
+        { icon: '🚫', text: '<strong>Kindness toward yourself may feel undeserved or dangerous</strong> — this is a learned response, not the truth.' },
+        { icon: '🧠', text: '<strong>This level of self-criticism has neurological roots</strong> — it was built through experience and can be rebuilt.' },
+        { icon: '🛟', text: '<strong>Self-compassion-based therapy (CFT) is specifically designed for this</strong> — it\'s worth seeking out.' }
+      ];
+    } else {
+      icon = '🌑'; title = 'Self-Criticism at Its Harshest';
+      subtitle = 'The inner critic has been so loud for so long it feels like the truth. It isn\'t.';
+      traits = [
+        { icon: '⚠️', text: '<strong>At this level, the inner critic acts like an abuser</strong> — constant, disproportionate, merciless.' },
+        { icon: '💔', text: '<strong>You believe you don\'t deserve kindness</strong> — this belief was installed by others before you had the ability to question it.' },
+        { icon: '🌅', text: '<strong>This can change</strong> — Compassion-Focused Therapy (CFT) and certain trauma therapies work directly on the self-critical voice.' },
+        { icon: '🤝', text: '<strong>Start with one moment</strong>: the next time you suffer, say to yourself exactly what you\'d say to someone you love in the same pain.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft: '🫶 Compassion',
+      meterRight: '⚔️ Criticism',
+      extra: `<strong>Score:</strong> ${pct}% self-compassionate · ${100-pct}% self-critical<br><br>Based on: Dr. Kristin Neff's Self-Compassion Scale (SCS, 2003), and Compassion-Focused Therapy (Gilbert, 2009).`
+    };
+  }
+}
+
+}; // end genericQuizzes
 </script>
 
 </body>
