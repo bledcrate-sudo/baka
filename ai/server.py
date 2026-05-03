@@ -501,6 +501,11 @@ async def admin_delete_user(user_id: str, admin=Depends(require_admin),
 async def admin_panel():
     return FileResponse(ROOT / "0x.html")
 
+@app.get("/chat")
+@app.get("/chat/")
+async def chat_page():
+    return FileResponse(ROOT / "chat.html")
+
 @app.get("/")
 async def index():
     return FileResponse(ROOT / "index.html")
