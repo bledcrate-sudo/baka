@@ -956,8 +956,9 @@ async function sendMessage() {
           if (raw === '[DONE]') break;
           try {
             const d = JSON.parse(raw);
-            if (d.content) {
-              fullText += d.content;
+            const piece = d.token ?? d.content ?? d.text ?? '';
+            if (piece) {
+              fullText += piece;
               bubble.innerHTML = sageMd(fullText);
               scrollBottom();
             }
