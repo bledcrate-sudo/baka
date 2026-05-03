@@ -432,7 +432,7 @@ body {
 .date-divider::after { right: 0; }
 
 /* Messages */
-.msg { display: flex; align-items: flex-end; gap: 10px; animation: msg-in .3s var(--ease-spring); }
+.msg { display: flex; align-items: flex-start; gap: 10px; animation: msg-in .3s var(--ease-spring); }
 @keyframes msg-in {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -823,7 +823,7 @@ async function submitAuth(e, mode) {
       card.classList.add('shake');
     } else {
       TOKEN = data.token;
-      USERNAME = data.username;
+      USERNAME = data.user ? data.user.username : (data.username || 'user');
       localStorage.setItem('shugiToken', TOKEN);
       localStorage.setItem('shugiUsername', USERNAME);
       showChat();
