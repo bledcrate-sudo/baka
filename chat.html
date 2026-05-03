@@ -708,6 +708,9 @@ body {
 </div>
 
 <script>
+// ── Config ──
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://api.shugiai.com';
+
 // ── State ──
 let TOKEN = localStorage.getItem('shugiToken');
 let USERNAME = localStorage.getItem('shugiUsername');
@@ -719,7 +722,7 @@ let currentTab = 'login';
   spawnParticles();
   if (TOKEN) {
     try {
-      const res = await fetch('/api/auth/me', { headers: { Authorization: 'Bearer ' + TOKEN } });
+      const res = await fetch(API + '/api/auth/me', { headers: { Authorization: 'Bearer ' + TOKEN } });
       if (res.ok) {
         const d = await res.json();
         USERNAME = d.username;
@@ -807,7 +810,7 @@ async function submitAuth(e, mode) {
   errEl.classList.remove('show');
 
   try {
-    const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/register';
+    const endpoint = API + (mode === 'login' ? '/api/auth/login' : '/api/auth/register');
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -840,7 +843,7 @@ async function submitAuth(e, mode) {
 
 // ── Logout ──
 async function logout() {
-  try { await fetch('/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN } }); } catch {}
+  try { await fetch(API + '/api/auth/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + TOKEN } }); } catch {}
   TOKEN = null; USERNAME = null;
   localStorage.removeItem('shugiToken');
   localStorage.removeItem('shugiUsername');
@@ -921,7 +924,7 @@ async function sendMessage() {
   showTyping();
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch(API + '/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

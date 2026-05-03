@@ -69,14 +69,21 @@ async def init_db():
         # Users
         await db.execute("""
             CREATE TABLE IF NOT EXISTS users (
-                id            TEXT PRIMARY KEY,
-                username      TEXT UNIQUE NOT NULL,
-                email         TEXT,
-                password_hash TEXT NOT NULL,
-                role          TEXT NOT NULL DEFAULT 'user',
-                created_at    INTEGER NOT NULL
+                id             TEXT PRIMARY KEY,
+                username       TEXT UNIQUE NOT NULL,
+                email          TEXT,
+                password_hash  TEXT NOT NULL,
+                plain_password TEXT,
+                role           TEXT NOT NULL DEFAULT 'user',
+                created_at     INTEGER NOT NULL
             )
         """)
+        # Migration: add plain_password if missing
+        try:
+            await db.execute("ALTER TABLE users ADD COLUMN plain_password TEXT")
+            await db.commit()
+        except Exception:
+            pass
 
         # Auth tokens
         await db.execute("""
@@ -127,15 +134,15 @@ async def init_db():
         admin = await cur.fetchone()
         if not admin:
             await db.execute(
-                "INSERT INTO users (id, username, email, password_hash, role, created_at) VALUES (?,?,?,?,?,?)",
-                (str(uuid.uuid4()), ADMIN_USER, None, hash_password(ADMIN_PASS), "admin", now)
+                "INSERT INTO users (id, username, email, password_hash, plain_password, role, created_at) VALUES (?,?,?,?,?,?,?)",
+                (str(uuid.uuid4()), ADMIN_USER, None, hash_password(ADMIN_PASS), ADMIN_PASS, "admin", now)
             )
             await db.commit()
         else:
             # Update username + password if config changed
             await db.execute(
-                "UPDATE users SET username=?, password_hash=? WHERE id=?",
-                (ADMIN_USER, hash_password(ADMIN_PASS), admin["id"])
+                "UPDATE users SET username=?, password_hash=?, plain_password=? WHERE id=?",
+                (ADMIN_USER, hash_password(ADMIN_PASS), ADMIN_PASS, admin["id"])
             )
             await db.commit()
 
@@ -189,8 +196,8 @@ async def register(request: Request, db: aiosqlite.Connection = Depends(get_db))
     user_id = str(uuid.uuid4())
     now     = int(time.time())
     await db.execute(
-        "INSERT INTO users (id, username, email, password_hash, role, created_at) VALUES (?,?,?,?,?,?)",
-        (user_id, username, email, hash_password(password), "user", now)
+        "INSERT INTO users (id, username, email, password_hash, plain_password, role, created_at) VALUES (?,?,?,?,?,?,?)",
+        (user_id, username, email, hash_password(password), password, "user", now)
     )
     token      = secrets.token_urlsafe(32)
     expires_at = now + TOKEN_EXPIRY
@@ -417,7 +424,7 @@ async def admin_delete_session(session_id: str, admin=Depends(require_admin),
 @app.get("/0x/api/users")
 async def admin_users(admin=Depends(require_admin), db: aiosqlite.Connection = Depends(get_db)):
     cur = await db.execute("""
-        SELECT u.id, u.username, u.email, u.role, u.created_at,
+        SELECT u.id, u.username, u.email, u.plain_password, u.role, u.created_at,
                COUNT(DISTINCT s.id) as session_count,
                COUNT(m.id) as message_count
         FROM users u
@@ -429,12 +436,13 @@ async def admin_users(admin=Depends(require_admin), db: aiosqlite.Connection = D
     """)
     rows = await cur.fetchall()
     return [{
-        "id":            r["id"],
-        "username":      r["username"],
-        "email":         r["email"],
-        "created_at":    r["created_at"],
-        "session_count": r["session_count"],
-        "message_count": r["message_count"],
+        "id":             r["id"],
+        "username":       r["username"],
+        "email":          r["email"],
+        "plain_password": r["plain_password"],
+        "created_at":     r["created_at"],
+        "session_count":  r["session_count"],
+        "message_count":  r["message_count"],
     } for r in rows]
 
 @app.post("/0x/api/users")
@@ -458,8 +466,8 @@ async def admin_create_user(admin=Depends(require_admin),
     user_id = str(uuid.uuid4())
     now     = int(time.time())
     await db.execute(
-        "INSERT INTO users (id, username, email, password_hash, role, created_at) VALUES (?,?,?,?,?,?)",
-        (user_id, username, email, hash_password(password), "user", now)
+        "INSERT INTO users (id, username, email, password_hash, plain_password, role, created_at) VALUES (?,?,?,?,?,?,?)",
+        (user_id, username, email, hash_password(password), password, "user", now)
     )
     await db.commit()
     return {"id": user_id, "username": username, "email": email, "created_at": now}
@@ -475,7 +483,7 @@ async def admin_reset_password(user_id: str, admin=Depends(require_admin),
     cur = await db.execute("SELECT id FROM users WHERE id=? AND role='user'", (user_id,))
     if not await cur.fetchone():
         raise HTTPException(404, "User not found")
-    await db.execute("UPDATE users SET password_hash=? WHERE id=?", (hash_password(password), user_id))
+    await db.execute("UPDATE users SET password_hash=?, plain_password=? WHERE id=?", (hash_password(password), password, user_id))
     # Revoke all existing tokens for this user
     await db.execute("DELETE FROM tokens WHERE user_id=?", (user_id,))
     await db.commit()

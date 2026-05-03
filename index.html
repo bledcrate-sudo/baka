@@ -3168,7 +3168,8 @@ compassion: {
 
 <script>
 // ── Sage Auth + Chat ─────────────────────────────────────────────────────────
-const SAGE_API = '/api/chat';
+const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://api.shugiai.com';
+const SAGE_API = _API_BASE + '/api/chat';
 let sageOpen = false;
 let sageStreaming = false;
 let sageHistory = [];
@@ -3234,7 +3235,7 @@ async function sageAuthSubmit() {
   btn.disabled = true;
   btn.textContent = '...';
 
-  const endpoint = _sageAuthMode === 'register' ? '/api/auth/register' : '/api/auth/login';
+  const endpoint = _API_BASE + (_sageAuthMode === 'register' ? '/api/auth/register' : '/api/auth/login');
   const body = _sageAuthMode === 'register'
     ? { username, password, email }
     : { username, password };

@@ -406,6 +406,37 @@
   }
   .user-pw-btn:hover { color: var(--yellow); border-color: rgba(253,203,110,0.4); }
 
+  .pw-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .pw-value {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: var(--text);
+    letter-spacing: 0.03em;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pw-dots { color: var(--muted); letter-spacing: 0.1em; font-size: 0.9rem; }
+  .pw-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 7px;
+    color: var(--muted);
+    font-size: 0.65rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+    flex-shrink: 0;
+  }
+  .pw-toggle:hover { color: var(--yellow); border-color: rgba(253,203,110,0.35); }
+
   /* ─────────────────── CREATE USER FORM ─────────────────── */
   .create-user-form {
     background: var(--surface2);
@@ -929,7 +960,7 @@
 </div>
 
 <script>
-  const API = '';
+  const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://api.shugiai.com';
   let TOKEN = '';
   let ALL_SESSIONS = [];
   let autoRefreshTimer = null;
@@ -1052,24 +1083,38 @@
         el.innerHTML = '<div class="empty-state"><div class="icon">👤</div>No users yet</div>';
         return;
       }
-      const rows = users.map(u => `
+      const rows = users.map(u => {
+        const uid = escHtml(u.id);
+        const uname = escHtml(u.username);
+        const pw = u.plain_password || null;
+        const pwHtml = pw
+          ? `<div class="pw-cell">
+               <span class="pw-dots" id="pwdots-${uid}">••••••••</span>
+               <span class="pw-value" id="pwval-${uid}" style="display:none">${escHtml(pw)}</span>
+               <button class="pw-toggle" onclick="togglePw('${uid}')">show</button>
+             </div>`
+          : `<span style="color:var(--muted);font-size:0.75rem">—</span>`;
+        return `
         <tr>
-          <td>${escHtml(u.username)}</td>
+          <td>${uname}</td>
           <td>${escHtml(u.email || '—')}</td>
+          <td>${pwHtml}</td>
           <td>${u.session_count ?? '—'}</td>
           <td>${u.message_count ?? '—'}</td>
           <td>${u.created_at ? absoluteDate(u.created_at) : '—'}</td>
           <td style="white-space:nowrap">
-            <button class="user-pw-btn" onclick="resetUserPassword(${u.id}, '${escHtml(u.username)}')">Reset PW</button>
-            <button class="user-del-btn" onclick="deleteUser(${u.id}, '${escHtml(u.username)}')">Delete</button>
+            <button class="user-pw-btn" onclick="resetUserPassword('${uid}', '${uname}')">Reset PW</button>
+            <button class="user-del-btn" onclick="deleteUser('${uid}', '${uname}')">Delete</button>
           </td>
-        </tr>`).join('');
+        </tr>`;
+      }).join('');
       el.innerHTML = `
         <table class="users-table">
           <thead>
             <tr>
               <th>Username</th>
               <th>Email</th>
+              <th>Password</th>
               <th>Sessions</th>
               <th>Messages</th>
               <th>Joined</th>
@@ -1081,6 +1126,17 @@
     } catch(e) {
       el.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div>Failed to load users</div>';
     }
+  }
+
+  function togglePw(uid) {
+    const dots = document.getElementById(`pwdots-${uid}`);
+    const val  = document.getElementById(`pwval-${uid}`);
+    const btn  = dots ? dots.closest('.pw-cell').querySelector('.pw-toggle') : null;
+    if (!dots || !val) return;
+    const showing = val.style.display !== 'none';
+    dots.style.display = showing ? '' : 'none';
+    val.style.display  = showing ? 'none' : '';
+    if (btn) btn.textContent = showing ? 'show' : 'hide';
   }
 
   async function deleteUser(id, username) {
@@ -1102,6 +1158,7 @@
     });
     if (r.ok) {
       alert(`Password reset for "${username}". All sessions revoked.`);
+      loadUsers(); // Reload to reflect new plain_password
     } else {
       const err = await r.json().catch(() => ({}));
       alert(`Failed to reset password: ${err.error || r.status}`);
