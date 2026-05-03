@@ -178,6 +178,60 @@
   .hub-btn-healing-q .hub-btn-icon  { background: rgba(0,206,201,0.15); }
   .hub-btn-compassion-q .hub-btn-icon { background: rgba(253,203,110,0.15); }
 
+  /* ─── Shugi AI hub card ─── */
+  .hub-shugi-card {
+    background: linear-gradient(135deg, rgba(124,106,247,0.12) 0%, rgba(162,89,255,0.08) 100%);
+    border: 1px solid rgba(124,106,247,0.35);
+    border-radius: 18px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    text-align: left;
+    width: 100%;
+  }
+  .hub-shugi-card:hover {
+    border-color: rgba(124,106,247,0.65);
+    box-shadow: 0 6px 32px rgba(124,106,247,0.18);
+    background: linear-gradient(135deg, rgba(124,106,247,0.18) 0%, rgba(162,89,255,0.12) 100%);
+  }
+  .hub-shugi-card:active { transform: scale(0.985); }
+  .hub-shugi-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hub-shugi-icon {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: rgba(124,106,247,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .hub-shugi-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(124,106,247,0.85); font-weight: 700; margin-bottom: 2px; }
+  .hub-shugi-title { font-size: 1rem; font-weight: 700; color: #fff; }
+  .hub-shugi-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .hub-shugi-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124,106,247,0.25);
+    border: 1px solid rgba(124,106,247,0.4);
+    border-radius: 30px;
+    padding: 7px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #c4b5fd;
+    align-self: flex-start;
+    transition: background .15s;
+  }
+  .hub-shugi-card:hover .hub-shugi-cta {
+    background: rgba(124,106,247,0.4);
+  }
+
   /* ─── HUB SECTIONS ─── */
   .hub-section { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.8px; color: var(--muted); margin: 18px 0 8px 4px; font-weight: 600; }
 
@@ -571,6 +625,18 @@
             <div class="hub-btn-sub">Measure your inner voice — kindness or relentless self-criticism?</div>
           </div>
           <span class="hub-btn-arrow">›</span>
+        </button>
+        <div class="hub-section" style="margin-top:22px">Talk to Someone</div>
+        <button class="hub-shugi-card" onclick="sageToggle()">
+          <div class="hub-shugi-top">
+            <div class="hub-shugi-icon">🌿</div>
+            <div>
+              <div class="hub-shugi-label">Shugi AI</div>
+              <div class="hub-shugi-title">Personal Mental Health Assistant</div>
+            </div>
+          </div>
+          <div class="hub-shugi-sub">Talk freely about what you're going through — love, grief, anxiety, identity. Shugi listens without judgment.</div>
+          <div class="hub-shugi-cta">💬 Start a conversation →</div>
         </button>
       </div>
     </div>
