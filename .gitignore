@@ -1,0 +1,26 @@
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Cloudflared binary (65MB)
+cloudflared.exe
+
+# Tunnel credentials (contains secrets)
+tunnel/*.json
+tunnel/*.yml
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Claude internal
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
