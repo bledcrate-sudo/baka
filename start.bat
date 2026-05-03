@@ -2,7 +2,7 @@
 setlocal
 
 echo ══════════════════════════════════════════════
-echo  Sage — Starting everything
+echo  Shugi AI — Starting everything
 echo ══════════════════════════════════════════════
 echo.
 
@@ -17,28 +17,19 @@ if errorlevel 1 (
 )
 
 REM ── 2. Start FastAPI server ────────────────────
-echo [2/3] Starting Sage server on port 8000...
+echo [2/3] Starting Shugi server on port 8000...
 start "" /min cmd /c "cd /d %~dp0ai && python server.py"
 timeout /t 2 /nobreak >nul
 
-REM ── 3. Start Cloudflare Tunnel ─────────────────
-REM Check if named tunnel config exists and is configured
-findstr /c:"TUNNEL_ID" "%~dp0tunnel\config.yml" >nul 2>&1
-if errorlevel 1 (
-    REM Named tunnel is configured — use it
-    echo [3/3] Starting Cloudflare named tunnel...
-    echo.
-    echo ══════════════════════════════════════════════
-    echo  Your site is live at the domain in tunnel\config.yml
-    echo ══════════════════════════════════════════════
-    cloudflared.exe tunnel --config tunnel\config.yml run
-) else (
-    REM No named tunnel — use quick tunnel (URL changes each run)
-    echo [3/3] Starting quick tunnel (no domain configured)...
-    echo       URL will appear below — share it to access the site.
-    echo       For a permanent URL: run setup-tunnel.bat first.
-    echo.
-    cloudflared.exe tunnel --url http://localhost:8000
-)
+REM ── 3. Start Cloudflare Tunnel (token-based) ───
+echo [3/3] Starting Cloudflare Tunnel...
+echo       Site will be live at: https://shugiai.com
+echo.
+echo ══════════════════════════════════════════════
+echo  shugiai.com is now starting up
+echo ══════════════════════════════════════════════
+echo.
+
+"%~dp0cloudflared.exe" tunnel run --token eyJhIjoiZTc3ZTk3NDRlNWJkYWVhMjEwZGU5NTEyMGNhZWZjMWEiLCJ0IjoiMDFiNDBlMTgtYWQ0ZC00ZTY5LWI4ZDMtMWQ3ZTFmNmFmYWI2IiwicyI6Ill6STVNak15TWpndFlUQmxOQzAwWmpBMkxUaGhOalV0WmpneU4ySTVZakkxTVRoayJ9
 
 pause
