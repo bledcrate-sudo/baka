@@ -177,7 +177,7 @@ async def register(request: Request, db: aiosqlite.Connection = Depends(get_db))
     body     = await request.json()
     username = body.get("username", "").strip()
     password = body.get("password", "")
-    email    = body.get("email", "").strip() or None
+    email    = (body.get("email") or "").strip() or None
 
     if not username or len(username) < 2:
         raise HTTPException(400, "Username must be at least 2 characters")
@@ -452,7 +452,7 @@ async def admin_create_user(admin=Depends(require_admin),
     body     = await request.json()
     username = body.get("username", "").strip()
     password = body.get("password", "")
-    email    = body.get("email", "").strip() or None
+    email    = (body.get("email") or "").strip() or None
 
     if not username or len(username) < 2:
         raise HTTPException(400, "Username must be at least 2 characters")
