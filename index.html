@@ -20,6 +20,9 @@
     --wound-q: #e17055;
     --healing-q: #00cec9;
     --compassion-q: #fdcb6e;
+    --phq9-q: #6c5ce7;
+    --gad7-q: #fd79a8;
+    --emreg-q: #a29bfe;
     --quiz-color: #e84393;
     --bg: #0f0e17;
     --card: #1a1929;
@@ -190,6 +193,18 @@
   .hub-btn-wound-q .hub-btn-icon    { background: rgba(225,112,85,0.15); }
   .hub-btn-healing-q .hub-btn-icon  { background: rgba(0,206,201,0.15); }
   .hub-btn-compassion-q .hub-btn-icon { background: rgba(253,203,110,0.15); }
+  .hub-btn-phq9-q   { border-color: rgba(108,92,231,0.2); }
+  .hub-btn-gad7-q   { border-color: rgba(253,121,168,0.2); }
+  .hub-btn-emreg-q  { border-color: rgba(162,155,254,0.2); }
+  .hub-btn-phq9-q:hover   { border-color: rgba(108,92,231,0.5); box-shadow: 0 4px 24px rgba(108,92,231,0.12); background: rgba(108,92,231,0.06); }
+  .hub-btn-gad7-q:hover   { border-color: rgba(253,121,168,0.5); box-shadow: 0 4px 24px rgba(253,121,168,0.12); background: rgba(253,121,168,0.06); }
+  .hub-btn-emreg-q:hover  { border-color: rgba(162,155,254,0.5); box-shadow: 0 4px 24px rgba(162,155,254,0.12); background: rgba(162,155,254,0.06); }
+  .hub-btn-phq9-q:active  { border-color: var(--phq9-q); }
+  .hub-btn-gad7-q:active  { border-color: var(--gad7-q); }
+  .hub-btn-emreg-q:active { border-color: var(--emreg-q); }
+  .hub-btn-phq9-q .hub-btn-icon   { background: rgba(108,92,231,0.15); }
+  .hub-btn-gad7-q .hub-btn-icon   { background: rgba(253,121,168,0.15); }
+  .hub-btn-emreg-q .hub-btn-icon  { background: rgba(162,155,254,0.15); }
 
   /* ─── Shugi AI hub card ─── */
   .hub-shugi-card {
@@ -670,6 +685,17 @@
       <h1>Know <em>Yourself</em></h1>
       <p>Six psychology-based tools to understand your inner world — your patterns in love, your wounds, and your path to healing.</p>
       <div class="hub-options">
+        <div class="hub-section">Talk to Someone</div>
+        <button class="hub-shugi-card" onclick="window.location.href='/chat'">
+          <div class="hub-shugi-top">
+            <div>
+              <div class="hub-shugi-label">Shugi AI</div>
+              <div class="hub-shugi-title">Personal Mental Health Assistant</div>
+            </div>
+          </div>
+          <div class="hub-shugi-sub">Talk freely about what you're going through — love, grief, anxiety, identity. Shugi listens without judgment.</div>
+          <div class="hub-shugi-cta">💬 Start a conversation →</div>
+        </button>
         <div class="hub-section">Relationships</div>
         <button class="hub-btn hub-btn-love" onclick="goTo('intro')">
           <div class="hub-btn-icon">💗</div>
@@ -720,16 +746,30 @@
           </div>
           <span class="hub-btn-arrow">›</span>
         </button>
-        <div class="hub-section">Talk to Someone</div>
-        <button class="hub-shugi-card" onclick="window.location.href='/chat'">
-          <div class="hub-shugi-top">
-            <div>
-              <div class="hub-shugi-label">Shugi AI</div>
-              <div class="hub-shugi-title">Personal Mental Health Assistant</div>
-            </div>
+        <div class="hub-section">Mental Health Screening</div>
+        <button class="hub-btn hub-btn-phq9-q" onclick="launchQuiz('phq9')">
+          <div class="hub-btn-icon">🌧️</div>
+          <div>
+            <div class="hub-btn-title">Am I Experiencing Depression?</div>
+            <div class="hub-btn-sub">PHQ-9 clinical screening — the standard tool used by doctors worldwide.</div>
           </div>
-          <div class="hub-shugi-sub">Talk freely about what you're going through — love, grief, anxiety, identity. Shugi listens without judgment.</div>
-          <div class="hub-shugi-cta">💬 Start a conversation →</div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <button class="hub-btn hub-btn-gad7-q" onclick="launchQuiz('gad7')">
+          <div class="hub-btn-icon">⚡</div>
+          <div>
+            <div class="hub-btn-title">How Much Anxiety Am I Carrying?</div>
+            <div class="hub-btn-sub">GAD-7 — the clinical standard for measuring anxiety symptoms.</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
+        </button>
+        <button class="hub-btn hub-btn-emreg-q" onclick="launchQuiz('emreg')">
+          <div class="hub-btn-icon">🌊</div>
+          <div>
+            <div class="hub-btn-title">How Well Do I Regulate My Emotions?</div>
+            <div class="hub-btn-sub">Based on the DERS scale — discover your emotional regulation capacity.</div>
+          </div>
+          <span class="hub-btn-arrow">›</span>
         </button>
       </div>
     </div>
@@ -2923,681 +2963,455 @@ compassion: {
       extra: `<strong>Score:</strong> ${pct}% self-compassionate · ${100-pct}% self-critical<br><br>Based on: Dr. Kristin Neff's Self-Compassion Scale (SCS, 2003), and Compassion-Focused Therapy (Gilbert, 2009).`
     };
   }
+},
+
+/* ════════════════════════════════════
+   QUIZ 7 — PHQ-9 DEPRESSION SCREENING
+════════════════════════════════════ */
+phq9: {
+  id: 'phq9', color: '#6c5ce7',
+  icon: '🌧️', title: 'Am I Experiencing Depression?',
+  descHtml: `The PHQ-9 (Patient Health Questionnaire-9) is one of the most validated depression screening tools in clinical use, developed by Kroenke & Spitzer (2001). This is not a diagnosis — it's a structured self-assessment used to understand symptom severity.<br><br><strong>9 questions · ~1 minute · Rate each for the past 2 weeks</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "Little interest or pleasure in doing things you normally enjoy",
+      sub: "Over the past 2 weeks.",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Feeling down, depressed, or hopeless",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Trouble falling or staying asleep, or sleeping too much",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Feeling tired or having little energy",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Poor appetite or overeating",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Feeling bad about yourself — or that you're a failure, or have let yourself or others down",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Trouble concentrating on things, like reading, watching something, or following a conversation",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Moving or speaking so slowly others could have noticed — or the opposite: being unusually fidgety or restless",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Thoughts that you would be better off dead, or thoughts of hurting yourself in some way",
+      sub: "Please answer honestly. If this applies to you, reaching out to a professional is important.",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits;
+    // PHQ-9: 0-4=minimal, 5-9=mild, 10-14=moderate, 15-19=mod-severe, 20-27=severe
+    // pct=score/27*100 → 0-15%=minimal, ~19-33%=mild, ~37-52%=moderate, ~56-70%=mod-severe, ~74%+=severe
+    if (pct >= 74) {
+      icon = '⛈️'; title = 'Severe Depression Symptoms';
+      subtitle = 'Your responses suggest you may be experiencing significant depression.';
+      traits = [
+        { icon: '🚨', text: '<strong>At this level, daily functioning is likely significantly affected</strong> — this goes beyond sadness or a difficult period.' },
+        { icon: '🤝', text: '<strong>Please reach out for professional support</strong> — a doctor, therapist, or crisis line. You don\'t have to navigate this alone.' },
+        { icon: '📞', text: '<strong>If you\'re having thoughts of self-harm</strong>: call or text 988 (Suicide & Crisis Lifeline, US) or your local equivalent immediately.' },
+        { icon: '💡', text: '<strong>This is treatable</strong> — severe depression responds strongly to therapy, medication, or both. The right support can change everything.' }
+      ];
+    } else if (pct >= 56) {
+      icon = '🌩️'; title = 'Moderately Severe Depression Symptoms';
+      subtitle = 'You\'re experiencing symptoms that significantly impact your wellbeing.';
+      traits = [
+        { icon: '📋', text: '<strong>This level warrants a conversation with a mental health professional</strong> — not because something is wrong with you, but because you deserve support.' },
+        { icon: '🔗', text: '<strong>Depression at this level often has biological components</strong> — this isn\'t just "feeling sad." It\'s a medical condition.' },
+        { icon: '🌅', text: '<strong>Treatment works</strong> — CBT, antidepressants, and combined approaches have strong evidence at this severity level.' },
+        { icon: '❤️', text: '<strong>You showed up here</strong> — that impulse to understand yourself is worth honoring.' }
+      ];
+    } else if (pct >= 37) {
+      icon = '🌧️'; title = 'Moderate Depression Symptoms';
+      subtitle = 'Real symptoms are present and affecting your quality of life.';
+      traits = [
+        { icon: '👁️', text: '<strong>You\'re not imagining this</strong> — moderate depression is real, valid, and treatable.' },
+        { icon: '🗣️', text: '<strong>Talking to someone would help</strong> — therapy (especially CBT or behavioral activation) has strong evidence at this level.' },
+        { icon: '🏃', text: '<strong>Small actions matter</strong> — movement, sleep structure, and social connection have measurable impact at moderate severity.' },
+        { icon: '📅', text: '<strong>Without intervention it can deepen</strong> — getting support now is much easier than waiting.' }
+      ];
+    } else if (pct >= 19) {
+      icon = '🌦️'; title = 'Mild Depression Symptoms';
+      subtitle = 'Some symptoms are present. This is worth paying attention to.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Mild doesn\'t mean insignificant</strong> — these symptoms affect your energy, mood, and engagement with life.' },
+        { icon: '🛠️', text: '<strong>This level often responds well to lifestyle adjustments</strong> — sleep, exercise, connection, and structure.' },
+        { icon: '🗺️', text: '<strong>Watchful awareness is appropriate</strong> — track how you\'re feeling over the next few weeks.' },
+        { icon: '🧭', text: '<strong>If symptoms persist beyond 2 weeks</strong>, that\'s the clinical threshold — consider reaching out.' }
+      ];
+    } else {
+      icon = '☀️'; title = 'Minimal or No Depression Symptoms';
+      subtitle = 'Your responses suggest low symptom burden right now.';
+      traits = [
+        { icon: '✅', text: '<strong>This is a good baseline</strong> — low current symptoms, though depression can be episodic.' },
+        { icon: '🌱', text: '<strong>Preventive care matters</strong> — sleep, movement, connection, and stress management protect mental health over time.' },
+        { icon: '👀', text: '<strong>Check in regularly</strong> — symptom levels shift with life circumstances. This quiz is most useful taken honestly over time.' },
+        { icon: '💡', text: '<strong>If someone you know is struggling</strong> — share this resource. Reaching out early makes a difference.' }
+      ];
+    }
+    const rawScore = Math.round(pct * 27 / 100);
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft: '😊 Minimal',
+      meterRight: '😔 Severe',
+      extra: `<strong>PHQ-9 estimated score:</strong> ~${rawScore}/27<br><br>⚠️ <em>This is a validated screening tool, not a clinical diagnosis. Scores of 10+ indicate moderate-to-severe symptoms — please speak with a mental health professional.</em><br><br>Based on: Kroenke, K., Spitzer, R.L., & Williams, J.B.W. (2001). The PHQ-9: Validity of a brief depression severity measure. <em>Journal of General Internal Medicine, 16</em>(9), 606–613.`
+    };
+  }
+},
+
+/* ════════════════════════════════════
+   QUIZ 8 — GAD-7 ANXIETY SCREENING
+════════════════════════════════════ */
+gad7: {
+  id: 'gad7', color: '#fd79a8',
+  icon: '⚡', title: 'How Much Anxiety Am I Carrying?',
+  descHtml: `The GAD-7 (Generalized Anxiety Disorder-7) is the most widely used clinical tool for measuring anxiety symptoms, developed by Spitzer et al. (2006). Used by doctors and therapists worldwide as a standard baseline measure.<br><br><strong>7 questions · ~1 minute · Rate each for the past 2 weeks</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "Feeling nervous, anxious, or on edge",
+      sub: "Over the past 2 weeks.",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Not being able to stop or control worrying",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Worrying too much about different things",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Trouble relaxing",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Being so restless that it's hard to sit still",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Becoming easily annoyed or irritable",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    },
+    { text: "Feeling afraid, as if something awful might happen",
+      sub: "The quiet dread — even without a specific reason.",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "Several days", score: 1 },
+        { text: "More than half the days", score: 2 },
+        { text: "Nearly every day", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits;
+    // GAD-7: 0-4=minimal, 5-9=mild, 10-14=moderate, 15-21=severe
+    // pct=score/21*100 → 0-19%=minimal, ~24-43%=mild, ~48-67%=moderate, ~71%+=severe
+    if (pct >= 71) {
+      icon = '🌪️'; title = 'Severe Anxiety Symptoms';
+      subtitle = 'Your responses reflect a high anxiety burden affecting many areas of your life.';
+      traits = [
+        { icon: '🚨', text: '<strong>At this level, anxiety is likely interfering significantly with work, relationships, and daily functioning.</strong>' },
+        { icon: '🧠', text: '<strong>This reflects a nervous system in chronic threat-mode</strong> — not a personal weakness, but a pattern that needs targeted support.' },
+        { icon: '🤝', text: '<strong>Please reach out to a mental health professional</strong> — CBT, ACT, and medication all have strong evidence for severe anxiety.' },
+        { icon: '🌱', text: '<strong>Anxiety is one of the most treatable conditions</strong> when approached with the right tools.' }
+      ];
+    } else if (pct >= 48) {
+      icon = '⚡'; title = 'Moderate Anxiety Symptoms';
+      subtitle = 'Anxiety is a consistent presence affecting your wellbeing.';
+      traits = [
+        { icon: '📡', text: '<strong>Your nervous system is spending a lot of energy on threat detection</strong> — creating real fatigue, irritability, and difficulty being present.' },
+        { icon: '🛠️', text: '<strong>Structured tools work here</strong> — CBT for anxiety, acceptance-based approaches (ACT), and somatic regulation techniques have solid evidence.' },
+        { icon: '⏱️', text: '<strong>If you\'ve felt this way for 6+ months</strong> — that\'s the clinical threshold for GAD. A therapist can assess and support.' },
+        { icon: '🌿', text: '<strong>Daily regulation practices help</strong> — breathwork, exercise, and sleep hygiene reduce the nervous system\'s baseline reactivity.' }
+      ];
+    } else if (pct >= 24) {
+      icon = '🌦️'; title = 'Mild Anxiety Symptoms';
+      subtitle = 'Some anxiety is present. Worth understanding what\'s driving it.';
+      traits = [
+        { icon: '👁️', text: '<strong>Mild anxiety often flies under the radar</strong> — but still drains energy, affects decisions, and disrupts sleep.' },
+        { icon: '🔍', text: '<strong>Explore what\'s feeding it</strong> — anxiety rarely exists in isolation. It connects to deeper patterns, beliefs, or unprocessed stress.' },
+        { icon: '🌿', text: '<strong>Regulation practices are most effective at this stage</strong> — before anxiety becomes entrenched or avoidance begins.' },
+        { icon: '📘', text: '<strong>Recommended</strong>: Russ Harris\'s <em>The Happiness Trap</em> for an ACT-based approach to anxiety.' }
+      ];
+    } else {
+      icon = '😌'; title = 'Minimal Anxiety Symptoms';
+      subtitle = 'Your responses suggest anxiety is not significantly impacting you right now.';
+      traits = [
+        { icon: '✅', text: '<strong>Low current anxiety burden</strong> — this is a healthy baseline worth protecting.' },
+        { icon: '🌱', text: '<strong>Stay grounded proactively</strong> — stress, sleep deprivation, and major life events can shift this quickly.' },
+        { icon: '👀', text: '<strong>Anxiety can be situational</strong> — re-take during high-stress periods for a more accurate read.' },
+        { icon: '💡', text: '<strong>Normal anxiety vs. disorder</strong> — some anxiety is adaptive. The line is crossed when it starts limiting your life.' }
+      ];
+    }
+    const rawScore = Math.round(pct * 21 / 100);
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft: '😌 Minimal',
+      meterRight: '🌪️ Severe',
+      extra: `<strong>GAD-7 estimated score:</strong> ~${rawScore}/21<br><br>⚠️ <em>This is a validated screening tool, not a clinical diagnosis. Scores of 10+ indicate moderate-to-severe anxiety — consider speaking with a professional.</em><br><br>Based on: Spitzer, R.L., Kroenke, K., Williams, J.B.W., & Löwe, B. (2006). A brief measure for assessing generalized anxiety disorder. <em>Archives of Internal Medicine, 166</em>(10), 1092–1097.`
+    };
+  }
+},
+
+/* ════════════════════════════════════
+   QUIZ 9 — EMOTIONAL REGULATION (DERS)
+════════════════════════════════════ */
+emreg: {
+  id: 'emreg', color: '#a29bfe',
+  icon: '🌊', title: 'How Well Do I Regulate My Emotions?',
+  descHtml: `Based on the Difficulties in Emotion Regulation Scale (DERS; Gratz & Roemer, 2004), this quiz measures six dimensions: emotional awareness, acceptance, clarity, impulse control, access to coping strategies, and goal-directed behavior under stress.<br><br><strong>12 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When you're upset, how aware are you of what you're actually feeling?",
+      sub: "",
+      answers: [
+        { text: "Very aware — I can usually identify exactly what I'm experiencing", score: 0 },
+        { text: "Somewhat aware — I know something's wrong but can't always name it", score: 1 },
+        { text: "Often confused — emotions feel like a blurry, unidentifiable mass", score: 2 },
+        { text: "Largely unaware — I notice the aftermath but miss the emotion as it happens", score: 3 }
+      ]
+    },
+    { text: "When you're in emotional pain, can you accept that you're feeling it — without judging yourself for it?",
+      sub: "",
+      answers: [
+        { text: "Yes — I can feel without feeling bad about feeling", score: 0 },
+        { text: "Mostly, though I sometimes add shame on top of the original emotion", score: 1 },
+        { text: "Rarely — feeling upset often triggers 'what's wrong with me for feeling this?'", score: 2 },
+        { text: "Never — my emotional reactions feel weak, wrong, or unacceptable to me", score: 3 }
+      ]
+    },
+    { text: "When upset, can you still work toward important goals — tasks, responsibilities, showing up?",
+      sub: "",
+      answers: [
+        { text: "Yes — I can function even when I'm not okay emotionally", score: 0 },
+        { text: "Usually, though strong emotions reduce my effectiveness", score: 1 },
+        { text: "Rarely — when I'm upset, I lose the ability to focus on much else", score: 2 },
+        { text: "No — when emotionally activated, I shut down or can't function at all", score: 3 }
+      ]
+    },
+    { text: "When distressed, how hard is it to control your behavior — what you say or do?",
+      sub: "",
+      answers: [
+        { text: "Not hard — I can pause before acting even when activated", score: 0 },
+        { text: "Somewhat hard — I sometimes act before I think when upset", score: 1 },
+        { text: "Very hard — I often do or say things I later regret when emotional", score: 2 },
+        { text: "Extreme — when distressed, I lose control of what I do or say", score: 3 }
+      ]
+    },
+    { text: "Do you have strategies that actually help when you're overwhelmed?",
+      sub: "",
+      answers: [
+        { text: "Yes — I have a few things that reliably work", score: 0 },
+        { text: "Some — I have partial tools that work inconsistently", score: 1 },
+        { text: "Barely — I mostly try to wait it out", score: 2 },
+        { text: "No — I feel helpless when overwhelmed, with nothing that reliably helps", score: 3 }
+      ]
+    },
+    { text: "When something upsets you, how quickly do emotions take over your thinking?",
+      sub: "",
+      answers: [
+        { text: "Gradually — I feel the emotion but can observe it too", score: 0 },
+        { text: "Quickly, though I usually come back to myself", score: 1 },
+        { text: "Very quickly — emotion hijacks thought before I can catch it", score: 2 },
+        { text: "Instantly — once triggered, rational thinking disappears", score: 3 }
+      ]
+    },
+    { text: "How often do negative emotions feel endless — like they'll never pass?",
+      sub: "",
+      answers: [
+        { text: "Rarely — I can usually sense they'll shift, even in the moment", score: 0 },
+        { text: "Sometimes — in deep pain, permanence is hard to see", score: 1 },
+        { text: "Often — when I'm in it, it feels like I'll always feel this way", score: 2 },
+        { text: "Almost always — the present emotional state feels like my permanent state", score: 3 }
+      ]
+    },
+    { text: "Do you pay attention to how you're feeling emotionally, day to day?",
+      sub: "",
+      answers: [
+        { text: "Yes — I check in with myself regularly", score: 0 },
+        { text: "Sometimes — when things get loud enough to notice", score: 1 },
+        { text: "Rarely — I'm often disconnected from how I'm doing emotionally", score: 2 },
+        { text: "No — I only notice emotions when they're overwhelming", score: 3 }
+      ]
+    },
+    { text: "After a strong emotional reaction, how long does it take to return to baseline?",
+      sub: "",
+      answers: [
+        { text: "Minutes to an hour — I process and return relatively quickly", score: 0 },
+        { text: "Several hours — takes a while but I get there", score: 1 },
+        { text: "A full day or more — strong emotions disrupt my whole day", score: 2 },
+        { text: "Days — intense emotions leave me off-balance for a long time", score: 3 }
+      ]
+    },
+    { text: "When in emotional pain, do you turn to things that make it worse long-term?",
+      sub: "Substances, withdrawing completely, rage, or behaviors you later regret.",
+      answers: [
+        { text: "Rarely — my coping doesn't tend to create secondary problems", score: 0 },
+        { text: "Sometimes — I have some habits that aren't helpful", score: 1 },
+        { text: "Often — my go-to ways of coping frequently make things worse", score: 2 },
+        { text: "Frequently — my coping tends to cause significant secondary harm", score: 3 }
+      ]
+    },
+    { text: "Can you clearly identify what you feel — not just that you feel 'bad'?",
+      sub: "Sad vs. angry vs. ashamed vs. scared vs. hurt — the specific emotion.",
+      answers: [
+        { text: "Usually — I have a reasonably clear emotional vocabulary", score: 0 },
+        { text: "Sometimes — I can distinguish some emotions, not all", score: 1 },
+        { text: "Rarely — most things blur into 'upset' or 'numb'", score: 2 },
+        { text: "Almost never — emotions feel undifferentiated and confusing", score: 3 }
+      ]
+    },
+    { text: "When a strong emotion hits, can you observe it without immediately acting on it?",
+      sub: "The space between feeling and doing.",
+      answers: [
+        { text: "Yes — I have some gap between emotion and action most of the time", score: 0 },
+        { text: "Sometimes — I'm getting better at the pause", score: 1 },
+        { text: "Rarely — feeling and acting tend to happen at the same time", score: 2 },
+        { text: "No — there is essentially no space between feeling and reacting", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits;
+    if (pct >= 67) {
+      icon = '🌊'; title = 'Significant Emotion Regulation Difficulties';
+      subtitle = 'Emotions are frequently overwhelming and difficult to manage effectively.';
+      traits = [
+        { icon: '🌪️', text: '<strong>Emotions arrive fast and stay long</strong> — the window between feeling and reacting is narrow, and recovery takes time.' },
+        { icon: '🧠', text: '<strong>This is often rooted in nervous system patterns</strong> — not a character flaw, but a learned or trauma-shaped way of processing emotion.' },
+        { icon: '🤝', text: '<strong>DBT (Dialectical Behavior Therapy) was built specifically for this</strong> — it\'s the most evidence-based treatment for emotion dysregulation.' },
+        { icon: '🌱', text: '<strong>Change is genuinely possible</strong> — emotion regulation is a skill set, not a fixed trait. It can be learned at any age.' }
+      ];
+    } else if (pct >= 42) {
+      icon = '⚖️'; title = 'Moderate Emotion Regulation Challenges';
+      subtitle = 'Emotions are manageable in many situations, but some consistently overwhelm.';
+      traits = [
+        { icon: '🔍', text: '<strong>Certain triggers still derail you</strong> — while you handle most situations, specific types of pain or stress break through your capacity.' },
+        { icon: '🛠️', text: '<strong>Skills-building would help</strong> — mindfulness, distress tolerance, and affect labeling all have strong research support.' },
+        { icon: '📊', text: '<strong>Secondary reactions are a key pattern</strong> — feeling ashamed of feeling, or anxious about anxiety. Reducing these frees up regulation capacity.' },
+        { icon: '💡', text: '<strong>You have more foundation than you think</strong> — building from moderate capacity is significantly faster than starting from dysregulation.' }
+      ];
+    } else if (pct >= 20) {
+      icon = '🌿'; title = 'Mild Emotion Regulation Difficulties';
+      subtitle = 'You regulate reasonably well, with room to grow in specific areas.';
+      traits = [
+        { icon: '✅', text: '<strong>You have a functional foundation</strong> — emotions are identifiable, manageable, and usually temporary for you.' },
+        { icon: '🔬', text: '<strong>There are still gaps</strong> — particular emotions (anger, grief, shame) or situations may stretch your capacity.' },
+        { icon: '🎯', text: '<strong>Targeted work is most efficient here</strong> — identify your specific weak spots rather than working on regulation broadly.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: Tara Brach\'s RAIN technique and Matthew Lieberman\'s affect labeling research for accessible starting points.' }
+      ];
+    } else {
+      icon = '🌱'; title = 'Good Emotion Regulation';
+      subtitle = 'You have real capacity to identify, tolerate, and process your emotions.';
+      traits = [
+        { icon: '🧭', text: '<strong>Emotional awareness is solid</strong> — you can name what you feel and work with it rather than being ruled by it.' },
+        { icon: '⏱️', text: '<strong>Recovery is relatively efficient</strong> — you return to baseline without extended dysregulation.' },
+        { icon: '🌍', text: '<strong>Regulation supports everything else</strong> — relationships, work, and wellbeing all benefit from this capacity.' },
+        { icon: '💡', text: '<strong>The frontier at this level</strong> — subtle secondary emotions, emotional granularity, and sitting with very intense states without avoidance.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft: '🌱 Regulated',
+      meterRight: '🌊 Dysregulated',
+      extra: `<strong>Score:</strong> ${pct}% difficulty · ${100-pct}% capacity<br><br>Based on: Gratz, K.L., & Roemer, L. (2004). Multidimensional assessment of emotion regulation and dysregulation. <em>Journal of Psychopathology and Behavioral Assessment, 26</em>(1), 41–54.`
+    };
+  }
 }
 
 }; // end genericQuizzes
 </script>
 
-<!-- ══════════════════════════════════════════════════════════════
-     SAGE — Chat Widget
-══════════════════════════════════════════════════════════════ -->
-<style>
-  /* ── Auth screen inside drawer ── */
-  #sage-auth {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 28px 22px;
-    gap: 0;
-  }
-  .sage-auth-icon { font-size: 2rem; margin-bottom: 14px; filter: drop-shadow(0 0 10px rgba(124,106,247,0.5)); }
-  .sage-auth-title { font-size: 1rem; font-weight: 700; color: #fffffe; margin-bottom: 4px; }
-  .sage-auth-sub { font-size: 0.75rem; color: #7070a0; text-align: center; margin-bottom: 22px; line-height: 1.5; }
-  .sage-auth-form { width: 100%; display: flex; flex-direction: column; gap: 9px; }
-  .sage-auth-form input {
-    width: 100%;
-    background: #1a1929;
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 12px;
-    padding: 11px 14px;
-    color: #fffffe;
-    font-size: 0.88rem;
-    font-family: inherit;
-    outline: none;
-    transition: border-color .2s, box-shadow .2s;
-  }
-  .sage-auth-form input::placeholder { color: #505068; }
-  .sage-auth-form input:focus {
-    border-color: rgba(124,106,247,0.45);
-    box-shadow: 0 0 0 3px rgba(124,106,247,0.1);
-  }
-  .sage-auth-submit {
-    width: 100%; padding: 11px;
-    background: linear-gradient(135deg, #7c6af7, #e84393);
-    border: none; border-radius: 12px;
-    color: #fff; font-size: 0.9rem; font-weight: 600;
-    font-family: inherit; cursor: pointer;
-    transition: opacity .2s, transform .15s;
-    margin-top: 2px;
-  }
-  .sage-auth-submit:hover { opacity: .88; }
-  .sage-auth-submit:active { transform: scale(0.97); }
-  .sage-auth-err {
-    font-size: 0.75rem; color: #e17055; text-align: center;
-    min-height: 18px; margin-top: 2px;
-  }
-  .sage-auth-switch {
-    font-size: 0.75rem; color: #7070a0; text-align: center; margin-top: 14px;
-  }
-  .sage-auth-switch a {
-    color: #7c6af7; cursor: pointer; text-decoration: none; font-weight: 500;
-  }
-  .sage-auth-switch a:hover { text-decoration: underline; }
-  /* logged-in state in header */
-  .sage-user-chip {
-    font-size: 0.7rem; color: #7c6af7; background: rgba(124,106,247,0.12);
-    border: 1px solid rgba(124,106,247,0.25); border-radius: 20px;
-    padding: 3px 9px; cursor: default;
-  }
-
-  /* ── Backdrop ── */
-  #sage-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(10,9,18,0.55);
-    backdrop-filter: blur(3px);
-    z-index: 28;
-    opacity: 0; pointer-events: none;
-    transition: opacity .3s ease;
-  }
-  #sage-backdrop.open { opacity: 1; pointer-events: all; }
-
-  /* ── Floating button ── */
-  #sage-btn {
-    position: fixed;
-    bottom: max(58px, calc(env(safe-area-inset-bottom) + 54px));
-    right: 18px;
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7c6af7, #e84393);
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 24px rgba(124,106,247,0.5);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.35rem;
-    z-index: 30;
-    transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
-  }
-  #sage-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 32px rgba(124,106,247,0.7);
-  }
-  #sage-btn.open { transform: scale(0.9); box-shadow: 0 2px 12px rgba(124,106,247,0.3); }
-
-  /* Tooltip */
-  #sage-btn::before {
-    content: 'Talk to Shugi AI';
-    position: absolute;
-    right: calc(100% + 10px);
-    top: 50%; transform: translateY(-50%);
-    background: rgba(30,28,48,0.95);
-    color: #e8e8f0;
-    font-size: 0.75rem;
-    font-family: 'Inter', sans-serif;
-    white-space: nowrap;
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(124,106,247,0.2);
-    opacity: 0; pointer-events: none;
-    transition: opacity .15s;
-  }
-  #sage-btn:hover:not(.open)::before { opacity: 1; }
-
-  /* ── Notification dot ── */
-  #sage-dot {
-    position: absolute;
-    top: 2px; right: 2px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: #e84393;
-    border: 2px solid var(--bg);
-    display: none;
-    animation: sageDotPulse 1.8s ease-in-out infinite;
-  }
-  @keyframes sageDotPulse {
-    0%,100% { box-shadow: 0 0 0 0 rgba(232,67,147,0.5); }
-    50%      { box-shadow: 0 0 0 5px rgba(232,67,147,0); }
-  }
-
-  /* ── Drawer ── */
-  #sage-drawer {
-    position: fixed;
-    bottom: 0; right: 0;
-    width: min(440px, 100vw);
-    height: min(640px, 100dvh);
-    background: #111019;
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
-    border: 1px solid rgba(124,106,247,0.22);
-    border-bottom: none;
-    z-index: 29;
-    display: flex; flex-direction: column;
-    box-shadow: 0 -12px 60px rgba(0,0,0,0.75), 0 -2px 0 rgba(124,106,247,0.3);
-    transform: translateY(105%);
-    transition: transform .34s cubic-bezier(.22,.8,.36,1);
-  }
-  #sage-drawer.open { transform: translateY(0); }
-
-  /* ── Drawer header ── */
-  .sage-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.02);
-    border-radius: 22px 22px 0 0;
-  }
-  .sage-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: linear-gradient(135deg, #7c6af7, #e84393);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.05rem; flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(124,106,247,0.4);
-  }
-  .sage-title { flex: 1; }
-  .sage-title strong { font-size: 0.92rem; color: #fffffe; letter-spacing: 0.01em; }
-  .sage-title span {
-    display: block; font-size: 0.7rem; color: #7070a0; margin-top: 1px;
-  }
-  .sage-close {
-    background: rgba(255,255,255,0.06); border: none; color: #a7a9be;
-    font-size: 0.8rem; cursor: pointer; padding: 6px 8px;
-    border-radius: 8px; transition: color .2s, background .2s;
-    line-height: 1;
-  }
-  .sage-close:hover { color: #fffffe; background: rgba(255,255,255,0.1); }
-  .sage-clear {
-    background: transparent; border: none; color: #7070a0;
-    font-size: 0.68rem; cursor: pointer; padding: 5px 9px;
-    border-radius: 7px; transition: color .2s, background .2s;
-    letter-spacing: 0.02em;
-  }
-  .sage-clear:hover { color: #e84393; background: rgba(232,67,147,0.1); }
-
-  /* ── Messages ── */
-  #sage-messages {
-    flex: 1; overflow-y: auto;
-    padding: 16px 15px 8px;
-    display: flex; flex-direction: column;
-    gap: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(124,106,247,0.25) transparent;
-  }
-  /* Top fade */
-  #sage-messages::before {
-    content: '';
-    position: sticky; top: 0;
-    display: block; height: 20px;
-    background: linear-gradient(to bottom, #111019, transparent);
-    margin: -16px -15px 0; flex-shrink: 0; z-index: 1;
-  }
-
-  .sage-msg {
-    max-width: 86%;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    padding: 10px 14px;
-    border-radius: 16px;
-    word-break: break-word;
-    white-space: pre-wrap;
-    animation: msgIn .2s cubic-bezier(.34,1.2,.64,1);
-  }
-  @keyframes msgIn {
-    from { opacity: 0; transform: translateY(8px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .sage-msg.user {
-    align-self: flex-end;
-    background: linear-gradient(135deg, #7c6af7, #5a48e0);
-    color: #fffffe;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 2px 12px rgba(124,106,247,0.25);
-  }
-  .sage-msg.assistant {
-    align-self: flex-start;
-    background: #1c1b2d;
-    color: #dcdce8;
-    border-bottom-left-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.07);
-  }
-  .sage-msg.assistant strong { color: #fffffe; }
-
-  /* ── Typing dots ── */
-  .sage-typing-wrap {
-    align-self: flex-start;
-    background: #1c1b2d;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-bottom-left-radius: 4px;
-    border-radius: 16px;
-    border-bottom-left-radius: 4px;
-    padding: 12px 16px;
-    display: flex; gap: 5px; align-items: center;
-    animation: msgIn .2s ease;
-  }
-  .sage-dot-bounce {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #7070a0;
-    animation: dotBounce 1.3s ease-in-out infinite;
-  }
-  .sage-dot-bounce:nth-child(2) { animation-delay: .15s; }
-  .sage-dot-bounce:nth-child(3) { animation-delay: .3s; }
-  @keyframes dotBounce {
-    0%,60%,100% { transform: translateY(0); opacity: .5; }
-    30%          { transform: translateY(-5px); opacity: 1; }
-  }
-
-  /* Welcome message */
-  .sage-welcome {
-    align-self: center;
-    text-align: center;
-    max-width: 100%;
-    background: transparent !important;
-    border: none !important;
-    padding: 24px 8px 12px;
-  }
-  .sage-welcome .wlc-icon {
-    font-size: 2.2rem; margin-bottom: 10px;
-    filter: drop-shadow(0 0 12px rgba(124,106,247,0.5));
-  }
-  .sage-welcome .wlc-title { font-size: 1rem; color: #fffffe; font-weight: 600; margin-bottom: 6px; }
-  .sage-welcome .wlc-sub { font-size: 0.78rem; color: #7070a0; line-height: 1.6; max-width: 280px; margin: 0 auto; }
-
-  /* ── Input bar ── */
-  .sage-inputbar {
-    display: flex; gap: 8px; align-items: flex-end;
-    padding: 10px 12px max(14px, calc(env(safe-area-inset-bottom) + 10px));
-    border-top: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
-    background: rgba(255,255,255,0.015);
-  }
-  #sage-input {
-    flex: 1;
-    background: #1a1929;
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 14px;
-    padding: 10px 14px;
-    color: #fffffe;
-    font-size: 0.88rem;
-    font-family: inherit;
-    resize: none;
-    outline: none;
-    max-height: 110px;
-    line-height: 1.5;
-    transition: border-color .2s, box-shadow .2s;
-  }
-  #sage-input::placeholder { color: #505068; }
-  #sage-input:focus {
-    border-color: rgba(124,106,247,0.45);
-    box-shadow: 0 0 0 3px rgba(124,106,247,0.1);
-  }
-  #sage-send {
-    width: 40px; height: 40px; flex-shrink: 0;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #7c6af7, #e84393);
-    border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    transition: opacity .2s, transform .15s, box-shadow .2s;
-    box-shadow: 0 2px 12px rgba(124,106,247,0.3);
-  }
-  #sage-send:hover { opacity: .9; box-shadow: 0 4px 18px rgba(124,106,247,0.5); }
-  #sage-send:active { transform: scale(0.9); }
-  #sage-send:disabled { opacity: .3; cursor: not-allowed; box-shadow: none; }
-</style>
-
-<!-- Backdrop -->
-<div id="sage-backdrop" onclick="sageToggle()"></div>
-
-<!-- Floating button -->
-<button id="sage-btn" onclick="sageToggle()" aria-label="Open Shugi AI">
-  🌿
-  <div id="sage-dot"></div>
-</button>
-
-<!-- Chat drawer -->
-<div id="sage-drawer">
-  <div class="sage-header">
-    <div class="sage-avatar">🌿</div>
-    <div class="sage-title">
-      <strong>Shugi AI</strong>
-      <span id="sage-status">Mental health support · AI</span>
-    </div>
-    <span class="sage-user-chip" id="sage-user-chip" style="display:none"></span>
-    <button class="sage-clear" id="sage-clear-btn" onclick="sageClear()" title="Clear conversation" style="display:none">Clear</button>
-    <button class="sage-close" onclick="sageToggle()" title="Close">✕</button>
-  </div>
-
-  <!-- Auth screen (shown when not logged in) -->
-  <div id="sage-auth" style="display:none">
-    <div class="sage-auth-icon">🌿</div>
-    <div class="sage-auth-title" id="sage-auth-title">Welcome to Shugi AI</div>
-    <div class="sage-auth-sub" id="sage-auth-sub">Create a free account to start your conversation.<br>Everything is private and stays with you.</div>
-    <div class="sage-auth-form">
-      <input type="text" id="sage-auth-user" placeholder="Username" autocomplete="username" autocapitalize="none">
-      <input type="email" id="sage-auth-email" placeholder="Email (optional)">
-      <input type="password" id="sage-auth-pass" placeholder="Password (min 6 chars)" autocomplete="new-password">
-      <div class="sage-auth-err" id="sage-auth-err"></div>
-      <button class="sage-auth-submit" id="sage-auth-btn" onclick="sageAuthSubmit()">Create account</button>
-    </div>
-    <div class="sage-auth-switch">Already have an account? <a onclick="sageAuthMode('login')">Sign in</a></div>
-  </div>
-
-  <div id="sage-messages">
-    <div class="sage-msg sage-welcome">
-      <div class="wlc-icon">🌿</div>
-      <div class="wlc-title">Hi, I'm Shugi AI.</div>
-      <div class="wlc-sub">A space to think things through — rough patches, decisions, healing, or just what's on your mind. Everything stays private.</div>
-    </div>
-  </div>
-
-  <div class="sage-inputbar">
-    <textarea id="sage-input" placeholder="What's on your mind?" rows="1"
-              oninput="sageAutoResize(this)"
-              onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sageSend();}"></textarea>
-    <button id="sage-send" onclick="sageSend()">↑</button>
-  </div>
-</div>
-
-<script>
-// ── Sage Auth + Chat ─────────────────────────────────────────────────────────
-const _API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://api.shugiai.com';
-const SAGE_API = _API_BASE + '/api/chat';
-let sageOpen = false;
-let sageStreaming = false;
-let sageHistory = [];
-let sageSessionId = localStorage.getItem('sage_session') || null;
-let sageToken    = localStorage.getItem('sage_token') || null;
-let sageUsername = localStorage.getItem('sage_username') || null;
-
-// ── Auth ─────────────────────────────────────────────────────────────────────
-let _sageAuthMode = 'register'; // 'register' | 'login'
-
-function sageShowAuth(mode) {
-  _sageAuthMode = mode || 'register';
-  document.getElementById('sage-auth').style.display = 'flex';
-  document.getElementById('sage-messages').style.display = 'none';
-  document.getElementById('sage-inputbar').style.display = 'none';
-  document.getElementById('sage-clear-btn').style.display = 'none';
-  document.getElementById('sage-user-chip').style.display = 'none';
-  sageAuthMode(_sageAuthMode);
-}
-
-function sageShowChat() {
-  document.getElementById('sage-auth').style.display = 'none';
-  document.getElementById('sage-messages').style.display = 'flex';
-  document.getElementById('sage-inputbar').style.display = 'flex';
-  document.getElementById('sage-clear-btn').style.display = '';
-  const chip = document.getElementById('sage-user-chip');
-  chip.textContent = sageUsername || '';
-  chip.style.display = sageUsername ? '' : 'none';
-  document.getElementById('sage-status').textContent = 'Mental health support · AI';
-}
-
-function sageAuthMode(mode) {
-  _sageAuthMode = mode;
-  const isReg = mode === 'register';
-  document.getElementById('sage-auth-title').textContent = isReg ? 'Welcome to Shugi AI' : 'Sign in to Shugi AI';
-  document.getElementById('sage-auth-sub').innerHTML = isReg
-    ? 'Create a free account to start your conversation.<br>Everything is private and stays with you.'
-    : 'Continue your conversations with Shugi AI.';
-  document.getElementById('sage-auth-email').style.display = isReg ? '' : 'none';
-  document.getElementById('sage-auth-pass').placeholder = isReg ? 'Password (min 6 chars)' : 'Password';
-  document.getElementById('sage-auth-pass').autocomplete = isReg ? 'new-password' : 'current-password';
-  document.getElementById('sage-auth-btn').textContent = isReg ? 'Create account' : 'Sign in';
-  document.querySelector('.sage-auth-switch').innerHTML = isReg
-    ? 'Already have an account? <a onclick="sageAuthMode(\'login\')">Sign in</a>'
-    : 'New here? <a onclick="sageAuthMode(\'register\')">Create account</a>';
-  document.getElementById('sage-auth-err').textContent = '';
-  ['sage-auth-user','sage-auth-email','sage-auth-pass'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-}
-
-async function sageAuthSubmit() {
-  const username = document.getElementById('sage-auth-user').value.trim();
-  const password = document.getElementById('sage-auth-pass').value;
-  const email    = document.getElementById('sage-auth-email').value.trim() || undefined;
-  const errEl    = document.getElementById('sage-auth-err');
-  const btn      = document.getElementById('sage-auth-btn');
-
-  errEl.textContent = '';
-  if (!username) { errEl.textContent = 'Enter a username'; return; }
-  if (!password) { errEl.textContent = 'Enter a password'; return; }
-
-  btn.disabled = true;
-  btn.textContent = '...';
-
-  const endpoint = _API_BASE + (_sageAuthMode === 'register' ? '/api/auth/register' : '/api/auth/login');
-  const body = _sageAuthMode === 'register'
-    ? { username, password, email }
-    : { username, password };
-
-  try {
-    const r = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const data = await r.json();
-    if (!r.ok) {
-      errEl.textContent = data.detail || 'Something went wrong';
-      return;
-    }
-    sageToken    = data.token;
-    sageUsername = data.user.username;
-    localStorage.setItem('sage_token', sageToken);
-    localStorage.setItem('sage_username', sageUsername);
-    sageShowChat();
-  } catch (e) {
-    errEl.textContent = 'Could not reach server';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = _sageAuthMode === 'register' ? 'Create account' : 'Sign in';
-  }
-}
-
-// Allow Enter key in auth form
-['sage-auth-user','sage-auth-email','sage-auth-pass'].forEach(id => {
-  document.getElementById(id)?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') sageAuthSubmit();
-  });
-});
-
-// ── Toggle ────────────────────────────────────────────────────────────────────
-function sageToggle() {
-  sageOpen = !sageOpen;
-  document.getElementById('sage-drawer').classList.toggle('open', sageOpen);
-  document.getElementById('sage-btn').classList.toggle('open', sageOpen);
-  document.getElementById('sage-backdrop').classList.toggle('open', sageOpen);
-  document.body.style.overflow = sageOpen ? 'hidden' : '';
-  if (sageOpen) {
-    document.getElementById('sage-dot').style.display = 'none';
-    // Check auth state
-    if (!sageToken) {
-      sageShowAuth('register');
-    } else {
-      sageShowChat();
-      setTimeout(() => document.getElementById('sage-input').focus(), 340);
-    }
-  }
-}
-
-function sageAutoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
-}
-
-function sageScrollBottom() {
-  const m = document.getElementById('sage-messages');
-  m.scrollTop = m.scrollHeight;
-}
-
-// Render minimal markdown: **bold**, *italic*, inline `code`
-function sageMd(text) {
-  return text
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/`([^`]+)`/g,'<code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:4px;font-size:.82em">$1</code>');
-}
-
-function sageAppendMsg(role, text, id) {
-  const el = document.createElement('div');
-  el.className = `sage-msg ${role}`;
-  if (id) el.id = id;
-  if (role === 'assistant') {
-    el.innerHTML = sageMd(text);
-  } else {
-    el.textContent = text;
-  }
-  document.getElementById('sage-messages').appendChild(el);
-  sageScrollBottom();
-  return el;
-}
-
-function sageClear() {
-  sageHistory = [];
-  sageSessionId = null;
-  localStorage.removeItem('sage_session');
-  const msgs = document.getElementById('sage-messages');
-  msgs.innerHTML = `
-    <div class="sage-msg sage-welcome">
-      <div class="wlc-icon">🌿</div>
-      <div class="wlc-title">Hi${sageUsername ? ', ' + sageUsername : ''} — I'm Shugi AI.</div>
-      <div class="wlc-sub">A space to think things through — rough patches, decisions, healing, or just what's on your mind. Everything stays private.</div>
-    </div>`;
-}
-
-function sageGetQuizCtx() {
-  // Collect quiz results stored by the quiz engine
-  const ctx = {};
-  const keys = ['love_result','trauma_result','style_result','wound_result','healing_result','compassion_result'];
-  for (const k of keys) {
-    const v = localStorage.getItem(k);
-    if (v) ctx[k.replace('_result','')] = v;
-  }
-  return Object.keys(ctx).length ? ctx : null;
-}
-
-async function sageSend() {
-  if (sageStreaming) return;
-  const input = document.getElementById('sage-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-  document.getElementById('sage-send').disabled = true;
-  sageStreaming = true;
-  document.getElementById('sage-status').textContent = 'Shugi AI is thinking…';
-
-  sageAppendMsg('user', msg);
-  sageHistory.push({ role: 'user', content: msg });
-
-  // Typing indicator — animated dots
-  const typingEl = document.createElement('div');
-  typingEl.className = 'sage-typing-wrap';
-  typingEl.id = 'sage-typing';
-  typingEl.innerHTML = '<div class="sage-dot-bounce"></div><div class="sage-dot-bounce"></div><div class="sage-dot-bounce"></div>';
-  document.getElementById('sage-messages').appendChild(typingEl);
-  sageScrollBottom();
-
-  const payload = {
-    message: msg,
-    session_id: sageSessionId,
-    history: sageHistory.slice(0, -1),   // exclude last user msg (server appends it)
-    quiz_context: sageHistory.length === 1 ? sageGetQuizCtx() : null
-  };
-
-  let assistantEl = null;
-  let fullText = '';
-
-  try {
-    const resp = await fetch(SAGE_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + sageToken
-      },
-      body: JSON.stringify(payload)
-    });
-
-    // Token expired or invalid
-    if (resp.status === 401) {
-      sageToken = null; sageUsername = null;
-      localStorage.removeItem('sage_token');
-      localStorage.removeItem('sage_username');
-      sageShowAuth('login');
-      sageStreaming = false;
-      document.getElementById('sage-send').disabled = false;
-      return;
-    }
-
-    if (!resp.ok) throw new Error(`Server error ${resp.status}`);
-
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop(); // keep incomplete last line
-
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const raw = line.slice(6).trim();
-        if (!raw) continue;
-
-        let chunk;
-        try { chunk = JSON.parse(raw); } catch { continue; }
-
-        if (chunk.session_id && !sageSessionId) {
-          sageSessionId = chunk.session_id;
-          localStorage.setItem('sage_session', sageSessionId);
-        }
-
-        if (chunk.error) {
-          if (typingEl.parentNode) typingEl.remove();
-          sageAppendMsg('assistant', '⚠️ Something went wrong. Is the server running?');
-          break;
-        }
-
-        if (chunk.token) {
-          if (typingEl.parentNode) typingEl.remove();
-          if (!assistantEl) {
-            assistantEl = document.createElement('div');
-            assistantEl.className = 'sage-msg assistant';
-            document.getElementById('sage-messages').appendChild(assistantEl);
-          }
-          fullText += chunk.token;
-          assistantEl.innerHTML = sageMd(fullText);
-          sageScrollBottom();
-        }
-
-        if (chunk.done) break;
-      }
-    }
-
-    if (fullText) sageHistory.push({ role: 'assistant', content: fullText });
-
-  } catch (err) {
-    if (typingEl.parentNode) typingEl.remove();
-    if (!assistantEl) {
-      sageAppendMsg('assistant', '⚠️ Could not reach Shugi AI. Make sure the server is running.');
-    }
-  } finally {
-    sageStreaming = false;
-    document.getElementById('sage-send').disabled = false;
-    document.getElementById('sage-status').textContent = 'Mental health support · AI';
-    // Show dot if drawer is closed
-    if (!sageOpen && fullText) {
-      document.getElementById('sage-dot').style.display = 'block';
-    }
-  }
-}
-</script>
 
 </body>
 </html>
