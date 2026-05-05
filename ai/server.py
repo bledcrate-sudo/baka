@@ -516,7 +516,10 @@ async def chat_page():
 
 @app.get("/")
 async def index():
-    return FileResponse(ROOT / "index.html")
+    return FileResponse(ROOT / "dist" / "index.html")
+
+# Serve built React assets (JS/CSS bundles) from dist/assets
+app.mount("/assets", StaticFiles(directory=ROOT / "dist" / "assets"), name="assets")
 
 app.mount("/", StaticFiles(directory=ROOT, html=True), name="static")
 

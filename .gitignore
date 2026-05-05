@@ -24,3 +24,15 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Node / build
+node_modules/
+dist/
+package-lock.json
+
+# Vite
+*.local
+
+# Logs
+*.log
+*.log.*
