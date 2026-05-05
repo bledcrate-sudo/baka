@@ -25,7 +25,6 @@ export default function Hub({ goTo, launchQuiz }) {
 
       {/* Header */}
       <div className="text-center mb-9">
-        <p className="font-serif italic text-[0.8rem] text-white/25 mb-5 tracking-wide">for my love, israe</p>
         <div className="w-[68px] h-[68px] rounded-[22px] bg-white/5 border border-white/10 flex items-center justify-center text-[34px] mx-auto mb-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">🪐</div>
         <h1 className="font-serif text-[2.4rem] sm:text-[2.6rem] font-bold leading-[1.15] tracking-[-0.5px] mb-2.5"
           style={{ background: 'linear-gradient(135deg, #e8607a 0%, #c084fc 50%, #2ec4b6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
