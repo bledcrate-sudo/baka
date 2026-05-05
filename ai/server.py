@@ -33,6 +33,25 @@ API_BASE_URL        = CFG.get("api_base_url", "https://integrate.api.nvidia.com/
 API_KEY             = CFG.get("api_key", "")
 API_MODEL           = CFG.get("api_model", "z-ai/glm4.7")
 RUNTIME_SETTINGS    = BASE / "runtime_settings.json"
+MODELFILE_PATH      = BASE / "Modelfile"
+
+# ─── Parse system prompt from Modelfile for API backend ──────────────────────
+def _parse_system_prompt() -> str:
+    """Extract the SYSTEM block from the Ollama Modelfile."""
+    try:
+        text = MODELFILE_PATH.read_text(encoding="utf-8")
+        # Find SYSTEM """..."""
+        start_marker = 'SYSTEM """'
+        end_marker   = '"""\nPARAMETER'
+        start = text.find(start_marker)
+        end   = text.find(end_marker, start)
+        if start == -1 or end == -1:
+            return ""
+        return text[start + len(start_marker):end].strip()
+    except Exception:
+        return ""
+
+SYSTEM_PROMPT = _parse_system_prompt()
 
 # ─── Runtime settings (persist model_backend across restarts) ────────────────
 def _load_runtime() -> dict:
@@ -388,9 +407,15 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     async def generate_api():
         full = []
         try:
+            # Prepend Shugi system prompt so the cloud model knows who it is
+            api_messages = []
+            if SYSTEM_PROMPT:
+                api_messages.append({"role": "system", "content": SYSTEM_PROMPT})
+            api_messages.extend(messages)
+
             payload = {
                 "model": API_MODEL,
-                "messages": messages,
+                "messages": api_messages,
                 "temperature": 0.7,
                 "top_p": 0.92,
                 "max_tokens": MAX_RESPONSE_TOKENS,
