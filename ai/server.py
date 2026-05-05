@@ -20,13 +20,36 @@ ROOT = BASE.parent
 with open(BASE / "config.json") as f:
     CFG = json.load(f)
 
-OLLAMA_URL    = CFG["ollama_url"]
-MODEL         = CFG["model"]
-ADMIN_USER    = CFG.get("admin_username", "admin")
-ADMIN_PASS    = CFG["admin_password"]
-DB_PATH       = BASE / CFG["db_path"]
-TOKEN_EXPIRY  = 30 * 24 * 3600   # 30 days for users
-ADMIN_EXPIRY  = 12 * 3600        # 12 hours for admin
+OLLAMA_URL          = CFG["ollama_url"]
+MODEL               = CFG["model"]
+ADMIN_USER          = CFG.get("admin_username", "admin")
+ADMIN_PASS          = CFG["admin_password"]
+DB_PATH             = BASE / CFG["db_path"]
+TOKEN_EXPIRY        = 30 * 24 * 3600
+ADMIN_EXPIRY        = 12 * 3600
+MAX_HISTORY_MSGS    = CFG.get("max_history_messages", 12)
+MAX_RESPONSE_TOKENS = CFG.get("max_response_tokens", 700)
+API_BASE_URL        = CFG.get("api_base_url", "https://integrate.api.nvidia.com/v1")
+API_KEY             = CFG.get("api_key", "")
+API_MODEL           = CFG.get("api_model", "z-ai/glm4.7")
+RUNTIME_SETTINGS    = BASE / "runtime_settings.json"
+
+# ─── Runtime settings (persist model_backend across restarts) ────────────────
+def _load_runtime() -> dict:
+    if RUNTIME_SETTINGS.exists():
+        try:
+            with open(RUNTIME_SETTINGS) as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"model_backend": "ollama"}
+
+def _save_runtime(data: dict):
+    with open(RUNTIME_SETTINGS, "w") as f:
+        json.dump(data, f, indent=2)
+
+def get_backend() -> str:
+    return _load_runtime().get("model_backend", "ollama")
 
 # ─── Password helpers ────────────────────────────────────────────────────────
 def hash_password(password: str) -> str:
@@ -145,6 +168,23 @@ async def init_db():
                 (ADMIN_USER, hash_password(ADMIN_PASS), ADMIN_PASS, admin["id"])
             )
             await db.commit()
+
+    # Warm up model — loads it into VRAM and primes KV cache for system prompt
+    # keep_alive=-1 keeps it loaded indefinitely between requests
+    try:
+        async with httpx.AsyncClient(timeout=90.0) as client:
+            await client.post(
+                f"{OLLAMA_URL}/api/chat",
+                json={
+                    "model": MODEL,
+                    "messages": [{"role": "user", "content": "hi"}],
+                    "stream": False,
+                    "keep_alive": -1,
+                    "options": {"num_predict": 1},
+                }
+            )
+    except Exception:
+        pass  # non-fatal — server still starts fine
 
 # ─── Auth helpers ────────────────────────────────────────────────────────────
 async def _get_user_from_token(request: Request, db: aiosqlite.Connection):
@@ -284,23 +324,46 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
         )
         await wdb.commit()
 
-    # Build Ollama messages
-    ollama_messages = list(history)
+    # Build messages — cap history to keep context lean
+    history_trimmed = list(history)[-MAX_HISTORY_MSGS:]
+    messages = list(history_trimmed)
     if quiz_ctx and len(history) == 0:
         ctx_text = "Quiz context (use silently):\n" + "\n".join(
             f"- {k}: {v}" for k, v in quiz_ctx.items()
         )
-        ollama_messages.insert(0, {"role": "system", "content": ctx_text})
-    ollama_messages.append({"role": "user", "content": user_msg})
+        messages.insert(0, {"role": "system", "content": ctx_text})
+    messages.append({"role": "user", "content": user_msg})
 
-    ollama_payload = {"model": MODEL, "messages": ollama_messages, "stream": True}
+    backend = get_backend()
 
-    async def generate():
-        full_response = []
+    async def _save_response(text: str):
+        if not text:
+            return
+        log_now = int(time.time())
+        async with aiosqlite.connect(DB_PATH) as wdb:
+            await wdb.execute(
+                "INSERT INTO messages (session_id, role, content, ts) VALUES (?,?,?,?)",
+                (session_id, "assistant", text, log_now)
+            )
+            await wdb.execute(
+                "UPDATE sessions SET updated_at=? WHERE id=?", (log_now, session_id)
+            )
+            await wdb.commit()
+
+    # ── Ollama streaming ──────────────────────────────────────────────────────
+    async def generate_ollama():
+        full = []
         try:
+            payload = {
+                "model": MODEL,
+                "messages": messages,
+                "stream": True,
+                "keep_alive": -1,
+                "options": {"num_predict": MAX_RESPONSE_TOKENS},
+            }
             async with httpx.AsyncClient(timeout=120.0) as client:
                 async with client.stream("POST", f"{OLLAMA_URL}/api/chat",
-                                         json=ollama_payload) as resp:
+                                         json=payload) as resp:
                     yield f"data: {json.dumps({'session_id': session_id})}\n\n"
                     async for line in resp.aiter_lines():
                         if not line:
@@ -311,7 +374,7 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
                             continue
                         tok = chunk.get("message", {}).get("content", "")
                         if tok:
-                            full_response.append(tok)
+                            full.append(tok)
                             yield f"data: {json.dumps({'token': tok})}\n\n"
                         if chunk.get("done"):
                             yield f"data: {json.dumps({'done': True})}\n\n"
@@ -319,21 +382,82 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
         except Exception as e:
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
         finally:
-            if full_response:
-                assistant_text = "".join(full_response)
-                log_now = int(time.time())
-                async with aiosqlite.connect(DB_PATH) as wdb:
-                    await wdb.execute(
-                        "INSERT INTO messages (session_id, role, content, ts) VALUES (?,?,?,?)",
-                        (session_id, "assistant", assistant_text, log_now)
-                    )
-                    await wdb.execute(
-                        "UPDATE sessions SET updated_at=? WHERE id=?", (log_now, session_id)
-                    )
-                    await wdb.commit()
+            await _save_response("".join(full))
 
-    return StreamingResponse(generate(), media_type="text/event-stream",
+    # ── API (OpenAI-compat) streaming ─────────────────────────────────────────
+    async def generate_api():
+        full = []
+        try:
+            payload = {
+                "model": API_MODEL,
+                "messages": messages,
+                "temperature": 0.7,
+                "top_p": 0.92,
+                "max_tokens": MAX_RESPONSE_TOKENS,
+                "stream": True,
+                "extra_body": {
+                    "chat_template_kwargs": {
+                        "enable_thinking": True,
+                        "clear_thinking": False,
+                    }
+                },
+            }
+            headers = {
+                "Authorization": f"Bearer {API_KEY}",
+                "Content-Type": "application/json",
+            }
+            yield f"data: {json.dumps({'session_id': session_id})}\n\n"
+            async with httpx.AsyncClient(timeout=120.0) as client:
+                async with client.stream(
+                    "POST",
+                    f"{API_BASE_URL}/chat/completions",
+                    json=payload,
+                    headers=headers,
+                ) as resp:
+                    async for line in resp.aiter_lines():
+                        if not line or not line.startswith("data:"):
+                            continue
+                        raw = line[5:].strip()
+                        if raw == "[DONE]":
+                            yield f"data: {json.dumps({'done': True})}\n\n"
+                            break
+                        try:
+                            chunk = json.loads(raw)
+                        except json.JSONDecodeError:
+                            continue
+                        delta = chunk.get("choices", [{}])[0].get("delta", {})
+                        # Skip reasoning/thinking tokens — only stream final content
+                        tok = delta.get("content") or ""
+                        if tok:
+                            full.append(tok)
+                            yield f"data: {json.dumps({'token': tok})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+        finally:
+            await _save_response("".join(full))
+
+    generator = generate_ollama() if backend == "ollama" else generate_api()
+    return StreamingResponse(generator, media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+# ─── Admin — Settings ─────────────────────────────────────────────────────────
+@app.get("/0x/api/settings")
+async def admin_get_settings(admin=Depends(require_admin)):
+    data = _load_runtime()
+    data["available_backends"] = ["ollama", "api"]
+    data["ollama_model"] = MODEL
+    data["api_model"] = API_MODEL
+    data["api_base_url"] = API_BASE_URL
+    return data
+
+@app.post("/0x/api/settings")
+async def admin_update_settings(request: Request, admin=Depends(require_admin)):
+    body = await request.json()
+    data = _load_runtime()
+    if "model_backend" in body and body["model_backend"] in ("ollama", "api"):
+        data["model_backend"] = body["model_backend"]
+    _save_runtime(data)
+    return data
 
 # ─── Admin — Stats ────────────────────────────────────────────────────────────
 @app.get("/0x/api/stats")

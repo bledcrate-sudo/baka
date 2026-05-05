@@ -946,6 +946,155 @@
       padding-bottom: max(56px, calc(56px + env(safe-area-inset-bottom)));
     }
   }
+
+  /* ─────────────────── SETTINGS MODAL ─────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .settings-modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 480px;
+    transform: translateY(16px) scale(0.98);
+    transition: transform .25s ease;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  .modal-overlay.open .settings-modal {
+    transform: translateY(0) scale(1);
+  }
+  .settings-modal h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .settings-modal .modal-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .settings-group {
+    margin-bottom: 24px;
+  }
+  .settings-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .backend-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .backend-btn {
+    padding: 16px 12px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all .2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .backend-btn .b-icon { font-size: 1.6rem; }
+  .backend-btn .b-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+  .backend-btn .b-detail { font-size: 0.68rem; color: var(--muted); font-weight: 400; word-break: break-all; }
+  .backend-btn:hover { border-color: rgba(124,106,247,0.4); background: rgba(124,106,247,0.05); }
+  .backend-btn.active {
+    border-color: var(--accent);
+    background: rgba(124,106,247,0.12);
+    color: var(--text);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.12);
+  }
+  .backend-btn.active .b-detail { color: rgba(124,106,247,0.8); }
+  .settings-status {
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .settings-status .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--green);
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+  .modal-save-btn {
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+  }
+  .modal-save-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .modal-save-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .modal-cancel-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+  }
+  .modal-cancel-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+  .settings-save-msg {
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-right: auto;
+    display: none;
+  }
+  .settings-save-msg.ok { color: var(--green); }
+  .settings-save-msg.err { color: var(--red); }
 </style>
 </head>
 <body>
@@ -985,6 +1134,7 @@
       <span class="topbar-meta" id="last-refreshed">–</span>
       <span class="topbar-refresh-compact" id="refresh-compact" aria-hidden="true"><span class="auto-icon" id="auto-icon-compact">⟳</span><span id="refresh-compact-time">–</span></span>
       <button class="topbar-btn" id="users-tab-btn" onclick="toggleUsersTab()">👤<span class="btn-label"> Users</span></button>
+      <button class="topbar-btn" onclick="openSettings()">⚙<span class="btn-label"> Settings</span></button>
       <button class="topbar-btn" onclick="manualRefresh()">↻<span class="btn-label"> Refresh</span></button>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
@@ -1081,6 +1231,40 @@
     </div>
     <div class="sessions-list" id="sessions-list">
       <div class="loading">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Settings Modal ── -->
+<div class="modal-overlay" id="settings-overlay" onclick="overlayClickClose(event)">
+  <div class="settings-modal">
+    <h2>⚙ Model Settings</h2>
+    <p class="modal-sub">Choose which backend Shugi AI uses to generate responses. Changes take effect immediately.</p>
+
+    <div class="settings-group">
+      <div class="settings-label">Active backend</div>
+      <div class="settings-status" id="settings-current-status">
+        <span class="status-dot"></span>
+        <span id="settings-current-text">Loading…</span>
+      </div>
+      <div class="backend-toggle">
+        <button class="backend-btn" id="btn-ollama" onclick="selectBackend('ollama')">
+          <span class="b-icon">🖥️</span>
+          <span class="b-name">Local (Ollama)</span>
+          <span class="b-detail" id="ollama-model-label">shugi</span>
+        </button>
+        <button class="backend-btn" id="btn-api" onclick="selectBackend('api')">
+          <span class="b-icon">☁️</span>
+          <span class="b-name">Cloud API</span>
+          <span class="b-detail" id="api-model-label">NVIDIA / GLM-4.7</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <span class="settings-save-msg" id="settings-msg"></span>
+      <button class="modal-cancel-btn" onclick="closeSettings()">Cancel</button>
+      <button class="modal-save-btn" id="settings-save-btn" onclick="saveSettings()">Save</button>
     </div>
   </div>
 </div>
@@ -1704,6 +1888,103 @@
       .replace(/&/g,'&amp;').replace(/</g,'&lt;')
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+
+  // ── Settings ───────────────────────────────────────────────────────────────
+  let _settingsData = null;
+  let _pendingBackend = null;
+
+  async function openSettings() {
+    const overlay = document.getElementById('settings-overlay');
+    overlay.classList.add('open');
+    document.getElementById('settings-msg').style.display = 'none';
+    document.getElementById('settings-save-btn').disabled = false;
+
+    try {
+      const r = await fetch(`${API}/0x/api/settings`, {
+        headers: { 'Authorization': 'Bearer ' + TOKEN }
+      });
+      _settingsData = await r.json();
+      _pendingBackend = _settingsData.model_backend;
+
+      // Update labels
+      document.getElementById('ollama-model-label').textContent = _settingsData.ollama_model || 'shugi';
+      const apiLabel = (_settingsData.api_model || 'z-ai/glm4.7').split('/').pop();
+      document.getElementById('api-model-label').textContent = `NVIDIA · ${apiLabel}`;
+
+      _renderBackendSelection(_pendingBackend);
+      _updateStatusText(_settingsData.model_backend);
+    } catch(e) {
+      document.getElementById('settings-current-text').textContent = 'Failed to load settings';
+    }
+  }
+
+  function closeSettings() {
+    document.getElementById('settings-overlay').classList.remove('open');
+  }
+
+  function overlayClickClose(e) {
+    if (e.target === document.getElementById('settings-overlay')) closeSettings();
+  }
+
+  function selectBackend(backend) {
+    _pendingBackend = backend;
+    _renderBackendSelection(backend);
+    const msg = document.getElementById('settings-msg');
+    msg.style.display = 'none';
+  }
+
+  function _renderBackendSelection(backend) {
+    document.getElementById('btn-ollama').classList.toggle('active', backend === 'ollama');
+    document.getElementById('btn-api').classList.toggle('active', backend === 'api');
+  }
+
+  function _updateStatusText(backend) {
+    const el = document.getElementById('settings-current-text');
+    if (backend === 'ollama') {
+      el.textContent = `Local model (${_settingsData?.ollama_model || 'shugi'}) — running on this machine`;
+    } else {
+      const m = (_settingsData?.api_model || 'z-ai/glm4.7').split('/').pop();
+      el.textContent = `Cloud API · NVIDIA / ${m}`;
+    }
+  }
+
+  async function saveSettings() {
+    if (!_pendingBackend) return;
+    const btn = document.getElementById('settings-save-btn');
+    const msg = document.getElementById('settings-msg');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    try {
+      const r = await fetch(`${API}/0x/api/settings`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + TOKEN,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ model_backend: _pendingBackend })
+      });
+      if (!r.ok) throw new Error('Server error');
+      _settingsData = await r.json();
+      _updateStatusText(_settingsData.model_backend);
+
+      msg.className = 'settings-save-msg ok';
+      msg.textContent = `✓ Switched to ${_pendingBackend === 'ollama' ? 'Local' : 'Cloud API'}`;
+      msg.style.display = 'block';
+    } catch(e) {
+      msg.className = 'settings-save-msg err';
+      msg.textContent = '✗ Failed to save';
+      msg.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save';
+    }
+  }
+
+  // Close settings on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSettings();
+  });
 </script>
 </body>
 </html>

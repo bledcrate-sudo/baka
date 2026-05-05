@@ -4,5 +4,10 @@
   "admin_username": "r",
   "admin_password": "Ridakun@2006",
   "port": 8000,
-  "db_path": "conversations.db"
+  "db_path": "conversations.db",
+  "max_history_messages": 12,
+  "max_response_tokens": 700,
+  "api_base_url": "https://integrate.api.nvidia.com/v1",
+  "api_key": "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",
+  "api_model": "z-ai/glm4.7"
 }
