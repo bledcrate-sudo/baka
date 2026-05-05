@@ -53,6 +53,11 @@ def _parse_system_prompt() -> str:
 
 SYSTEM_PROMPT = _parse_system_prompt()
 
+# ─── Condensed system prompt for API backends (context-limited models) ────────
+_API_PROMPT_PATH = BASE / "api_system_prompt.txt"
+API_SYSTEM_PROMPT = _API_PROMPT_PATH.read_text(encoding="utf-8").strip() \
+    if _API_PROMPT_PATH.exists() else SYSTEM_PROMPT
+
 # ─── Runtime settings (persist model_backend across restarts) ────────────────
 def _load_runtime() -> dict:
     if RUNTIME_SETTINGS.exists():
@@ -310,7 +315,6 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     session_id = body.get("session_id") or str(uuid.uuid4())
     user_msg   = body.get("message", "").strip()
     quiz_ctx   = body.get("quiz_context")
-    history    = body.get("history", [])
 
     if not user_msg:
         raise HTTPException(400, "Empty message")
@@ -323,6 +327,14 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
 
     async with aiosqlite.connect(DB_PATH) as wdb:
         wdb.row_factory = aiosqlite.Row
+
+        # Load existing history from DB before adding new message
+        cur = await wdb.execute(
+            "SELECT role, content FROM messages WHERE session_id=? ORDER BY ts",
+            (session_id,)
+        )
+        db_history = [{"role": r["role"], "content": r["content"]} for r in await cur.fetchall()]
+
         cur = await wdb.execute("SELECT id FROM sessions WHERE id=?", (session_id,))
         if await cur.fetchone():
             await wdb.execute(
@@ -343,10 +355,10 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
         )
         await wdb.commit()
 
-    # Build messages — cap history to keep context lean
-    history_trimmed = list(history)[-MAX_HISTORY_MSGS:]
+    # Build messages from DB history — server owns history, no client trust needed
+    history_trimmed = db_history[-MAX_HISTORY_MSGS:]
     messages = list(history_trimmed)
-    if quiz_ctx and len(history) == 0:
+    if quiz_ctx and len(db_history) == 0:
         ctx_text = "Quiz context (use silently):\n" + "\n".join(
             f"- {k}: {v}" for k, v in quiz_ctx.items()
         )
@@ -407,25 +419,21 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     async def generate_api():
         full = []
         try:
-            # Prepend Shugi system prompt so the cloud model knows who it is
+            # Prepend condensed Shugi system prompt (fits API context limits)
             api_messages = []
-            if SYSTEM_PROMPT:
-                api_messages.append({"role": "system", "content": SYSTEM_PROMPT})
+            if API_SYSTEM_PROMPT:
+                api_messages.append({"role": "system", "content": API_SYSTEM_PROMPT})
             api_messages.extend(messages)
 
             payload = {
                 "model": API_MODEL,
                 "messages": api_messages,
-                "temperature": 0.7,
-                "top_p": 0.92,
                 "max_tokens": MAX_RESPONSE_TOKENS,
+                "temperature": 0.20,
+                "top_p": 0.70,
+                "frequency_penalty": 0.00,
+                "presence_penalty": 0.00,
                 "stream": True,
-                "extra_body": {
-                    "chat_template_kwargs": {
-                        "enable_thinking": True,
-                        "clear_thinking": False,
-                    }
-                },
             }
             headers = {
                 "Authorization": f"Bearer {API_KEY}",
@@ -439,6 +447,12 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
                     json=payload,
                     headers=headers,
                 ) as resp:
+                    # Catch HTTP errors immediately (400/401/422/500 etc.)
+                    if resp.status_code != 200:
+                        err_bytes = await resp.aread()
+                        err_text = err_bytes.decode(errors="replace")[:300]
+                        yield f"data: {json.dumps({'error': f'API {resp.status_code}: {err_text}'})}\n\n"
+                        return
                     async for line in resp.aiter_lines():
                         if not line or not line.startswith("data:"):
                             continue
@@ -464,6 +478,59 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     generator = generate_ollama() if backend == "ollama" else generate_api()
     return StreamingResponse(generator, media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+# ─── User — Sessions ─────────────────────────────────────────────────────────
+@app.get("/api/sessions")
+async def list_user_sessions(request: Request, db: aiosqlite.Connection = Depends(get_db)):
+    user = await require_user(request, db)
+    cur = await db.execute("""
+        SELECT s.id, s.created_at, s.updated_at,
+               (SELECT content FROM messages WHERE session_id=s.id AND role='user'
+                ORDER BY ts LIMIT 1) as title,
+               COUNT(m.id) as msg_count
+        FROM sessions s
+        LEFT JOIN messages m ON m.session_id = s.id
+        WHERE s.user_id = ?
+        GROUP BY s.id
+        ORDER BY s.updated_at DESC
+        LIMIT 100
+    """, (user["id"],))
+    rows = await cur.fetchall()
+    return [{
+        "id":         r["id"],
+        "title":      (r["title"] or "New conversation")[:80],
+        "updated_at": r["updated_at"],
+        "created_at": r["created_at"],
+        "msg_count":  r["msg_count"],
+    } for r in rows]
+
+@app.get("/api/sessions/{session_id}/messages")
+async def get_session_messages(session_id: str, request: Request,
+                                db: aiosqlite.Connection = Depends(get_db)):
+    user = await require_user(request, db)
+    cur = await db.execute("SELECT id FROM sessions WHERE id=? AND user_id=?",
+                           (session_id, user["id"]))
+    if not await cur.fetchone():
+        raise HTTPException(404, "Session not found")
+    cur = await db.execute(
+        "SELECT role, content, ts FROM messages WHERE session_id=? ORDER BY ts",
+        (session_id,)
+    )
+    msgs = await cur.fetchall()
+    return [{"role": m["role"], "content": m["content"], "ts": m["ts"]} for m in msgs]
+
+@app.delete("/api/sessions/{session_id}")
+async def delete_user_session(session_id: str, request: Request,
+                               db: aiosqlite.Connection = Depends(get_db)):
+    user = await require_user(request, db)
+    cur = await db.execute("SELECT id FROM sessions WHERE id=? AND user_id=?",
+                           (session_id, user["id"]))
+    if not await cur.fetchone():
+        raise HTTPException(404, "Session not found")
+    await db.execute("DELETE FROM messages WHERE session_id=?", (session_id,))
+    await db.execute("DELETE FROM sessions WHERE id=?", (session_id,))
+    await db.commit()
+    return {"ok": True}
 
 # ─── Admin — Settings ─────────────────────────────────────────────────────────
 @app.get("/0x/api/settings")

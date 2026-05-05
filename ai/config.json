@@ -8,6 +8,6 @@
   "max_history_messages": 12,
   "max_response_tokens": 700,
   "api_base_url": "https://integrate.api.nvidia.com/v1",
-  "api_key": "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",
-  "api_model": "z-ai/glm4.7"
+  "api_key": "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",
+  "api_model": "google/gemma-3n-e4b-it"
 }
