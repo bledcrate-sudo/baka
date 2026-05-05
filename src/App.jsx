@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import Landing from './components/Landing'
 import Hub from './components/Hub'
 import LoveIntro from './components/LoveIntro'
 import LoveQuiz from './components/LoveQuiz'
@@ -13,7 +14,7 @@ import BgOrbs from './components/BgOrbs'
 import { genericQuizzes } from './data/genericQuizzes'
 
 export default function App() {
-  const [screen, setScreen] = useState('hub')
+  const [screen, setScreen] = useState('landing')
   const [loveState, setLoveState] = useState({ q: 0, totalLove: 0, totalAttach: 0 })
   const [traumaState, setTraumaState] = useState({ selected: null, q: 0, totalResolved: 0 })
   const [genericState, setGenericState] = useState({ quiz: null, q: 0, score: 0, scores: {}, result: null })
@@ -31,6 +32,7 @@ export default function App() {
   }, [goTo])
 
   const screenMap = {
+    landing: <Landing goTo={goTo} />,
     hub: <Hub goTo={goTo} launchQuiz={launchQuiz} />,
     intro: <LoveIntro goTo={goTo} setLoveState={setLoveState} />,
     quiz: <LoveQuiz goTo={goTo} state={loveState} setState={setLoveState} />,
@@ -41,6 +43,15 @@ export default function App() {
     'generic-intro': <GenericIntro goTo={goTo} state={genericState} setState={setGenericState} />,
     'generic-quiz': <GenericQuiz goTo={goTo} state={genericState} setState={setGenericState} />,
     'generic-result': <GenericResult goTo={goTo} state={genericState} />,
+  }
+
+  if (screen === 'landing') {
+    return (
+      <>
+        <BgOrbs />
+        {screenMap.landing}
+      </>
+    )
   }
 
   return (
