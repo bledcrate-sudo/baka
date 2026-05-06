@@ -58,6 +58,86 @@ _API_PROMPT_PATH = BASE / "api_system_prompt.txt"
 API_SYSTEM_PROMPT = _API_PROMPT_PATH.read_text(encoding="utf-8").strip() \
     if _API_PROMPT_PATH.exists() else SYSTEM_PROMPT
 
+# ─── Content Safety Filter ───────────────────────────────────────────────────
+import re
+
+# Patterns that signal jailbreak attempts or requests for harmful content
+_JAILBREAK_PATTERNS = [
+    # DAN / persona hijacks
+    r'\bDAN\b', r'do anything now', r'jailbreak', r'unrestricted mode',
+    r'developer mode', r'god mode', r'no restrictions', r'no limits',
+    r'ignore (your |all )?(previous |prior )?(instructions?|rules?|guidelines?|training)',
+    r'disregard (your |all )?(previous |prior )?(instructions?|rules?|guidelines?)',
+    r'(pretend|act|behave|roleplay|simulate).{0,40}(no rules|no restrictions|unrestricted|without limits)',
+    r'you are now (a|an) (different|new|unrestricted|free)',
+    r'your (true|real|inner|hidden) self',
+    r'(unlock|unfilter|uncensor|enable).{0,30}(mode|self|capabilit)',
+    r'stay in character.{0,40}(no matter|always|never break)',
+    r'(new|updated|override) (instructions?|system prompt|directive)',
+]
+
+# Patterns that signal requests for genuinely harmful content
+_HARMFUL_CONTENT_PATTERNS = [
+    # Explosives & weapons
+    r'\b(c4|c-4|rdx|semtex|tnt|anfo|petn|hmx|thermite)\b',
+    r'(make|build|create|synthesize|manufacture|produce).{0,50}(bomb|explosive|grenade|IED|landmine)',
+    r'(detona|primer|blasting cap|detonator)',
+    r'(ammonium nitrate|nitroglycerin|acetone peroxide|tatp|hmtd).{0,30}(make|mix|combine|create)',
+    r'improvised explosive',
+    # Weapons manufacturing
+    r'(make|print|3d.?print|manufacture|build).{0,40}(gun|firearm|rifle|pistol|silencer|suppressor)',
+    r'convert.{0,30}(semi.?auto|pistol|rifle).{0,30}(full.?auto|automatic)',
+    # Poisons & chemical weapons
+    r'\b(ricin|sarin|vx gas|novichok|botulinum|cyanide).{0,30}(make|create|synthesize|produce|extract)',
+    r'(make|create|synthesize).{0,40}(nerve agent|chemical weapon|bioweapon)',
+    # Drugs manufacturing
+    r'(cook|make|synthesize|manufacture).{0,40}(meth|methamphetamine|fentanyl|heroin)',
+    r'(extract|make).{0,30}(dmt|lsd|mdma).{0,30}(from|using|synthesis)',
+    # Hacking tools
+    r'(write|create|make|build).{0,40}(malware|ransomware|keylogger|trojan|botnet|exploit)',
+    r'(sql injection|xss attack|ddos|bruteforce).{0,30}(script|code|tool|how)',
+    # CSAM — any context
+    r'(child|minor|underage|kid).{0,30}(sexual|nude|naked|porn|explicit)',
+    r'(sexual|erotic|explicit).{0,30}(child|minor|underage|kid)',
+]
+
+_JAILBREAK_RE = re.compile(
+    '|'.join(_JAILBREAK_PATTERNS), re.IGNORECASE | re.DOTALL
+)
+_HARMFUL_RE = re.compile(
+    '|'.join(_HARMFUL_CONTENT_PATTERNS), re.IGNORECASE | re.DOTALL
+)
+
+# Phrases that appear in harmful AI outputs — used to scrub responses
+_HARMFUL_OUTPUT_SIGNALS = [
+    r'(here.{0,10}(is|are)|step \d|instructions? (for|to)).{0,60}(make|build|create|synthesize).{0,60}(c4|explosive|bomb|poison|weapon)',
+    r'step \d.{0,10}:(.*)(nitrate|peroxide|acetone|detonator|primer)',
+    r'(combine|mix).{0,30}(ammonium|nitroglycerin|rdx)',
+    r'(synthesis|recipe|method).{0,30}(c4|explosive|nerve agent|ricin|sarin)',
+]
+_OUTPUT_HARMFUL_RE = re.compile(
+    '|'.join(_HARMFUL_OUTPUT_SIGNALS), re.IGNORECASE | re.DOTALL
+)
+
+SAFE_REDIRECT = (
+    "That's not something I'm here for. I'm Shugi — a mental health companion. "
+    "If something's going on that brought you here, I'm genuinely happy to talk about it."
+)
+
+def check_input_safety(text: str) -> tuple[bool, str]:
+    """Returns (is_safe, reason). Call before sending to model."""
+    if _HARMFUL_RE.search(text):
+        return False, "harmful_content"
+    if _JAILBREAK_RE.search(text):
+        return False, "jailbreak_attempt"
+    return True, ""
+
+def check_output_safety(text: str) -> tuple[bool, str]:
+    """Returns (is_safe, cleaned_text). Call before streaming to client."""
+    if _OUTPUT_HARMFUL_RE.search(text):
+        return False, SAFE_REDIRECT
+    return True, text
+
 # ─── Runtime settings (persist model_backend across restarts) ────────────────
 def _load_runtime() -> dict:
     if RUNTIME_SETTINGS.exists():
@@ -319,6 +399,16 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
     if not user_msg:
         raise HTTPException(400, "Empty message")
 
+    # ── Safety gate — block before model sees it ──────────────────────────────
+    is_safe, reason = check_input_safety(user_msg)
+    if not is_safe:
+        async def _blocked():
+            yield f"data: {json.dumps({'session_id': session_id})}\n\n"
+            yield f"data: {json.dumps({'token': SAFE_REDIRECT})}\n\n"
+            yield f"data: {json.dumps({'done': True})}\n\n"
+        return StreamingResponse(_blocked(), media_type="text/event-stream",
+                                 headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
     ip = (request.headers.get("CF-Connecting-IP")
           or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
           or (request.client.host if request.client else None))
@@ -413,7 +503,10 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
         except Exception as e:
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
         finally:
-            await _save_response("".join(full))
+            assembled = "".join(full)
+            # Output safety — if model leaked harmful content, replace entirely
+            safe, cleaned = check_output_safety(assembled)
+            await _save_response(cleaned if not safe else assembled)
 
     # ── API (OpenAI-compat) streaming ─────────────────────────────────────────
     async def generate_api():
@@ -473,7 +566,13 @@ async def chat(request: Request, db: aiosqlite.Connection = Depends(get_db)):
         except Exception as e:
             yield f"data: {json.dumps({'error': str(e)})}\n\n"
         finally:
-            await _save_response("".join(full))
+            assembled = "".join(full)
+            safe, cleaned = check_output_safety(assembled)
+            if not safe:
+                # Can't unsend already-streamed tokens, but save clean version to DB
+                await _save_response(cleaned)
+            else:
+                await _save_response(assembled)
 
     generator = generate_ollama() if backend == "ollama" else generate_api()
     return StreamingResponse(generator, media_type="text/event-stream",
