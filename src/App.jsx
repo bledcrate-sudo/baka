@@ -57,7 +57,7 @@ export default function App() {
   return (
     <>
       <BgOrbs />
-      <div className="relative z-10 w-full max-w-[640px] mx-auto px-4 py-12 sm:px-6 sm:py-20">
+      <div className="relative z-10 w-full max-w-[640px] mx-auto px-4 py-4 sm:px-6 sm:py-16">
         <div key={screen} className="animate-fade-up">
           {screenMap[screen]}
         </div>

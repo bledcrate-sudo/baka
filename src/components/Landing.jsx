@@ -57,6 +57,7 @@ export default function Landing({ goTo }) {
     >
       {/* Header — flex child so panels start below it */}
       <div
+        className="landing-header"
         style={{
           flexShrink: 0,
           zIndex: 20,
@@ -73,7 +74,7 @@ export default function Landing({ goTo }) {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <div style={{
+          <div className="landing-label" style={{
             fontFamily: '"Cormorant Garamond", serif',
             fontSize: '1.1rem',
             letterSpacing: '0.35em',
@@ -85,7 +86,7 @@ export default function Landing({ goTo }) {
             Shugi
           </div>
 
-          <div style={{
+          <div className="landing-title" style={{
             fontFamily: '"Cormorant Garamond", serif',
             fontSize: 'clamp(1.9rem, 4.5vw, 3rem)',
             fontWeight: 600,
@@ -103,7 +104,7 @@ export default function Landing({ goTo }) {
             Your mind deserves care.<br />Let healing begin.
           </div>
 
-          <div style={{
+          <div className="landing-sub" style={{
             fontFamily: 'Manrope, sans-serif',
             fontSize: 'clamp(0.8rem, 1.5vw, 0.92rem)',
             color: 'rgba(255,255,255,0.38)',
@@ -125,10 +126,11 @@ export default function Landing({ goTo }) {
         flex: 1,
         flexDirection: 'column',
       }}
-        className="sm:flex-row"
+        className="panels-row"
       >
         {/* AI Panel */}
         <button
+          className="landing-panel"
           onMouseEnter={() => setHoverAI(true)}
           onMouseLeave={() => setHoverAI(false)}
           onClick={() => { window.location.href = '/chat' }}
@@ -181,7 +183,7 @@ export default function Landing({ goTo }) {
           }} />
 
           <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 340 }}>
-            <div style={{
+            <div className="panel-icon" style={{
               fontSize: '3.5rem',
               marginBottom: 20,
               filter: hoverAI ? 'drop-shadow(0 0 24px rgba(168,161,248,0.8))' : 'none',
@@ -193,7 +195,7 @@ export default function Landing({ goTo }) {
               🌙
             </div>
 
-            <div style={{
+            <div className="panel-title" style={{
               fontFamily: '"Cormorant Garamond", serif',
               fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
               fontWeight: 700,
@@ -205,7 +207,7 @@ export default function Landing({ goTo }) {
               Shugi AI
             </div>
 
-            <div style={{
+            <div className="panel-desc" style={{
               fontFamily: 'Manrope, sans-serif',
               fontSize: '0.88rem',
               color: 'rgba(168,161,248,0.65)',
@@ -243,6 +245,7 @@ export default function Landing({ goTo }) {
 
         {/* Quiz Panel */}
         <button
+          className="landing-panel"
           onMouseEnter={() => setHoverQ(true)}
           onMouseLeave={() => setHoverQ(false)}
           onClick={() => goTo('hub')}
@@ -284,7 +287,7 @@ export default function Landing({ goTo }) {
           }} />
 
           <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 340 }}>
-            <div style={{
+            <div className="panel-icon" style={{
               fontSize: '3.5rem',
               marginBottom: 20,
               filter: hoverQ ? 'drop-shadow(0 0 24px rgba(232,96,122,0.8))' : 'none',
@@ -296,7 +299,7 @@ export default function Landing({ goTo }) {
               🪐
             </div>
 
-            <div style={{
+            <div className="panel-title" style={{
               fontFamily: '"Cormorant Garamond", serif',
               fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
               fontWeight: 700,
@@ -308,7 +311,7 @@ export default function Landing({ goTo }) {
               Know Yourself
             </div>
 
-            <div style={{
+            <div className="panel-desc" style={{
               fontFamily: 'Manrope, sans-serif',
               fontSize: '0.88rem',
               color: 'rgba(232,96,122,0.65)',
@@ -377,6 +380,22 @@ export default function Landing({ goTo }) {
           .sm\\:block { display: block !important; }
         }
         .hidden { display: none; }
+        @media (min-width: 700px) {
+          .panels-row { flex-direction: row !important; }
+        }
+        @media (max-width: 699px) {
+          .panels-row { flex-direction: column !important; }
+        }
+        @media (max-width: 639px) {
+          .landing-header { padding: 16px 20px 20px !important; }
+          .landing-title { font-size: clamp(1.5rem, 7vw, 2rem) !important; margin-bottom: 8px !important; }
+          .landing-sub { font-size: 0.75rem !important; }
+          .landing-label { font-size: 0.85rem !important; margin-bottom: 10px !important; }
+          .landing-panel { padding: 30px 24px !important; }
+          .panel-icon { font-size: 2.5rem !important; margin-bottom: 12px !important; }
+          .panel-title { font-size: clamp(1.6rem, 8vw, 2.2rem) !important; }
+          .panel-desc { font-size: 0.82rem !important; margin-bottom: 20px !important; }
+        }
       `}</style>
     </div>
   )
