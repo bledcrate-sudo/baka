@@ -80,8 +80,41 @@ export default function Landing({ goTo }) {
             color: 'rgba(255,255,255,0.3)',
             textTransform: 'uppercase',
             fontWeight: 500,
+            marginBottom: 18,
           }}>
             Shugi
+          </div>
+
+          <div style={{
+            fontFamily: '"Cormorant Garamond", serif',
+            fontSize: 'clamp(1.9rem, 4.5vw, 3rem)',
+            fontWeight: 600,
+            lineHeight: 1.2,
+            letterSpacing: '-0.01em',
+            background: 'linear-gradient(135deg, #f0ecfc 0%, rgba(168,161,248,0.85) 45%, rgba(232,96,122,0.9) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: 12,
+            opacity: vis ? 1 : 0,
+            transform: vis ? 'translateY(0)' : 'translateY(12px)',
+            transition: 'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
+          }}>
+            Your mind deserves care.<br />Let healing begin.
+          </div>
+
+          <div style={{
+            fontFamily: 'Manrope, sans-serif',
+            fontSize: 'clamp(0.8rem, 1.5vw, 0.92rem)',
+            color: 'rgba(255,255,255,0.38)',
+            letterSpacing: '0.04em',
+            fontWeight: 400,
+            fontStyle: 'italic',
+            opacity: vis ? 1 : 0,
+            transform: vis ? 'translateY(0)' : 'translateY(10px)',
+            transition: 'opacity 0.9s ease 0.45s, transform 0.9s ease 0.45s',
+          }}>
+            Talk to someone who listens. Understand yourself better. One step at a time.
           </div>
         </div>
       </div>
