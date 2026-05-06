@@ -67,9 +67,9 @@ export default function Landing({ goTo }) {
           opacity: vis ? 1 : 0,
           transform: vis ? 'translateY(0)' : 'translateY(-16px)',
           transition: 'opacity 0.7s ease, transform 0.7s ease',
-          background: 'radial-gradient(ellipse 90% 120% at 50% 0%, rgba(140,130,240,0.13) 0%, rgba(200,80,110,0.06) 55%, transparent 100%)',
-          maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+          background: 'radial-gradient(ellipse 100% 140% at 50% 10%, rgba(150,138,255,0.22) 0%, rgba(210,80,115,0.10) 50%, transparent 80%)',
+          maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
         }}
       >
         <div style={{ textAlign: 'center' }}>
