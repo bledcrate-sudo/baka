@@ -55,15 +55,12 @@ export default function Landing({ goTo }) {
         zIndex: 10,
       }}
     >
-      {/* Header */}
+      {/* Header — flex child so panels start below it */}
       <div
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
+          flexShrink: 0,
           zIndex: 20,
-          padding: '28px 36px',
+          padding: '28px 36px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
