@@ -60,13 +60,16 @@ export default function Landing({ goTo }) {
         style={{
           flexShrink: 0,
           zIndex: 20,
-          padding: '28px 36px 24px',
+          padding: '28px 36px 40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           opacity: vis ? 1 : 0,
           transform: vis ? 'translateY(0)' : 'translateY(-16px)',
           transition: 'opacity 0.7s ease, transform 0.7s ease',
+          background: 'radial-gradient(ellipse 90% 120% at 50% 0%, rgba(140,130,240,0.13) 0%, rgba(200,80,110,0.06) 55%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
         }}
       >
         <div style={{ textAlign: 'center' }}>
