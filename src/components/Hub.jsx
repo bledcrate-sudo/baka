@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const HUB_QUIZZES = [
   // Relationships
@@ -44,6 +44,13 @@ const TAB_LABELS = {
 
 export default function Hub({ goTo, launchQuiz }) {
   const [activeTab, setActiveTab] = useState('All')
+  const [tabScrolled, setTabScrolled] = useState(false)
+
+  const tabBarRef = useRef(null)
+  const isDragging = useRef(false)
+  const dragStartX = useRef(0)
+  const scrollStartLeft = useRef(0)
+  const dragMoved = useRef(0)
 
   const visibleQuizzes = activeTab === 'All'
     ? HUB_QUIZZES
@@ -83,8 +90,37 @@ export default function Hub({ goTo, launchQuiz }) {
       >
         <div className="relative">
           <div
+            ref={tabBarRef}
             className="flex gap-1.5 overflow-x-auto"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', cursor: 'grab' }}
+            onScroll={e => setTabScrolled(e.currentTarget.scrollLeft > 10)}
+            onMouseDown={e => {
+              isDragging.current = true
+              dragStartX.current = e.clientX
+              dragMoved.current = 0
+              scrollStartLeft.current = tabBarRef.current.scrollLeft
+              tabBarRef.current.style.cursor = 'grabbing'
+              tabBarRef.current.style.userSelect = 'none'
+            }}
+            onMouseMove={e => {
+              if (!isDragging.current) return
+              e.preventDefault()
+              const dx = e.clientX - dragStartX.current
+              dragMoved.current = Math.abs(dx)
+              tabBarRef.current.scrollLeft = scrollStartLeft.current - dx
+            }}
+            onMouseUp={() => {
+              isDragging.current = false
+              tabBarRef.current.style.cursor = 'grab'
+              tabBarRef.current.style.userSelect = ''
+            }}
+            onMouseLeave={() => {
+              if (isDragging.current) {
+                isDragging.current = false
+                tabBarRef.current.style.cursor = 'grab'
+                tabBarRef.current.style.userSelect = ''
+              }
+            }}
           >
             {SECTIONS.map(section => {
               const isActive = activeTab === section
@@ -92,7 +128,7 @@ export default function Hub({ goTo, launchQuiz }) {
               return (
                 <button
                   key={section}
-                  onClick={() => setActiveTab(section)}
+                  onClick={() => { if (Math.abs(dragMoved.current) < 5) setActiveTab(section) }}
                   className="rounded-full px-3.5 sm:px-4 text-[0.68rem] sm:text-[0.72rem] font-bold uppercase tracking-[1.5px] whitespace-nowrap transition-all shrink-0"
                   style={{
                     minHeight: '36px',
@@ -108,6 +144,13 @@ export default function Hub({ goTo, launchQuiz }) {
               )
             })}
           </div>
+          {/* Left fade — shows when scrolled past start */}
+          {tabScrolled && (
+            <div
+              className="absolute left-0 top-0 bottom-0 w-8 pointer-events-none z-10"
+              style={{ background: 'linear-gradient(to left, transparent, rgba(14,11,28,0.95))' }}
+            />
+          )}
           {/* Right fade — hints there are more tabs */}
           <div
             className="absolute right-0 top-0 bottom-0 w-10 pointer-events-none"
