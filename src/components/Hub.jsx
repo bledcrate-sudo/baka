@@ -11,6 +11,13 @@ const HUB_QUIZZES = [
   { id: 'phq9', icon: '🌧️', title: 'Am I Experiencing Depression?', sub: 'PHQ-9 clinical screening — the standard tool used by doctors worldwide.', color: '#9b8ff5', colorRgb: '155,143,245', section: 'Mental Health Screening', onClick: (_, l) => l('phq9') },
   { id: 'gad7', icon: '⚡', title: 'How Much Anxiety Am I Carrying?', sub: 'GAD-7 — the clinical standard for measuring anxiety symptoms.', color: '#f472b6', colorRgb: '244,114,182', onClick: (_, l) => l('gad7') },
   { id: 'emreg', icon: '🌊', title: 'How Well Do I Regulate My Emotions?', sub: 'Based on the DERS scale — discover your emotional regulation capacity.', color: '#a8a1f8', colorRgb: '168,161,248', onClick: (_, l) => l('emreg') },
+  // Stress & Burnout
+  { id: 'burnout', icon: '🔥', title: 'Am I Burning Out?', sub: 'Maslach Burnout Inventory — measure exhaustion, cynicism, and lost purpose.', color: '#f97316', colorRgb: '249,115,22', section: 'Stress & Burnout', onClick: (_, l) => l('burnout') },
+  { id: 'stress', icon: '🌀', title: 'How Stressed Am I?', sub: 'PSS-10 — the clinical standard for measuring perceived psychological stress.', color: '#f59e0b', colorRgb: '245,158,11', onClick: (_, l) => l('stress') },
+  // Self & Social
+  { id: 'selfesteem', icon: '🌟', title: 'How Is My Self-Esteem?', sub: 'Rosenberg Self-Esteem Scale — validated in 53+ countries to measure global self-worth.', color: '#10b981', colorRgb: '16,185,129', section: 'Self & Social', onClick: (_, l) => l('selfesteem') },
+  { id: 'loneliness', icon: '🌑', title: 'How Lonely Am I?', sub: 'UCLA Loneliness Scale — the gold standard for measuring perceived social isolation.', color: '#94a3b8', colorRgb: '148,163,184', onClick: (_, l) => l('loneliness') },
+  { id: 'socialanxiety', icon: '👁️', title: 'Do I Have Social Anxiety?', sub: 'Based on SPIN — a validated clinical screen for social anxiety disorder.', color: '#c084fc', colorRgb: '192,132,252', onClick: (_, l) => l('socialanxiety') },
 ]
 
 export default function Hub({ goTo, launchQuiz }) {
@@ -31,7 +38,7 @@ export default function Hub({ goTo, launchQuiz }) {
           Know <em>Yourself</em>
         </h1>
         <p className="text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
-          Nine psychology-based tools to understand your inner world — your patterns in love, your wounds, and your path to healing.
+          Fourteen psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
         </p>
       </div>
 
