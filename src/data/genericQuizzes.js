@@ -1215,6 +1215,774 @@ emreg: {
       extra: `<strong>Score:</strong> ${pct}% difficulty · ${100-pct}% capacity<br><br>Based on: Gratz, K.L., & Roemer, L. (2004). Multidimensional assessment of emotion regulation and dysregulation. <em>Journal of Psychopathology and Behavioral Assessment, 26</em>(1), 41–54.`
     };
   }
-}
+},
+
+
+burnout: {
+  id: 'burnout', color: '#f97316',
+  icon: '🔥', title: 'Am I Burning Out?',
+  descHtml: `Based on Maslach Burnout Inventory (Maslach & Jackson, 1981) — the most validated burnout assessment in occupational psychology. Burnout has three dimensions: exhaustion, cynicism, and reduced personal accomplishment.<br><br><strong>12 questions · ~4 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How often do you feel emotionally drained by your responsibilities?",
+      sub: "Work, relationships, caregiving — any ongoing obligation.",
+      answers: [
+        { text: "Rarely or never", score: 0 },
+        { text: "A few times a month", score: 1 },
+        { text: "A few times a week", score: 2 },
+        { text: "Every day, sometimes multiple times", score: 3 }
+      ]
+    },
+    { text: "By the end of a typical day, how depleted do you feel?",
+      sub: "",
+      answers: [
+        { text: "I still have energy left", score: 0 },
+        { text: "Tired but okay", score: 1 },
+        { text: "Consistently exhausted", score: 2 },
+        { text: "Completely empty — I'm running on nothing", score: 3 }
+      ]
+    },
+    { text: "How often do you wake up already dreading the day ahead?",
+      sub: "",
+      answers: [
+        { text: "Almost never", score: 0 },
+        { text: "Occasionally", score: 1 },
+        { text: "Several times a week", score: 2 },
+        { text: "Almost every morning", score: 3 }
+      ]
+    },
+    { text: "When something goes wrong in your responsibilities, how do you respond emotionally?",
+      sub: "",
+      answers: [
+        { text: "I take it in stride — setbacks happen", score: 0 },
+        { text: "I feel frustrated but recover", score: 1 },
+        { text: "It hits me harder than it should", score: 2 },
+        { text: "I feel numb or don't care anymore", score: 3 }
+      ]
+    },
+    { text: "How do you feel about the people you work with or care for?",
+      sub: "",
+      answers: [
+        { text: "Genuinely connected to them", score: 0 },
+        { text: "Mostly positive, some friction", score: 1 },
+        { text: "Increasingly detached or indifferent", score: 2 },
+        { text: "I've stopped seeing them as individuals — just demands", score: 3 }
+      ]
+    },
+    { text: "How meaningful does your work or daily role feel right now?",
+      sub: "",
+      answers: [
+        { text: "Deeply meaningful", score: 0 },
+        { text: "Generally worthwhile", score: 1 },
+        { text: "I've lost sight of why it matters", score: 2 },
+        { text: "It feels pointless", score: 3 }
+      ]
+    },
+    { text: "How often do you feel resentful toward your responsibilities?",
+      sub: "",
+      answers: [
+        { text: "Rarely", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Often", score: 2 },
+        { text: "Almost constantly", score: 3 }
+      ]
+    },
+    { text: "Do you feel like no matter how much you do, it's never enough?",
+      sub: "",
+      answers: [
+        { text: "No — I feel effective", score: 0 },
+        { text: "Occasionally", score: 1 },
+        { text: "Often", score: 2 },
+        { text: "Yes, that's my constant experience", score: 3 }
+      ]
+    },
+    { text: "How is your ability to concentrate and make decisions lately?",
+      sub: "",
+      answers: [
+        { text: "Sharp and clear", score: 0 },
+        { text: "Slightly slower than usual", score: 1 },
+        { text: "Noticeably impaired", score: 2 },
+        { text: "Difficulty with even simple decisions", score: 3 }
+      ]
+    },
+    { text: "How often do you feel physically ill or have unexplained physical symptoms (headaches, stomach issues, tension)?",
+      sub: "",
+      answers: [
+        { text: "Rarely", score: 0 },
+        { text: "Once in a while", score: 1 },
+        { text: "Fairly regularly", score: 2 },
+        { text: "Very frequently", score: 3 }
+      ]
+    },
+    { text: "How often do you feel detached from your own life — like you're going through the motions?",
+      sub: "",
+      answers: [
+        { text: "Rarely", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Often", score: 2 },
+        { text: "Most of the time", score: 3 }
+      ]
+    },
+    { text: "When was the last time you felt genuinely energized by your work or daily life?",
+      sub: "",
+      answers: [
+        { text: "Recently — within the past week", score: 0 },
+        { text: "A few weeks ago", score: 1 },
+        { text: "It's been months", score: 2 },
+        { text: "I can't remember", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, meterLeft, meterRight;
+    meterLeft = '🌿 Thriving';
+    meterRight = '🔥 Burned Out';
+    if (pct >= 75) {
+      icon = '🔥'; title = 'Severe Burnout';
+      subtitle = 'You are in a burnout crisis — your system is in survival mode, not functioning mode.';
+      traits = [
+        { icon: '🚨', text: '<strong>Immediate relief is the priority — not performance.</strong> Before anything else, reduce the load.' },
+        { icon: '🧠', text: '<strong>Your nervous system has been in chronic stress</strong> for long enough that rest alone won\'t fix it — you need structural change.' },
+        { icon: '💤', text: '<strong>Sleep, nutritional basics, and medical support are the foundation</strong> — emotional work comes after physiological stabilization.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: Christina Maslach\'s Burnout: The Cost of Caring and Emily Nagoski\'s Burnout for practical frameworks.' }
+      ];
+    } else if (pct >= 50) {
+      icon = '⚠️'; title = 'Moderate to High Burnout';
+      subtitle = 'Burnout is actively happening — you\'re still functioning, but you can feel the edges fraying.';
+      traits = [
+        { icon: '⚡', text: '<strong>You\'re still moving, but at a cost</strong> — this level of sustained output is not sustainable.' },
+        { icon: '🔍', text: '<strong>Cynicism and detachment are early defenses</strong> — the mind protecting itself from a system that demands too much.' },
+        { icon: '🔄', text: '<strong>Recovery at this stage requires both rest and genuine re-engagement with meaning</strong> — one without the other won\'t hold.' },
+        { icon: '📖', text: '<strong>Maslach & Leiter\'s Areas of Worklife model</strong> identifies six root causes of burnout — identify which apply to you.' }
+      ];
+    } else if (pct >= 25) {
+      icon = '🌤️'; title = 'Mild Burnout Signs';
+      subtitle = 'You\'re showing early warning signals — pay attention before this deepens.';
+      traits = [
+        { icon: '🌡️', text: '<strong>Early burnout often looks like \'just being tired\'</strong> — it\'s easy to normalize until it becomes severe.' },
+        { icon: '🧩', text: '<strong>The most protective factor against burnout is autonomy</strong> — having input into your own conditions matters enormously.' },
+        { icon: '🌿', text: '<strong>Recovery now is far easier than recovery later</strong> — small, structural changes have high leverage at this stage.' },
+        { icon: '📚', text: '<strong>Nagoski & Nagoski\'s concept of \'completing the stress cycle\'</strong> is useful here — discharge what you\'re carrying.' }
+      ];
+    } else {
+      icon = '✅'; title = 'No Significant Burnout';
+      subtitle = 'You appear to be in a healthy relationship with your responsibilities right now.';
+      traits = [
+        { icon: '🌱', text: '<strong>Your sense of meaning and energy appear intact</strong> — this is the foundation everything else rests on.' },
+        { icon: '🔄', text: '<strong>Even at this level, prevention matters</strong> — burnout tends to develop gradually before it becomes visible.' },
+        { icon: '🤝', text: '<strong>Connection and control are the two strongest buffers</strong> — keep investing in both.' },
+        { icon: '💡', text: '<strong>Maslach\'s research shows burnout is a systemic problem, not a personal failure</strong> — knowing this is protective.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft,
+      meterRight,
+      extra: `<strong>Score:</strong> ${pct}% burnout indicators<br><br>Based on: Maslach, C., &amp; Jackson, S.E. (1981). The measurement of experienced burnout. <em>Journal of Organizational Behavior, 2</em>(2), 99–113.`
+    };
+  }
+},
+
+loneliness: {
+  id: 'loneliness', color: '#94a3b8',
+  icon: '🌑', title: 'How Lonely Am I?',
+  descHtml: `Based on the UCLA Loneliness Scale Version 3 (Russell, 1996) — the most widely used and validated loneliness measure in social psychology. Loneliness is a perceived social isolation, distinct from physical aloneness.<br><br><strong>10 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How often do you feel that you lack companionship?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel left out?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel isolated from others?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that you have people you can talk to?",
+      sub: "Reverse item — not having people is the lonely answer.",
+      answers: [
+        { text: "Always", score: 0 },
+        { text: "Usually", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Rarely or never", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that people around you share your interests and ideas?",
+      sub: "",
+      answers: [
+        { text: "Always", score: 0 },
+        { text: "Usually", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Rarely or never", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that there are people you can turn to?",
+      sub: "",
+      answers: [
+        { text: "Always", score: 0 },
+        { text: "Usually", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Rarely or never", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that your relationships are superficial?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that no one really knows you well?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel that you are 'on the outside looking in'?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    },
+    { text: "How often do you feel completely alone, even in the company of others?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Often", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, meterLeft, meterRight;
+    meterLeft = '🤝 Connected';
+    meterRight = '🌑 Isolated';
+    if (pct >= 70) {
+      icon = '🌑'; title = 'High Loneliness';
+      subtitle = 'You are experiencing significant loneliness — a real and painful absence of felt connection.';
+      traits = [
+        { icon: '🧠', text: '<strong>Loneliness activates the same neural pathways as physical pain</strong> — this is not \'just a feeling\', it\'s a biological signal.' },
+        { icon: '🔍', text: '<strong>At this level, the mind often begins anticipating rejection</strong> — which paradoxically makes connection harder to initiate.' },
+        { icon: '🌱', text: '<strong>Quality over quantity</strong>: research by Cacioppo shows one genuine connection matters more than many superficial ones.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: John Cacioppo\'s Loneliness: Human Nature and the Need for Social Connection — the definitive scientific account.' }
+      ];
+    } else if (pct >= 40) {
+      icon = '🌒'; title = 'Moderate Loneliness';
+      subtitle = 'You feel disconnected in meaningful ways — the connections you have don\'t fully satisfy your need to be seen.';
+      traits = [
+        { icon: '👁️', text: '<strong>Moderate loneliness often isn\'t about the number of people around you</strong> — it\'s about depth of being truly known.' },
+        { icon: '🔄', text: '<strong>Cacioppo\'s research shows loneliness is contagious within social networks</strong> — and so is connection. Invest in one relationship.' },
+        { icon: '🗣️', text: '<strong>Self-disclosure research (Jourard, 1971) shows that being willing to be known</strong> is what creates intimacy — not shared activities alone.' },
+        { icon: '💡', text: '<strong>Loneliness and solitude are different</strong>: solitude is chosen, restorative; loneliness is an involuntary pain. This matters for how you work with it.' }
+      ];
+    } else if (pct >= 15) {
+      icon = '🌔'; title = 'Mild or Situational Loneliness';
+      subtitle = 'Some disconnection is present, but your social foundation is relatively intact.';
+      traits = [
+        { icon: '🌤️', text: '<strong>Some loneliness is normal</strong> — particularly during transitions, losses, or periods of major change.' },
+        { icon: '🤝', text: '<strong>The connections you have appear to be serving you reasonably well</strong> — even if not perfectly.' },
+        { icon: '🌿', text: '<strong>Small investments in existing relationships tend to have high returns</strong> at this level.' },
+        { icon: '📚', text: '<strong>Susan Pinker\'s The Village Effect</strong> highlights the power of face-to-face contact as the most effective antidote to loneliness.' }
+      ];
+    } else {
+      icon = '🤝'; title = 'Low Loneliness';
+      subtitle = 'You experience a meaningful sense of connection and belonging in your life.';
+      traits = [
+        { icon: '✅', text: '<strong>A sense of felt connection is one of the most powerful predictors</strong> of wellbeing and longevity.' },
+        { icon: '🌍', text: '<strong>Cacioppo\'s longitudinal research shows social connection rivals smoking cessation</strong> in health impact.' },
+        { icon: '💡', text: '<strong>Connection quality matters more than quantity</strong> — and it sounds like you have both.' },
+        { icon: '🌱', text: '<strong>Being a source of connection for others</strong> is the other half of this equation — and it compounds.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft,
+      meterRight,
+      extra: `<strong>Score:</strong> ${pct}% loneliness indicators<br><br>Based on: Russell, D.W. (1996). UCLA Loneliness Scale Version 3: reliability, validity, and factor structure. <em>Journal of Personality Assessment, 66</em>(1), 20–40.`
+    };
+  }
+},
+
+selfesteem: {
+  id: 'selfesteem', color: '#10b981',
+  icon: '🌟', title: 'How Is My Self-Esteem?',
+  descHtml: `Based on the Rosenberg Self-Esteem Scale (Rosenberg, 1965) — the most widely used self-esteem measure in social science, validated in 53+ countries. Measures global self-worth and self-acceptance.<br><br><strong>10 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I feel that I am a person of worth, at least on an equal basis with others.",
+      sub: "",
+      answers: [
+        { text: "Strongly Disagree", score: 0 },
+        { text: "Disagree", score: 1 },
+        { text: "Agree", score: 2 },
+        { text: "Strongly Agree", score: 3 }
+      ]
+    },
+    { text: "I feel that I have a number of good qualities.",
+      sub: "",
+      answers: [
+        { text: "Strongly Disagree", score: 0 },
+        { text: "Disagree", score: 1 },
+        { text: "Agree", score: 2 },
+        { text: "Strongly Agree", score: 3 }
+      ]
+    },
+    { text: "All in all, I am inclined to feel that I am a failure.",
+      sub: "Reflect honestly — this doesn't mean you've failed at everything.",
+      answers: [
+        { text: "Strongly Agree", score: 0 },
+        { text: "Agree", score: 1 },
+        { text: "Disagree", score: 2 },
+        { text: "Strongly Disagree", score: 3 }
+      ]
+    },
+    { text: "I am able to do things as well as most other people.",
+      sub: "",
+      answers: [
+        { text: "Strongly Disagree", score: 0 },
+        { text: "Disagree", score: 1 },
+        { text: "Agree", score: 2 },
+        { text: "Strongly Agree", score: 3 }
+      ]
+    },
+    { text: "I feel I do not have much to be proud of.",
+      sub: "",
+      answers: [
+        { text: "Strongly Agree", score: 0 },
+        { text: "Agree", score: 1 },
+        { text: "Disagree", score: 2 },
+        { text: "Strongly Disagree", score: 3 }
+      ]
+    },
+    { text: "I take a positive attitude toward myself.",
+      sub: "",
+      answers: [
+        { text: "Strongly Disagree", score: 0 },
+        { text: "Disagree", score: 1 },
+        { text: "Agree", score: 2 },
+        { text: "Strongly Agree", score: 3 }
+      ]
+    },
+    { text: "On the whole, I am satisfied with myself.",
+      sub: "",
+      answers: [
+        { text: "Strongly Disagree", score: 0 },
+        { text: "Disagree", score: 1 },
+        { text: "Agree", score: 2 },
+        { text: "Strongly Agree", score: 3 }
+      ]
+    },
+    { text: "I wish I could have more respect for myself.",
+      sub: "",
+      answers: [
+        { text: "Strongly Agree", score: 0 },
+        { text: "Agree", score: 1 },
+        { text: "Disagree", score: 2 },
+        { text: "Strongly Disagree", score: 3 }
+      ]
+    },
+    { text: "I certainly feel useless at times.",
+      sub: "",
+      answers: [
+        { text: "Strongly Agree", score: 0 },
+        { text: "Agree", score: 1 },
+        { text: "Disagree", score: 2 },
+        { text: "Strongly Disagree", score: 3 }
+      ]
+    },
+    { text: "At times I think I am no good at all.",
+      sub: "",
+      answers: [
+        { text: "Strongly Agree", score: 0 },
+        { text: "Agree", score: 1 },
+        { text: "Disagree", score: 2 },
+        { text: "Strongly Disagree", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, meterLeft, meterRight;
+    meterLeft = '🌟 High Self-Worth';
+    meterRight = '🪞 Low Self-Worth';
+    if (pct < 35) {
+      icon = '🪞'; title = 'Low Self-Esteem';
+      subtitle = 'Your self-view is currently marked by persistent self-doubt and a lack of felt self-worth.';
+      traits = [
+        { icon: '🧠', text: '<strong>Low self-esteem often feels like objective fact</strong> — \'I am bad at things\' — but it\'s a cognitive distortion, not an accurate assessment.' },
+        { icon: '🔍', text: '<strong>Rosenberg\'s research shows self-esteem is learned</strong> — which means it can change. It is not a fixed trait.' },
+        { icon: '🌿', text: '<strong>The inner critic often sounds protective</strong> (preventing failure, rejection) but actually increases vulnerability to both.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: Kristin Neff\'s Self-Compassion (note: the compassion quiz is also available here) and David Burns\' Feeling Good for practical tools.' }
+      ];
+    } else if (pct < 60) {
+      icon = '🌤️'; title = 'Moderate Self-Esteem';
+      subtitle = 'Your self-worth is present but inconsistent — some areas feel solid, others are undermined by doubt.';
+      traits = [
+        { icon: '🎭', text: '<strong>Moderate self-esteem often comes with \'contingent self-esteem\'</strong> — worth that depends on performance, approval, or appearance.' },
+        { icon: '🔄', text: '<strong>Deci & Ryan\'s self-determination research shows intrinsic (unconditional) self-esteem</strong> is more stable than performance-based worth.' },
+        { icon: '🌱', text: '<strong>The goal isn\'t relentless positivity about yourself</strong> — it\'s an accurate, stable, compassionate appraisal.' },
+        { icon: '💡', text: '<strong>Paying attention to your self-talk in moments of failure</strong> is the most revealing diagnostic — and the most leveraged intervention point.' }
+      ];
+    } else {
+      icon = '🌟'; title = 'Healthy Self-Esteem';
+      subtitle = 'You have a solid foundation of felt self-worth — not arrogance, but genuine self-acceptance.';
+      traits = [
+        { icon: '✅', text: '<strong>Rosenberg\'s research shows high self-esteem predicts resilience, better relationships, and effective coping</strong> — this matters.' },
+        { icon: '🌍', text: '<strong>True self-esteem isn\'t about thinking you\'re better than others</strong> — it\'s about not being constantly at war with yourself.' },
+        { icon: '🤝', text: '<strong>People with secure self-esteem take criticism better</strong>, because their worth doesn\'t depend on never being wrong.' },
+        { icon: '💡', text: '<strong>The maintenance of self-esteem involves honest self-appraisal</strong> — neither grandiosity nor self-flagellation, but clear-eyed acceptance.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft,
+      meterRight,
+      extra: `<strong>Score:</strong> ${pct}% self-esteem<br><br>Based on: Rosenberg, M. (1965). <em>Society and the Adolescent Self-Image.</em> Princeton University Press. Validated in Schmitt, D.P., &amp; Allik, J. (2005) across 53 nations.`
+    };
+  }
+},
+
+stress: {
+  id: 'stress', color: '#f59e0b',
+  icon: '🌀', title: 'How Stressed Am I?',
+  descHtml: `Based on the Perceived Stress Scale-10 (Cohen, Kamarck &amp; Mermelstein, 1983) — the most widely used instrument to measure psychological stress perception. PSS-10 captures how unpredictable, uncontrollable, and overloaded life feels.<br><br><strong>10 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How often have you been upset because of something unexpected?",
+      sub: "In the past month.",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    },
+    { text: "How often have you felt unable to control important things in your life?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    },
+    { text: "How often have you felt nervous or stressed?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    },
+    { text: "How often have you felt confident about your ability to handle personal problems?",
+      sub: "Reverse item — confidence is protective.",
+      answers: [
+        { text: "Very often", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Rarely", score: 2 },
+        { text: "Never", score: 3 }
+      ]
+    },
+    { text: "How often have you felt that things were going your way?",
+      sub: "",
+      answers: [
+        { text: "Very often", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Rarely", score: 2 },
+        { text: "Never", score: 3 }
+      ]
+    },
+    { text: "How often have you found that you could not cope with all the things you had to do?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    },
+    { text: "How often have you been able to control irritations in your life?",
+      sub: "",
+      answers: [
+        { text: "Very often", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Rarely", score: 2 },
+        { text: "Never", score: 3 }
+      ]
+    },
+    { text: "How often have you felt that you were on top of things?",
+      sub: "",
+      answers: [
+        { text: "Very often", score: 0 },
+        { text: "Sometimes", score: 1 },
+        { text: "Rarely", score: 2 },
+        { text: "Never", score: 3 }
+      ]
+    },
+    { text: "How often have you been angered because of things outside your control?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    },
+    { text: "How often have you felt difficulties were piling up so high you could not overcome them?",
+      sub: "",
+      answers: [
+        { text: "Never", score: 0 },
+        { text: "Rarely", score: 1 },
+        { text: "Sometimes", score: 2 },
+        { text: "Very often", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, meterLeft, meterRight;
+    meterLeft = '🌿 Calm';
+    meterRight = '🌪️ Overwhelmed';
+    if (pct >= 70) {
+      icon = '🌪️'; title = 'High Perceived Stress';
+      subtitle = 'You are experiencing significant psychological stress — your system perceives life as substantially uncontrollable and overwhelming.';
+      traits = [
+        { icon: '🚨', text: '<strong>At this level, cognitive function, physical health, and emotional regulation are all impaired</strong> — stress is not \'just mental\'.' },
+        { icon: '🧠', text: '<strong>Cohen\'s research shows high perceived stress is a stronger predictor of health outcomes than objective stressors</strong> — how you interpret pressure matters.' },
+        { icon: '🌿', text: '<strong>The most evidence-based acute interventions</strong>: physiological sigh (double inhale, long exhale), cold exposure, and vigorous exercise to discharge cortisol.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: Robert Sapolsky\'s Why Zebras Don\'t Get Ulcers — the definitive account of chronic stress biology.' }
+      ];
+    } else if (pct >= 45) {
+      icon = '⚡'; title = 'Moderate Stress';
+      subtitle = 'Stress is meaningfully present — not at crisis level, but enough to affect your clarity and capacity.';
+      traits = [
+        { icon: '🔄', text: '<strong>Cohen\'s research shows moderate stress has a nonlinear relationship with performance</strong> — some is optimal, too much becomes impairing.' },
+        { icon: '🎯', text: '<strong>Perceived control is the key variable</strong>: stress that feels uncontrollable is physiologically more damaging than equivalent stress with clear action available.' },
+        { icon: '🌱', text: '<strong>Stress inoculation — controlled exposure to manageable stressors — actually builds resilience</strong> over time. The goal isn\'t zero stress.' },
+        { icon: '💡', text: '<strong>Identify one domain where you can meaningfully increase your sense of control</strong> — this has outsized impact on overall stress perception.' }
+      ];
+    } else if (pct >= 20) {
+      icon = '🌤️'; title = 'Mild Stress';
+      subtitle = 'Some stress is present, but you appear to have reasonable capacity and control over your life conditions.';
+      traits = [
+        { icon: '✅', text: '<strong>Mild stress can sharpen focus and motivation</strong> — you\'re likely in the zone where it\'s working for you rather than against you.' },
+        { icon: '🌱', text: '<strong>The buffers you\'ve built (routines, relationships, recovery) are doing their job</strong> — keep investing in them.' },
+        { icon: '🔍', text: '<strong>Notice where the remaining stress lives</strong> — it\'s usually clustered in one or two specific domains rather than pervasive.' },
+        { icon: '📚', text: '<strong>Kelly McGonigal\'s The Upside of Stress</strong> documents how stress mindset itself shapes whether stress is harmful or adaptive.' }
+      ];
+    } else {
+      icon = '🌿'; title = 'Low Perceived Stress';
+      subtitle = 'You feel largely in control of your life — calm, capable, and not overwhelmed.';
+      traits = [
+        { icon: '✅', text: '<strong>Low perceived stress is one of the most powerful predictors</strong> of immune function, cardiovascular health, and cognitive clarity.' },
+        { icon: '🤝', text: '<strong>Social support is consistently the top predictor of stress resilience</strong> — it sounds like yours is strong.' },
+        { icon: '💡', text: '<strong>Cohen\'s research shows this state is not static</strong> — it\'s worth understanding what\'s protecting you so you can sustain it deliberately.' },
+        { icon: '🌍', text: '<strong>Sharing this capacity (through presence, listening, reduced reactivity) benefits the people around you</strong> — stress and calm are both contagious.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft,
+      meterRight,
+      extra: `<strong>Score:</strong> ${pct}% perceived stress<br><br>Based on: Cohen, S., Kamarck, T., &amp; Mermelstein, R. (1983). A global measure of perceived stress. <em>Journal of Health and Social Behavior, 24</em>(4), 385–396.`
+    };
+  }
+},
+
+socialanxiety: {
+  id: 'socialanxiety', color: '#c084fc',
+  icon: '👁️', title: 'Do I Have Social Anxiety?',
+  descHtml: `Based on the Social Phobia Inventory (SPIN; Connor et al., 2000) and Liebowitz Social Anxiety Scale — validated instruments used in clinical screening for social anxiety disorder. Social anxiety is the fear of negative evaluation in social situations.<br><br><strong>12 questions · ~4 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I am afraid of people in authority.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I am bothered by blushing in front of people.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "Parties and social events frighten me.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I avoid talking to people I don't know.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "Being criticized scares me a lot.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I avoid doing things or speaking to people for fear of embarrassment.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "Sweating in front of people causes me distress.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I avoid going to parties.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I avoid being the center of attention.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "Talking to strangers scares me.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I would do anything to avoid being criticized.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    },
+    { text: "I feel self-conscious in front of people, even those I know.",
+      sub: "",
+      answers: [
+        { text: "Not at all", score: 0 },
+        { text: "A little", score: 1 },
+        { text: "Quite a bit", score: 2 },
+        { text: "Extremely", score: 3 }
+      ]
+    }
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, meterLeft, meterRight;
+    meterLeft = '😌 Comfortable';
+    meterRight = '🫥 Anxious';
+    if (pct >= 65) {
+      icon = '🫥'; title = 'Significant Social Anxiety';
+      subtitle = 'Social anxiety is substantially affecting your life — interactions carry a weight and dread that most people don\'t experience.';
+      traits = [
+        { icon: '🧠', text: '<strong>Social anxiety activates the same threat response as physical danger</strong> — your nervous system is not overreacting, it\'s misfiring threat detection.' },
+        { icon: '🔍', text: '<strong>Clark & Wells\' cognitive model shows social anxiety is maintained by self-focused attention and safety behaviors</strong> — these temporarily reduce fear but reinforce it long-term.' },
+        { icon: '🌱', text: '<strong>Exposure-based therapy (CBT) has the strongest evidence base for social anxiety</strong> — gradually facing feared situations with support is more effective than avoidance.' },
+        { icon: '📚', text: '<strong>Recommended</strong>: Gillian Butler\'s Overcoming Social Anxiety and Shyness — a clinician-designed self-help workbook based on CBT.' }
+      ];
+    } else if (pct >= 35) {
+      icon = '👁️'; title = 'Moderate Social Anxiety';
+      subtitle = 'Social situations create meaningful discomfort — you can manage, but the internal experience carries significant weight.';
+      traits = [
+        { icon: '🎭', text: '<strong>Social anxiety at moderate levels often manifests as over-preparation, rehearsal, post-event rumination</strong> — the analysis before and after the conversation.' },
+        { icon: '🔄', text: '<strong>The \'spotlight effect\' (Gilovich et al., 2000)</strong> — people notice us far less than we believe. Social anxiety over-estimates our visibility.' },
+        { icon: '🧩', text: '<strong>Safety behaviors (avoiding eye contact, over-scripting, staying on the periphery) provide short-term comfort</strong> but confirm the belief that the situation is dangerous.' },
+        { icon: '💡', text: '<strong>Gradual, voluntary exposure to social discomfort</strong> — with attention on the environment rather than self — is the most evidence-based path.' }
+      ];
+    } else if (pct >= 15) {
+      icon = '🌤️'; title = 'Mild Social Discomfort';
+      subtitle = 'Social situations create some tension, but it\'s within the normal human range and manageable.';
+      traits = [
+        { icon: '🌿', text: '<strong>Some social anxiety is adaptive</strong> — it motivates preparation and signals social belonging matters to you.' },
+        { icon: '✅', text: '<strong>At this level, the anxiety is unlikely to be significantly impairing your life</strong>, though it may create unnecessary friction in specific situations.' },
+        { icon: '🎯', text: '<strong>The highest-leverage intervention</strong>: practice tolerating mild discomfort rather than avoiding it — this is what builds genuine confidence.' },
+        { icon: '📚', text: '<strong>Susan Cain\'s Quiet</strong> distinguishes introversion (temperament) from social anxiety (fearful avoidance) — useful if you\'re unsure which applies.' }
+      ];
+    } else {
+      icon = '😌'; title = 'Low Social Anxiety';
+      subtitle = 'Social interactions don\'t carry significant dread or avoidance for you.';
+      traits = [
+        { icon: '✅', text: '<strong>Comfort in social situations is a genuine asset</strong> — not just personally but in your ability to support others.' },
+        { icon: '🌍', text: '<strong>Low social anxiety doesn\'t mean extraversion</strong> — you can be private, quiet, and reserved without the fear dimension.' },
+        { icon: '💡', text: '<strong>If you\'re here because someone you know struggles socially</strong>, Connor et al.\'s research shows patient, low-pressure environments are the most supportive.' },
+        { icon: '🤝', text: '<strong>Social comfort is partly temperament, partly learned</strong> — the research is clear that it can shift with practice and the right support.' }
+      ];
+    }
+    return {
+      icon, title, subtitle, traits,
+      meterPct: pct,
+      meterLeft,
+      meterRight,
+      extra: `<strong>Score:</strong> ${pct}% social anxiety indicators<br><br>Based on: Connor, K.M. et al. (2000). Psychometric properties of the Social Phobia Inventory. <em>British Journal of Psychiatry, 176</em>, 379–386.`
+    };
+  }
+},
 
 }; // end genericQuizzes
