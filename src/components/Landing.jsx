@@ -47,6 +47,7 @@ export default function Landing({ goTo }) {
 
   return (
     <div
+      className="landing-root"
       style={{
         position: 'fixed',
         inset: 0,
@@ -464,6 +465,17 @@ export default function Landing({ goTo }) {
         }
         @media (max-width: 699px) {
           .panels-row { flex-direction: column !important; }
+          /* Make landing scrollable on mobile — fixed+inset kills scroll */
+          .landing-root {
+            position: relative !important;
+            inset: auto !important;
+            min-height: 100svh !important;
+            min-height: 100dvh !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          .panels-row { flex: none !important; }
+          .landing-panel { flex: none !important; min-height: 290px !important; }
         }
         @media (max-width: 639px) {
           .landing-header { padding: 16px 20px 20px !important; }
