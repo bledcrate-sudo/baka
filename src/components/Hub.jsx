@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 const HUB_QUIZZES = [
   // Relationships
@@ -52,6 +52,30 @@ export default function Hub({ goTo, launchQuiz }) {
   const scrollStartLeft = useRef(0)
   const dragMoved = useRef(0)
 
+  // Attach move/up to window — drag survives mouse leaving the element
+  useEffect(() => {
+    const onMove = (e) => {
+      if (!isDragging.current || !tabBarRef.current) return
+      const dx = e.clientX - dragStartX.current
+      dragMoved.current = Math.abs(dx)
+      tabBarRef.current.scrollLeft = scrollStartLeft.current - dx
+    }
+    const onUp = () => {
+      if (!isDragging.current) return
+      isDragging.current = false
+      if (tabBarRef.current) {
+        tabBarRef.current.style.cursor = 'grab'
+        tabBarRef.current.style.userSelect = ''
+      }
+    }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+    }
+  }, [])
+
   const visibleQuizzes = activeTab === 'All'
     ? HUB_QUIZZES
     : HUB_QUIZZES.filter(q => q.section === activeTab)
@@ -101,25 +125,7 @@ export default function Hub({ goTo, launchQuiz }) {
               scrollStartLeft.current = tabBarRef.current.scrollLeft
               tabBarRef.current.style.cursor = 'grabbing'
               tabBarRef.current.style.userSelect = 'none'
-            }}
-            onMouseMove={e => {
-              if (!isDragging.current) return
               e.preventDefault()
-              const dx = e.clientX - dragStartX.current
-              dragMoved.current = Math.abs(dx)
-              tabBarRef.current.scrollLeft = scrollStartLeft.current - dx
-            }}
-            onMouseUp={() => {
-              isDragging.current = false
-              tabBarRef.current.style.cursor = 'grab'
-              tabBarRef.current.style.userSelect = ''
-            }}
-            onMouseLeave={() => {
-              if (isDragging.current) {
-                isDragging.current = false
-                tabBarRef.current.style.cursor = 'grab'
-                tabBarRef.current.style.userSelect = ''
-              }
             }}
           >
             {SECTIONS.map(section => {
