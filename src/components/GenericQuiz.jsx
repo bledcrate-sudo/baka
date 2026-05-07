@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import BackButton from './BackButton'
 
 export default function GenericQuiz({ goTo, state, setState }) {
@@ -9,10 +9,14 @@ export default function GenericQuiz({ goTo, state, setState }) {
   const shuffled = useMemo(() => [...question.answers].sort(() => Math.random() - 0.5), [q, quiz.id])
   const keys = ['A','B','C','D']
   const selectedRef = useRef(null)
+  const history = useRef([])
+  const [canUndo, setCanUndo] = useState(false)
   const pct = Math.round(((q + 1) / questions.length) * 100)
 
   const pick = (answer) => {
     if (selectedRef.current) return
+    history.current.push({ q, score: score, scores: { ...scores } })
+    setCanUndo(true)
     selectedRef.current = answer
 
     let newScore = score
@@ -44,6 +48,14 @@ export default function GenericQuiz({ goTo, state, setState }) {
     }, 400)
   }
 
+  const undo = () => {
+    if (selectedRef.current) return
+    if (history.current.length === 0) return
+    const prev = history.current.pop()
+    setState(s => ({ ...s, ...prev }))
+    setCanUndo(history.current.length > 0)
+  }
+
   return (
     <div>
       <BackButton onClick={() => goTo('hub')} />
@@ -57,6 +69,16 @@ export default function GenericQuiz({ goTo, state, setState }) {
             <div className="h-full rounded-full progress-bar-fill" style={{ width: `${pct}%`, background: 'var(--quiz-color)' }} />
           </div>
         </div>
+        {canUndo && (
+          <button onClick={undo}
+            className="flex items-center gap-1.5 text-[0.72rem] text-[#7e79a0] hover:text-white/70 transition-colors mb-4 active:scale-95"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 14L4 9l5-5"/><path d="M4 9h10a7 7 0 0 1 0 14h-1"/>
+            </svg>
+            Undo last answer
+          </button>
+        )}
         <div className="text-[0.68rem] font-bold uppercase tracking-[1.8px] mb-3" style={{ color: 'var(--quiz-color)' }}>Question {q + 1}</div>
         <div className="font-serif text-[1.3rem] sm:text-[1.42rem] leading-[1.5] font-semibold mb-1.5">{question.text}</div>
         {question.sub && <div className="text-[#7e79a0] text-[0.8rem] italic leading-[1.6] mb-5">{question.sub}</div>}

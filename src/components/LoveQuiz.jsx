@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { loveQuestions } from '../data/loveQuiz'
 import BackButton from './BackButton'
 
@@ -8,9 +8,13 @@ export default function LoveQuiz({ goTo, state, setState }) {
   const shuffled = useMemo(() => [...question.answers].sort(() => Math.random() - 0.5), [q])
   const keys = ['A','B','C','D']
   const selectedRef = useRef(null)
+  const history = useRef([])
+  const [canUndo, setCanUndo] = useState(false)
 
   const pick = (answer) => {
     if (selectedRef.current) return
+    history.current.push({ q, totalLove, totalAttach })
+    setCanUndo(true)
     selectedRef.current = answer
     setState(s => ({ ...s, totalLove: s.totalLove + answer.love, totalAttach: s.totalAttach + answer.attach }))
     setTimeout(() => {
@@ -21,6 +25,14 @@ export default function LoveQuiz({ goTo, state, setState }) {
         goTo('result')
       }
     }, 400)
+  }
+
+  const undo = () => {
+    if (selectedRef.current) return
+    if (history.current.length === 0) return
+    const prev = history.current.pop()
+    setState(() => prev)
+    setCanUndo(history.current.length > 0)
   }
 
   const pct = Math.round(((q + 1) / loveQuestions.length) * 100)
@@ -39,6 +51,16 @@ export default function LoveQuiz({ goTo, state, setState }) {
           <div className="h-full rounded-full progress-bar-fill" style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #e8607a, #9b8ff5)' }} />
         </div>
       </div>
+      {canUndo && (
+        <button onClick={undo}
+          className="flex items-center gap-1.5 text-[0.72rem] text-[#7e79a0] hover:text-white/70 transition-colors mb-4 active:scale-95"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 14L4 9l5-5"/><path d="M4 9h10a7 7 0 0 1 0 14h-1"/>
+          </svg>
+          Undo last answer
+        </button>
+      )}
       <div className="text-[0.68rem] text-[#f59e0b] font-bold uppercase tracking-[1.8px] mb-3">Question {q + 1}</div>
       <div className="font-serif text-[1.3rem] sm:text-[1.42rem] leading-[1.5] font-semibold mb-1.5">{question.text}</div>
       {question.sub && <div className="text-[#7e79a0] text-[0.8rem] italic leading-[1.6] mb-5">{question.sub}</div>}
