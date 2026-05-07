@@ -364,7 +364,7 @@ export default function Landing({ goTo }) {
               color: 'rgba(232,96,122,0.5)',
               fontWeight: 700,
               marginBottom: 8,
-            }}>9 Quizzes</div>
+            }}>14 Quizzes</div>
 
             <div className="panel-title" style={{
               fontFamily: '"Cormorant Garamond", serif',
