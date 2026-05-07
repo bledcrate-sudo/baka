@@ -52,6 +52,19 @@ export default function Hub({ goTo, launchQuiz }) {
   const scrollStartLeft = useRef(0)
   const dragMoved = useRef(0)
 
+  // Mouse wheel over tab bar → horizontal scroll
+  useEffect(() => {
+    const el = tabBarRef.current
+    if (!el) return
+    const onWheel = (e) => {
+      if (e.deltaY === 0 && e.deltaX === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY || e.deltaX
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
   // Attach move/up to window — drag survives mouse leaving the element
   useEffect(() => {
     const onMove = (e) => {
