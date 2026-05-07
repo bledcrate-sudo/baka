@@ -23,8 +23,8 @@ export default function GenericIntro({ goTo, state, setState }) {
         </h2>
         <div className="text-[#7e79a0] leading-[1.8] mb-8 text-sm" dangerouslySetInnerHTML={{ __html: quiz.descHtml.replace(/<strong>/g, '<strong style="color:rgba(240,236,252,0.9)">') }} />
         <button onClick={start}
-          className="px-12 py-4 rounded-full font-semibold text-white text-base transition-all active:scale-[0.98] active:opacity-85"
-          style={{ background: 'var(--quiz-color)' }}>
+          className="px-12 py-4 rounded-full font-semibold text-white text-base transition-all hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] active:opacity-85"
+          style={{ background: 'var(--quiz-color)', boxShadow: '0 4px 24px color-mix(in srgb, var(--quiz-color) 35%, transparent)' }}>
           Begin
         </button>
       </div>

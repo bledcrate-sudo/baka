@@ -150,7 +150,7 @@ export default function Hub({ goTo, launchQuiz }) {
                   onClick={() => { if (Math.abs(dragMoved.current) < 5) setActiveTab(section) }}
                   className="rounded-full px-3.5 sm:px-4 text-[0.68rem] sm:text-[0.72rem] font-bold uppercase tracking-[1.5px] whitespace-nowrap transition-all shrink-0"
                   style={{
-                    minHeight: '36px',
+                    minHeight: '44px',
                     ...(isActive
                       ? { background: color, color: '#fff', boxShadow: `0 2px 12px rgba(${colorRgb},0.4)` }
                       : { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.45)', border: '1px solid rgba(255,255,255,0.08)' })

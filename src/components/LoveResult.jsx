@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { getLoveResult } from '../data/loveQuiz'
+import BackButton from './BackButton'
 
 export default function LoveResult({ goTo, state }) {
   const { totalLove, totalAttach } = state
@@ -16,7 +17,9 @@ export default function LoveResult({ goTo, state }) {
   }, [lovePct])
 
   return (
-    <div className="glass-card rounded-[24px] px-7 py-10 sm:px-11 sm:py-14 text-center" style={{ paddingBottom: 80 }}>
+    <div>
+    <BackButton onClick={() => goTo('hub')} />
+    <div className="glass-card rounded-[24px] px-7 py-10 sm:px-11 sm:py-14 text-center">
       <div className="text-[60px] mb-4">{result.icon}</div>
       <div className="font-serif text-[1.8rem] sm:text-[2rem] font-bold mb-2.5 leading-[1.2]">{result.title}</div>
       <div className="text-[#7e79a0] text-[0.87rem] leading-[1.6] mb-7">{result.subtitle}</div>
@@ -43,10 +46,18 @@ export default function LoveResult({ goTo, state }) {
           style={{ background: 'rgba(255,255,255,0.03)' }}
           dangerouslySetInnerHTML={{ __html: result.extra }} />
       </div>
-      <button onClick={() => goTo('hub')}
-        className="mt-6 w-full sm:w-auto px-10 py-3.5 rounded-full border border-white/15 text-[#7e79a0] text-[0.92rem] font-medium transition-all hover:bg-white/5 hover:border-white/20 active:scale-[0.98]">
-        ← Back to Home
-      </button>
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+        <button onClick={() => goTo('intro')}
+          className="px-8 py-3.5 rounded-full text-white text-[0.92rem] font-semibold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98]"
+          style={{ background: 'linear-gradient(135deg, #e8607a, #c084fc)' }}>
+          ↺ Retake Quiz
+        </button>
+        <button onClick={() => goTo('hub')}
+          className="px-8 py-3.5 rounded-full border border-white/15 text-[#7e79a0] text-[0.92rem] font-medium transition-all hover:bg-white/5 hover:border-white/25 active:scale-[0.98]">
+          ← All Quizzes
+        </button>
+      </div>
+    </div>
     </div>
   )
 }

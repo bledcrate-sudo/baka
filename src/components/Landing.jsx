@@ -422,7 +422,7 @@ export default function Landing({ goTo }) {
               color: 'rgba(255,255,255,0.2)',
               letterSpacing: '0.05em',
             }}>
-              Free · Attachment · Depression · Anxiety
+              Free · Love · Burnout · Anxiety · 11 more
             </div>
           </div>
         </button>

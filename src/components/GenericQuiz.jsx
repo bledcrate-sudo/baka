@@ -9,7 +9,7 @@ export default function GenericQuiz({ goTo, state, setState }) {
   const shuffled = useMemo(() => [...question.answers].sort(() => Math.random() - 0.5), [q, quiz.id])
   const keys = ['A','B','C','D']
   const selectedRef = useRef(null)
-  const pct = Math.round((q / questions.length) * 100)
+  const pct = Math.round(((q + 1) / questions.length) * 100)
 
   const pick = (answer) => {
     if (selectedRef.current) return
@@ -47,7 +47,7 @@ export default function GenericQuiz({ goTo, state, setState }) {
   return (
     <div>
       <BackButton onClick={() => goTo('hub')} />
-      <div className="glass-card rounded-[24px] px-5 py-7 sm:px-9 sm:py-9" style={{ paddingBottom: 80 }}>
+      <div className="glass-card rounded-[24px] px-5 py-7 sm:px-9 sm:py-9">
         <div className="mb-6">
           <div className="flex justify-between text-xs text-[#7e79a0] mb-2">
             <span>Question {q + 1} of {questions.length}</span>

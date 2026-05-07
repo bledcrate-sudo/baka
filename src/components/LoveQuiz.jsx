@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react'
 import { loveQuestions } from '../data/loveQuiz'
+import BackButton from './BackButton'
 
 export default function LoveQuiz({ goTo, state, setState }) {
   const { q, totalLove, totalAttach } = state
@@ -22,10 +23,12 @@ export default function LoveQuiz({ goTo, state, setState }) {
     }, 400)
   }
 
-  const pct = Math.round((q / loveQuestions.length) * 100)
+  const pct = Math.round(((q + 1) / loveQuestions.length) * 100)
 
   return (
-    <div className="glass-card rounded-[24px] px-5 py-7 sm:px-9 sm:py-9" style={{ paddingBottom: 80 }}>
+    <div>
+      <BackButton onClick={() => goTo('hub')} />
+      <div className="glass-card rounded-[24px] px-5 py-7 sm:px-9 sm:py-9">
       {/* Progress */}
       <div className="mb-6">
         <div className="flex justify-between text-xs text-[#7e79a0] mb-2">
@@ -49,6 +52,7 @@ export default function LoveQuiz({ goTo, state, setState }) {
           </button>
         ))}
       </div>
+    </div>
     </div>
   )
 }
