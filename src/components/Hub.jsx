@@ -20,6 +20,13 @@ const HUB_QUIZZES = [
   { id: 'selfesteem', icon: '🌟', title: 'How Is My Self-Esteem?', sub: 'Rosenberg Self-Esteem Scale — validated in 53+ countries to measure global self-worth.', color: '#10b981', colorRgb: '16,185,129', section: 'Self & Social', onClick: (_, l) => l('selfesteem') },
   { id: 'loneliness', icon: '🌑', title: 'How Lonely Am I?', sub: 'UCLA Loneliness Scale — the gold standard for measuring perceived social isolation.', color: '#94a3b8', colorRgb: '148,163,184', section: 'Self & Social', onClick: (_, l) => l('loneliness') },
   { id: 'socialanxiety', icon: '👁️', title: 'Do I Have Social Anxiety?', sub: 'Based on SPIN — a validated clinical screen for social anxiety disorder.', color: '#c084fc', colorRgb: '192,132,252', section: 'Self & Social', onClick: (_, l) => l('socialanxiety') },
+  // New validated quizzes
+  { id: 'ptsd', icon: '🌫️', title: 'Am I Carrying Trauma Symptoms?', sub: 'PCL-5 — the gold standard trauma symptom checklist from the National Center for PTSD.', color: '#8b5cf6', colorRgb: '139,92,246', section: 'Mental Health Screening', onClick: (_, l) => l('ptsd') },
+  { id: 'ocd', icon: '🔁', title: 'Do I Have OCD Tendencies?', sub: 'OCI-R — Foa et al.\'s validated obsessive-compulsive inventory across six symptom dimensions.', color: '#06b6d4', colorRgb: '6,182,212', section: 'Mental Health Screening', onClick: (_, l) => l('ocd') },
+  { id: 'adhd', icon: '⚡', title: 'Do I Have ADHD Patterns?', sub: 'ASRS v1.1 — the WHO-endorsed adult ADHD self-report screener by Kessler et al.', color: '#f59e0b', colorRgb: '245,158,11', section: 'Mental Health Screening', onClick: (_, l) => l('adhd') },
+  { id: 'insomnia', icon: '🌙', title: 'How Bad Is My Insomnia?', sub: 'ISI — Morin\'s Insomnia Severity Index, used in clinical trials worldwide.', color: '#6366f1', colorRgb: '99,102,241', section: 'Stress & Burnout', onClick: (_, l) => l('insomnia') },
+  { id: 'perfectionism', icon: '🎯', title: 'Is My Perfectionism Helping or Hurting?', sub: 'Based on Frost\'s FMPS — distinguishes healthy striving from fear-driven perfectionism.', color: '#e879f9', colorRgb: '232,121,249', section: 'Inner World', onClick: (_, l) => l('perfectionism') },
+  { id: 'codependency', icon: '🪢', title: 'Am I Codependent?', sub: 'Based on Beattie, Mellody & Friel — maps emotional enmeshment and self-abandonment patterns.', color: '#fb923c', colorRgb: '251,146,60', section: 'Relationships', onClick: (_, l) => l('codependency') },
 ]
 
 const SECTIONS = ['All', 'Relationships', 'Inner World', 'Mental Health Screening', 'Stress & Burnout', 'Self & Social']
@@ -107,16 +114,16 @@ export default function Hub({ goTo, launchQuiz }) {
       <div className="text-center pt-6 px-5 sm:pt-10 sm:px-10 pb-5 sm:pb-7">
         <div className="w-[46px] h-[46px] sm:w-[68px] sm:h-[68px] rounded-[18px] sm:rounded-[22px] bg-white/5 border border-white/10 flex items-center justify-center text-[22px] sm:text-[34px] mx-auto mb-2.5 sm:mb-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">🪐</div>
         <h1
-          className="font-serif text-[1.7rem] sm:text-[2.4rem] font-bold leading-[1.15] tracking-[-0.5px] mb-1.5 sm:mb-2.5"
+          className="font-serif text-[1.65rem] sm:text-[2.4rem] font-bold leading-[1.15] tracking-[-0.5px] mb-1.5 sm:mb-2.5"
           style={{ background: 'linear-gradient(135deg, #e8607a 0%, #c084fc 50%, #2ec4b6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
         >
           Know <em>Yourself</em>
         </h1>
         <p className="hidden sm:block text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
-          Fourteen psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
+          Twenty psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
         </p>
         <p className="sm:hidden text-[#7e79a0] text-[0.78rem] leading-[1.6]">
-          14 psychology tools. Pick a category below.
+          20 psychology tools. Pick a category below.
         </p>
       </div>
 

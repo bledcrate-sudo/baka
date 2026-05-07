@@ -1985,4 +1985,865 @@ socialanxiety: {
   }
 },
 
+
+ptsd: {
+  id: 'ptsd', color: '#8b5cf6',
+  icon: '🌫️', title: 'Am I Carrying Trauma Symptoms?',
+  descHtml: `Based on the <strong>PCL-5</strong> (PTSD Checklist for DSM-5), developed by Weathers et al. (2013) at the U.S. National Center for PTSD, this quiz screens for trauma-related symptoms across four clusters: re-experiencing, avoidance, negative mood, and hyperarousal.<br><br><strong>10 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "Do memories, images, or feelings from a past distressing event come back to you without you choosing to think about it?",
+      sub: "This includes intrusive thoughts, flashbacks, or dreams.",
+      answers: [
+        { text: "Rarely or never — I have control over what I recall", score: 0 },
+        { text: "Occasionally, but it doesn't linger", score: 1 },
+        { text: "Often enough that it catches me off-guard", score: 2 },
+        { text: "Frequently — memories surface unbidden and feel vivid", score: 3 },
+      ]
+    },
+    { text: "Do you avoid thoughts, feelings, or reminders connected to something painful that happened to you?",
+      sub: "Avoidance can be internal (blocking thoughts) or external (avoiding places, people, topics).",
+      answers: [
+        { text: "Not particularly — I can engage with difficult memories", score: 0 },
+        { text: "Mildly — I prefer not to think about certain things", score: 1 },
+        { text: "Yes — I actively steer away from reminders", score: 2 },
+        { text: "Strongly — I avoid entire areas of my life to stay clear of it", score: 3 },
+      ]
+    },
+    { text: "Have you lost interest in activities or relationships that once mattered to you?",
+      sub: "Consider whether this change followed something difficult.",
+      answers: [
+        { text: "No — I'm largely engaged with things I care about", score: 0 },
+        { text: "Somewhat — my enthusiasm has dimmed in some areas", score: 1 },
+        { text: "Yes — several things I used to value feel hollow now", score: 2 },
+        { text: "Significantly — I feel cut off from things and people I once loved", score: 3 },
+      ]
+    },
+    { text: "Do you feel emotionally numb, disconnected, or like you're watching your life from a distance?",
+      sub: "Psychologists call this dissociation or emotional blunting.",
+      answers: [
+        { text: "Rarely — I generally feel present in my life", score: 0 },
+        { text: "Sometimes I feel a step removed but it passes", score: 1 },
+        { text: "Often — I feel like I'm watching life rather than living it", score: 2 },
+        { text: "Most of the time — I feel emotionally flat or detached", score: 3 },
+      ]
+    },
+    { text: "Do you feel that your future is somehow cut short, limited, or that you can't picture a normal life ahead?",
+      answers: [
+        { text: "No — I have a sense of future and possibility", score: 0 },
+        { text: "Occasionally I wonder, but it doesn't dominate", score: 1 },
+        { text: "I struggle to imagine long-term plans or milestones", score: 2 },
+        { text: "I feel a deep sense that things will not get better or be 'normal'", score: 3 },
+      ]
+    },
+    { text: "Do you feel persistently negative about yourself, others, or the world since something difficult happened?",
+      sub: "'Nothing matters', 'people can't be trusted', 'I am broken' — these are examples.",
+      answers: [
+        { text: "No — I have a broadly balanced view of myself and others", score: 0 },
+        { text: "There are darker thoughts, but I don't feel consumed by them", score: 1 },
+        { text: "I carry a pervasive negativity that's hard to shake", score: 2 },
+        { text: "I hold deeply negative beliefs about myself, others, or life", score: 3 },
+      ]
+    },
+    { text: "Are you easily startled, or do you feel constantly on edge or alert for danger?",
+      sub: "Hypervigilance is the nervous system staying in threat-detection mode.",
+      answers: [
+        { text: "Rarely — I don't feel like I'm bracing for threat", score: 0 },
+        { text: "I startle easily, but it doesn't disrupt my life much", score: 1 },
+        { text: "I'm often tense, scanning my environment, hard to fully relax", score: 2 },
+        { text: "I feel in a near-constant state of alertness or dread", score: 3 },
+      ]
+    },
+    { text: "Do you experience sudden intense irritability, anger, or emotional explosions that feel hard to control?",
+      answers: [
+        { text: "Not typically — my emotional reactions are manageable", score: 0 },
+        { text: "I can be reactive at times, but it's not a pattern", score: 1 },
+        { text: "Yes — I have surges of irritability that concern me or others", score: 2 },
+        { text: "Frequently — anger or intense emotions feel like they take over", score: 3 },
+      ]
+    },
+    { text: "Do you have trouble sleeping — difficulty falling asleep, staying asleep, or waking from nightmares?",
+      answers: [
+        { text: "Sleep is mostly fine — I wake rested", score: 0 },
+        { text: "Some disruption, but manageable", score: 1 },
+        { text: "Regular trouble with sleep quality or nightmares", score: 2 },
+        { text: "Sleep is severely disturbed — nightmares or waking exhausted most nights", score: 3 },
+      ]
+    },
+    { text: "Do you engage in risky, reckless, or self-destructive behaviour that you didn't before?",
+      sub: "This can include substance use, unsafe situations, or impulsive decisions.",
+      answers: [
+        { text: "No — my risk behaviour hasn't noticeably changed", score: 0 },
+        { text: "Slightly — I take more risks but nothing alarming", score: 1 },
+        { text: "Yes — I notice self-destructive patterns I struggle to explain", score: 2 },
+        { text: "Yes — recklessness or self-harm is a real issue in my life", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Minimal symptoms';
+    const meterRight = 'Significant symptoms';
+    if (pct < 25) {
+      icon = '🌤️'; title = 'Minimal Trauma Symptoms';
+      subtitle = 'Few indicators of active post-traumatic stress are present at this time.';
+      traits = [
+        { icon: '✅', text: '<strong>Low symptom burden</strong> — your nervous system doesn\'t appear to be carrying significant unresolved trauma responses right now.' },
+        { icon: '🌱', text: '<strong>Resilience is real</strong> — Bonanno\'s research shows most people show natural recovery after adversity. Low scores reflect that.' },
+        { icon: '🔍', text: '<strong>Absence of symptoms doesn\'t mean absence of difficulty</strong> — everyone has experiences that shaped them, even without meeting clinical thresholds.' },
+        { icon: '💬', text: '<strong>If you took this because of a recent experience</strong>, know that symptoms can emerge weeks later. Check back in if things shift.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — below clinical threshold<br><br>Based on: Weathers, F.W. et al. (2013). <em>PTSD Checklist for DSM-5 (PCL-5)</em>. National Center for PTSD. A score in this range typically falls below the clinical cutoff of ~33% on the full PCL-5.`;
+    } else if (pct < 50) {
+      icon = '🌥️'; title = 'Subthreshold Trauma Responses';
+      subtitle = 'Some trauma-related symptoms are present but below clinical threshold.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Subthreshold doesn\'t mean insignificant</strong> — Stein et al. found subthreshold PTSD produces meaningful functional impairment and distress.' },
+        { icon: '🔄', text: '<strong>Avoidance, intrusions, and hyperarousal can coexist at low levels</strong> and still affect sleep, relationships, and daily functioning.' },
+        { icon: '🧠', text: '<strong>Nervous system dysregulation</strong> — what you\'re describing may reflect a trauma response still active in the body even without full PTSD criteria.' },
+        { icon: '🌿', text: '<strong>Evidence-based support helps here too</strong> — trauma-informed therapy, somatic practices, and safe relationships all support recovery at any severity level.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — subthreshold range<br><br>Based on: Weathers, F.W. et al. (2013). <em>PCL-5</em>. Subthreshold PTSD is clinically recognised in research and produces real suffering even without meeting full DSM-5 criteria.`;
+    } else if (pct < 73) {
+      icon = '🌧️'; title = 'Significant Trauma Symptoms';
+      subtitle = 'Your responses suggest a meaningful level of post-traumatic stress that warrants attention.';
+      traits = [
+        { icon: '🔴', text: '<strong>Scores in this range suggest probable PTSD</strong> — the PCL-5 research by Weathers et al. places the clinical threshold around 31–33/80. Your score pattern is notable.' },
+        { icon: '🧩', text: '<strong>Trauma symptoms are not character flaws</strong> — they are the nervous system\'s survival adaptations. Van der Kolk\'s work confirms they are physiological, not personal weakness.' },
+        { icon: '🛡️', text: '<strong>Hypervigilance and avoidance served a purpose</strong> — they were protective. The work now is teaching the nervous system it\'s safe to lower the guard.' },
+        { icon: '🤝', text: '<strong>Effective treatments exist</strong> — EMDR, CPT (Cognitive Processing Therapy), and prolonged exposure are all evidence-based with strong outcomes for PTSD.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — probable clinical range<br><br>Based on: Weathers, F.W. et al. (2013). <em>PCL-5</em>. Blevins et al. (2015) confirmed a cutoff of 31–33 on the full scale as optimal for probable PTSD. <strong>Please consider speaking with a trauma-informed professional.</strong>`;
+    } else {
+      icon = '⛈️'; title = 'Severe Trauma Symptoms';
+      subtitle = 'Your responses indicate a high symptom burden. You deserve real support.';
+      traits = [
+        { icon: '❗', text: '<strong>High scores reflect real suffering</strong> — what you are carrying is significant, and it is not a reflection of weakness or who you are as a person.' },
+        { icon: '🧬', text: '<strong>Complex trauma changes the brain and body</strong> — research by van der Kolk, Bessel, and Perry shows trauma literally rewires the nervous system, explaining the intensity of your experience.' },
+        { icon: '💊', text: '<strong>Multiple pathways to healing exist</strong> — EMDR, somatic therapy, CPT, IFS (Internal Family Systems), and MDMA-assisted therapy (emerging) have strong evidence for complex PTSD.' },
+        { icon: '🙏', text: '<strong>You are not broken — you adapted to survive</strong>. Recovery at this level is possible, but it truly benefits from professional, trauma-specialised support. Please reach out.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe range<br><br>Based on: Weathers, F.W. et al. (2013). <em>PCL-5</em>. Scores in this range warrant assessment by a licensed mental health professional trained in trauma. If you are in crisis, please contact a crisis line or emergency services.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+ocd: {
+  id: 'ocd', color: '#06b6d4',
+  icon: '🔁', title: 'Do I Have OCD Tendencies?',
+  descHtml: `Based on the <strong>OCI-R</strong> (Obsessive-Compulsive Inventory–Revised) by Foa et al. (2002), one of the most widely used self-report tools for OCD. It screens across six dimensions: washing, obsessing, hoarding, ordering, checking, and neutralising.<br><br><strong>10 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "Do you have unpleasant thoughts that enter your mind and won't leave, even though you try to push them away?",
+      sub: "Intrusive thoughts are central to OCD — they are ego-dystonic, meaning they feel foreign and distressing.",
+      answers: [
+        { text: "Rarely — my mind doesn't tend to get stuck on unwanted thoughts", score: 0 },
+        { text: "Occasionally — a thought loops but eventually lets go", score: 1 },
+        { text: "Often — certain thoughts return and cause significant distress", score: 2 },
+        { text: "Constantly — intrusive thoughts are a major part of my day", score: 3 },
+      ]
+    },
+    { text: "Do you check things repeatedly — locks, appliances, switches — even when you know you already checked?",
+      answers: [
+        { text: "Rarely — once is enough for me", score: 0 },
+        { text: "Sometimes I double-check but it's not disruptive", score: 1 },
+        { text: "Yes — I check multiple times and still feel uncertain", score: 2 },
+        { text: "I check so many times it significantly delays me", score: 3 },
+      ]
+    },
+    { text: "Do you wash or clean more than most people, or feel deeply uncomfortable if you can't?",
+      sub: "This includes hand-washing, surface cleaning, or rituals around contamination.",
+      answers: [
+        { text: "No — my cleaning habits are ordinary", score: 0 },
+        { text: "I'm a bit meticulous, but it doesn't take over", score: 1 },
+        { text: "Yes — I wash or clean more than I want to, driven by discomfort", score: 2 },
+        { text: "Significantly — contamination fears drive repetitive washing that consumes real time", score: 3 },
+      ]
+    },
+    { text: "Do you feel driven to arrange things in a particular order, symmetry, or pattern?",
+      sub: "'Just right' OCD — the urge to make things feel 'correct' or balanced.",
+      answers: [
+        { text: "Not really — disorder doesn't bother me much", score: 0 },
+        { text: "I have preferences, but I can let it go", score: 1 },
+        { text: "Yes — asymmetry or disorder creates real discomfort until I fix it", score: 2 },
+        { text: "Strongly — I spend significant time arranging things to feel right", score: 3 },
+      ]
+    },
+    { text: "Do you mentally repeat phrases, count, or perform mental acts to neutralise a thought or feeling?",
+      sub: "Mental compulsions are just as real as physical ones — praying, counting, reviewing.",
+      answers: [
+        { text: "No — I don't tend to use mental rituals", score: 0 },
+        { text: "Occasionally — I might mentally review something to calm down", score: 1 },
+        { text: "Yes — I use mental rituals to neutralise distress regularly", score: 2 },
+        { text: "Extensively — mental compulsions are a significant part of my coping", score: 3 },
+      ]
+    },
+    { text: "Do you have difficulty discarding things, even items that have no practical value?",
+      sub: "Hoarding OCD is driven by fear of causing harm or losing something important, not sentiment.",
+      answers: [
+        { text: "No — I'm comfortable letting things go", score: 0 },
+        { text: "I hold onto things longer than I should sometimes", score: 1 },
+        { text: "Yes — discarding causes real distress; I keep things 'just in case'", score: 2 },
+        { text: "Significantly — accumulation is a major issue driven by fear of discarding", score: 3 },
+      ]
+    },
+    { text: "When you have a disturbing thought (e.g. harming someone, something immoral), do you feel you are a bad person for having it?",
+      sub: "This is called 'thought-action fusion' — one of the most well-researched OCD mechanisms.",
+      answers: [
+        { text: "No — I know thoughts aren't the same as intentions", score: 0 },
+        { text: "Sometimes they make me uneasy but I can dismiss them", score: 1 },
+        { text: "Often — intrusive thoughts make me question my character", score: 2 },
+        { text: "Yes — these thoughts cause significant shame and feel like proof of something terrible", score: 3 },
+      ]
+    },
+    { text: "Do you feel compelled to perform rituals or mental acts to prevent something bad from happening, even without a logical connection?",
+      answers: [
+        { text: "No — I don't feel this kind of compulsive responsibility", score: 0 },
+        { text: "Occasionally, but I can override it easily", score: 1 },
+        { text: "Yes — there's a feeling that if I don't do X, something bad will happen", score: 2 },
+        { text: "This drives significant behaviour — I feel magically responsible for preventing harm", score: 3 },
+      ]
+    },
+    { text: "How much time per day do obsessive thoughts or compulsive behaviours take up?",
+      answers: [
+        { text: "Very little — under 30 minutes most days", score: 0 },
+        { text: "Around 30–60 minutes — noticeable but manageable", score: 1 },
+        { text: "1–3 hours — they interfere with work, relationships, or daily life", score: 2 },
+        { text: "More than 3 hours — they dominate my day", score: 3 },
+      ]
+    },
+    { text: "Do you try to resist the obsessions or compulsions? How much control do you feel over them?",
+      answers: [
+        { text: "I can easily dismiss intrusive thoughts and don't feel compelled to act", score: 0 },
+        { text: "I can resist most of the time with some effort", score: 1 },
+        { text: "I try to resist but usually give in — the urge is stronger than my will", score: 2 },
+        { text: "I feel almost no control — resistance rarely works or makes it worse", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Minimal';
+    const meterRight = 'Significant OCD';
+    if (pct < 28) {
+      icon = '✅'; title = 'Minimal OCD Indicators';
+      subtitle = 'Intrusive thoughts and compulsive urges are not significantly impacting your life.';
+      traits = [
+        { icon: '🧠', text: '<strong>Everyone has intrusive thoughts</strong> — Rachman\'s research found 90% of people experience them. The difference is how much power those thoughts have.' },
+        { icon: '🔍', text: '<strong>OCD is about distress and interference</strong>, not about being organised or liking things clean. Your relationship with your thoughts appears healthy.' },
+        { icon: '💡', text: '<strong>Low OCI-R scores</strong> correlate with the ability to let intrusive thoughts pass without engaging or acting on them — a key factor in mental wellbeing.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — below clinical threshold<br><br>Based on: Foa, E.B. et al. (2002). The Obsessive-Compulsive Inventory: Development and validation. <em>Psychological Assessment, 14</em>(4), 485–496.`;
+    } else if (pct < 52) {
+      icon = '🔄'; title = 'Mild OCD Tendencies';
+      subtitle = 'Some obsessive or compulsive patterns are present but likely below clinical threshold.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Subclinical OCD symptoms are common</strong> — Fullana et al. found 2.5% of the population meet full OCD criteria, but far more show subthreshold patterns.' },
+        { icon: '🔒', text: '<strong>Checking and ordering</strong> at mild levels can function as anxiety management tools — they temporarily reduce distress but may reinforce the underlying anxiety.' },
+        { icon: '🌀', text: '<strong>The OCD loop:</strong> intrusive thought → anxiety → compulsion → temporary relief → thought returns, stronger. Breaking the loop is the core of ERP therapy.' },
+        { icon: '🌱', text: '<strong>At this level, self-guided CBT approaches</strong> — especially learning to tolerate uncertainty — can prevent escalation and reduce distress.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild range<br><br>Based on: Foa et al. (2002). The OCI-R clinical cutoff is typically ~21/72. Your score suggests subclinical features worth monitoring.`;
+    } else if (pct < 74) {
+      icon = '🌀'; title = 'Moderate OCD Symptoms';
+      subtitle = 'Obsessions and compulsions appear to be creating real interference in your daily life.';
+      traits = [
+        { icon: '🔴', text: '<strong>Scores in this range are consistent with probable OCD</strong> — the OCI-R\'s validated cutoff by Foa et al. places clinical OCD above ~21/72.' },
+        { icon: '🧩', text: '<strong>OCD is not about logic</strong> — knowing a thought is irrational doesn\'t make it less distressing. That gap between knowing and feeling is the disorder.' },
+        { icon: '🛑', text: '<strong>Compulsions provide short-term relief but maintain OCD long-term</strong> — every ritual tells your brain the threat was real, strengthening the cycle.' },
+        { icon: '💊', text: '<strong>Evidence-based treatment is highly effective</strong> — ERP (Exposure and Response Prevention) is the gold standard, with ~65–80% response rates. SSRIs are also established.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — probable clinical range<br><br>Based on: Foa et al. (2002). Abramowitz & Deacon (2006) confirmed OCI-R sensitivity/specificity. <strong>Consider an assessment with a CBT-trained therapist familiar with OCD.</strong>`;
+    } else {
+      icon = '🌪️'; title = 'Severe OCD Indicators';
+      subtitle = 'Your responses suggest OCD is significantly affecting your quality of life.';
+      traits = [
+        { icon: '❗', text: '<strong>Severe OCD is debilitating</strong> — the WHO lists it among the top ten most disabling conditions. What you\'re experiencing is a serious medical issue, not a character flaw.' },
+        { icon: '🔬', text: '<strong>Neurobiological basis</strong> — OCD involves hyperactivity in the orbitofrontal-caudate circuit. It is a brain-based disorder with well-understood mechanisms.' },
+        { icon: '🏥', text: '<strong>Intensive treatment options exist</strong> — residential ERP programmes, specialist OCD clinics, and combination therapy/medication have strong outcomes even for severe presentations.' },
+        { icon: '🤝', text: '<strong>You are not your thoughts</strong> — OCD hijacks the mind with distressing content that does not reflect your values or desires. Please seek specialised support.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe range<br><br>Based on: Foa et al. (2002). <em>OCI-R</em>. At this level, professional assessment is strongly recommended. The IOCDF (International OCD Foundation) maintains a therapist directory at iocdf.org.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+adhd: {
+  id: 'adhd', color: '#f59e0b',
+  icon: '⚡', title: 'Do I Have ADHD Patterns?',
+  descHtml: `Based on the <strong>ASRS v1.1</strong> (Adult ADHD Self-Report Scale), developed by Kessler et al. and endorsed by the <strong>World Health Organisation</strong> (2003). This screener covers both inattention and hyperactivity-impulsivity dimensions of adult ADHD.<br><br><strong>11 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
+      sub: "This is one of the WHO ASRS Part A items — highly predictive of adult ADHD.",
+      answers: [
+        { text: "Rarely — I follow through to completion reliably", score: 0 },
+        { text: "Sometimes — I lose steam near the end but finish eventually", score: 1 },
+        { text: "Often — the last 10% of a task regularly goes unfinished", score: 2 },
+        { text: "Very often — I leave things incomplete more often than not", score: 3 },
+      ]
+    },
+    { text: "How often do you have difficulty getting things in order when you have to do a task that requires organisation?",
+      answers: [
+        { text: "Rarely — I can organise tasks without much trouble", score: 0 },
+        { text: "Sometimes — organisation requires extra effort", score: 1 },
+        { text: "Often — I struggle to structure tasks and it causes delays", score: 2 },
+        { text: "Very often — disorganisation is a persistent, significant problem", score: 3 },
+      ]
+    },
+    { text: "How often do you have problems remembering appointments or obligations?",
+      answers: [
+        { text: "Rarely — I'm generally reliable with commitments", score: 0 },
+        { text: "Sometimes — I forget things but manage with reminders", score: 1 },
+        { text: "Often — forgetting appointments or obligations causes real problems", score: 2 },
+        { text: "Very often — memory for commitments is a consistent issue", score: 3 },
+      ]
+    },
+    { text: "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
+      answers: [
+        { text: "Rarely — I can start difficult tasks without significant delay", score: 0 },
+        { text: "Sometimes — tasks feel hard to start but I push through", score: 1 },
+        { text: "Often — starting difficult tasks is genuinely hard for me", score: 2 },
+        { text: "Very often — I procrastinate significantly on cognitively demanding tasks", score: 3 },
+      ]
+    },
+    { text: "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
+      sub: "In adults, hyperactivity often internalises — inner restlessness is as valid as physical movement.",
+      answers: [
+        { text: "Rarely — I can sit calmly for extended periods", score: 0 },
+        { text: "Sometimes — I shift around but it's not disruptive", score: 1 },
+        { text: "Often — physical restlessness is noticeable and hard to control", score: 2 },
+        { text: "Very often — sitting still is genuinely uncomfortable or near-impossible", score: 3 },
+      ]
+    },
+    { text: "How often do you feel overly active and compelled to do things, like you're driven by a motor?",
+      answers: [
+        { text: "Rarely — I can pace myself and feel mentally settled", score: 0 },
+        { text: "Sometimes — I can feel revved up but it's manageable", score: 1 },
+        { text: "Often — I feel an internal pressure to move or act that's hard to stop", score: 2 },
+        { text: "Very often — internal restlessness is a near-constant presence", score: 3 },
+      ]
+    },
+    { text: "How often do you make careless mistakes when you have to work on a boring or difficult project?",
+      answers: [
+        { text: "Rarely — I check my work and maintain attention to detail", score: 0 },
+        { text: "Sometimes — errors slip through when I'm bored", score: 1 },
+        { text: "Often — careless mistakes are a recognisable pattern for me", score: 2 },
+        { text: "Very often — careless errors regularly affect my work or life", score: 3 },
+      ]
+    },
+    { text: "How often do you have difficulty keeping your attention when doing boring or repetitive work?",
+      answers: [
+        { text: "Rarely — I can sustain attention through tedious tasks", score: 0 },
+        { text: "Sometimes — my mind drifts but I redirect it", score: 1 },
+        { text: "Often — sustained attention on repetitive tasks is genuinely difficult", score: 2 },
+        { text: "Very often — I can barely engage with monotonous tasks at all", score: 3 },
+      ]
+    },
+    { text: "How often do you have difficulty concentrating on what people say to you, even when they are speaking to you directly?",
+      answers: [
+        { text: "Rarely — I track conversations without significant effort", score: 0 },
+        { text: "Sometimes — I drift but catch up", score: 1 },
+        { text: "Often — I miss things in conversations and have to ask people to repeat", score: 2 },
+        { text: "Very often — following conversations is a real, ongoing challenge", score: 3 },
+      ]
+    },
+    { text: "How often do you misplace or have difficulty finding things at home or at work?",
+      answers: [
+        { text: "Rarely — I have reasonably reliable systems for my things", score: 0 },
+        { text: "Sometimes — I misplace things but find them without too much trouble", score: 1 },
+        { text: "Often — losing things causes regular frustration and lost time", score: 2 },
+        { text: "Very often — misplacing items is a daily, disruptive pattern", score: 3 },
+      ]
+    },
+    { text: "How often are you distracted by activity or noise around you?",
+      answers: [
+        { text: "Rarely — I can filter background stimulation effectively", score: 0 },
+        { text: "Sometimes — noise disrupts me but I adapt", score: 1 },
+        { text: "Often — environmental distractions pull me away from tasks persistently", score: 2 },
+        { text: "Very often — almost any background noise or movement derails my focus", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Minimal patterns';
+    const meterRight = 'Significant ADHD patterns';
+    if (pct < 25) {
+      icon = '✅'; title = 'Minimal ADHD Indicators';
+      subtitle = 'Your responses don\'t suggest significant ADHD-related impairment.';
+      traits = [
+        { icon: '🧠', text: '<strong>ADHD exists on a spectrum</strong> — Barkley\'s research confirms it\'s dimensional, not categorical. Low scores suggest your executive functioning is largely intact.' },
+        { icon: '🌱', text: '<strong>Low attentional difficulty is an asset</strong> — the ability to sustain focus and organise tasks underpins performance across nearly every domain of life.' },
+        { icon: '💡', text: '<strong>Everyone loses focus sometimes</strong> — ADHD diagnosis requires impairment across multiple settings, since childhood. Occasional inattention is normal.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — below screening threshold<br><br>Based on: Kessler, R.C. et al. (2005). The World Health Organization Adult ADHD Self-Report Scale. <em>Psychological Medicine, 35</em>, 245–256.`;
+    } else if (pct < 50) {
+      icon = '🌀'; title = 'Mild to Moderate ADHD Patterns';
+      subtitle = 'Some attentional and executive functioning challenges are present.';
+      traits = [
+        { icon: '⚠️', text: '<strong>ASRS patterns in this range</strong> suggest subclinical or possible ADHD. Kessler et al. found the Part A screener items are particularly predictive — if you scored high on Q1–6, that\'s notable.' },
+        { icon: '🔄', text: '<strong>Executive function challenges</strong> (planning, starting tasks, sustaining attention) can occur in ADHD but also in anxiety, depression, sleep deprivation, and stress.' },
+        { icon: '🧩', text: '<strong>Many adults with ADHD are undiagnosed</strong> — Faraone\'s research found global adult prevalence of ~2.5–3%, with large proportions never assessed.' },
+        { icon: '🌿', text: '<strong>Compensation strategies</strong> — routines, external structure, body-doubling, and time-blocking — can substantially reduce functional impact whether or not ADHD is formally present.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild-to-moderate range<br><br>Based on: Kessler et al. (2005). ASRS v1.1. Consider a formal assessment if these patterns cause significant functional impairment across multiple life areas.`;
+    } else if (pct < 73) {
+      icon = '⚡'; title = 'Significant ADHD Patterns';
+      subtitle = 'Your responses are consistent with patterns commonly seen in adult ADHD.';
+      traits = [
+        { icon: '🔴', text: '<strong>Scores in this range are clinically significant on the ASRS</strong> — Kessler\'s validation research found these patterns highly predictive of a formal ADHD diagnosis.' },
+        { icon: '🧬', text: '<strong>ADHD is neurobiological</strong> — Cortese\'s neuroimaging research confirms differences in prefrontal cortex development and dopamine/norepinephrine systems. It is not laziness or poor character.' },
+        { icon: '💡', text: '<strong>Many adults find diagnosis clarifying</strong> — understanding why sustained effort, organisation, and impulse control are harder for you can reframe years of self-blame.' },
+        { icon: '🛠️', text: '<strong>Evidence-based interventions work</strong> — stimulant medication has the highest effect size of any psychiatric medication for its condition. CBT for ADHD and coaching also have strong evidence.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — probable ADHD range<br><br>Based on: Kessler et al. (2005). ASRS v1.1. A score in this range warrants a formal evaluation by a psychiatrist or psychologist familiar with adult ADHD.`;
+    } else {
+      icon = '🌪️'; title = 'High ADHD Symptom Load';
+      subtitle = 'Your responses suggest significant ADHD-related impairment across multiple domains.';
+      traits = [
+        { icon: '❗', text: '<strong>ADHD at this severity significantly impacts</strong> work, relationships, finances, and self-esteem — Barkley\'s longitudinal research shows cumulative life impairment without treatment.' },
+        { icon: '🧠', text: '<strong>The ADHD brain isn\'t broken — it\'s differently wired</strong> — with the right accommodations and support, the same features that cause problems can become genuine strengths in the right context.' },
+        { icon: '🤝', text: '<strong>Diagnosis opens doors</strong> — workplace accommodations, medication, specialised coaching, and community reduce the friction of living with ADHD substantially.' },
+        { icon: '💪', text: '<strong>Many high-achieving people have ADHD</strong> — not as inspiration porn, but to illustrate that treatment transforms outcomes. The suffering is optional with the right support.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high severity range<br><br>Based on: Kessler et al. (2005). ASRS v1.1. Faraone et al. (2021) confirmed adult ADHD prevalence ~2.5% globally. Please seek formal assessment — untreated ADHD at this level carries significant long-term costs.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+insomnia: {
+  id: 'insomnia', color: '#6366f1',
+  icon: '🌙', title: 'How Bad Is My Insomnia?',
+  descHtml: `Based on the <strong>ISI</strong> (Insomnia Severity Index) developed by Charles Morin (1993), the most widely validated self-report measure of insomnia severity used in clinical trials worldwide. It covers sleep onset, maintenance, early waking, satisfaction, daytime impairment, and distress.<br><br><strong>9 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How severe is your difficulty falling asleep?",
+      sub: "Consider the past two weeks.",
+      answers: [
+        { text: "None — I fall asleep within 20–30 minutes usually", score: 0 },
+        { text: "Mild — I take a bit longer, but it's not distressing", score: 1 },
+        { text: "Moderate — lying awake 30–60 minutes is common", score: 2 },
+        { text: "Severe — I frequently lie awake for over an hour before sleeping", score: 3 },
+      ]
+    },
+    { text: "How severe is your difficulty staying asleep during the night?",
+      answers: [
+        { text: "None — I sleep through with minimal waking", score: 0 },
+        { text: "Mild — I wake occasionally but fall back to sleep easily", score: 1 },
+        { text: "Moderate — I wake and take 20+ minutes to fall back asleep", score: 2 },
+        { text: "Severe — I wake frequently and struggle significantly to return to sleep", score: 3 },
+      ]
+    },
+    { text: "How severe is the problem of waking up too early?",
+      answers: [
+        { text: "None — I wake around the time I intend to", score: 0 },
+        { text: "Mild — I wake slightly early but can rest", score: 1 },
+        { text: "Moderate — I regularly wake 1–2 hours before I need to", score: 2 },
+        { text: "Severe — early waking is persistent and I can't return to sleep", score: 3 },
+      ]
+    },
+    { text: "How satisfied or dissatisfied are you with your current sleep pattern?",
+      answers: [
+        { text: "Satisfied — my sleep feels generally adequate", score: 0 },
+        { text: "Mildly dissatisfied — it could be better", score: 1 },
+        { text: "Dissatisfied — my sleep leaves me consistently underrested", score: 2 },
+        { text: "Very dissatisfied — my sleep is a serious ongoing problem", score: 3 },
+      ]
+    },
+    { text: "To what extent do you think your sleep problems interfere with daily functioning?",
+      sub: "Include fatigue, mood, concentration, work performance, memory.",
+      answers: [
+        { text: "Not at all — my days aren't significantly affected", score: 0 },
+        { text: "A little — some tired days but nothing severe", score: 1 },
+        { text: "Somewhat — sleep problems regularly affect my mood or performance", score: 2 },
+        { text: "Very much — daytime functioning is consistently impaired", score: 3 },
+      ]
+    },
+    { text: "How noticeable to others do you think your sleep problem is in terms of impairing your quality of life?",
+      answers: [
+        { text: "Not at all noticeable", score: 0 },
+        { text: "Slightly — close people may notice I seem tired sometimes", score: 1 },
+        { text: "Somewhat — it visibly affects my mood and engagement", score: 2 },
+        { text: "Very much — others regularly comment on or are affected by my sleep issues", score: 3 },
+      ]
+    },
+    { text: "How worried or distressed are you about your sleep problem?",
+      answers: [
+        { text: "Not at all — sleep doesn't cause me significant anxiety", score: 0 },
+        { text: "A little — I notice it but it doesn't dominate my thoughts", score: 1 },
+        { text: "Moderately — sleep concerns take up mental energy", score: 2 },
+        { text: "Very much — I feel significant dread or distress about sleep", score: 3 },
+      ]
+    },
+    { text: "How often do you find yourself lying awake worrying about not sleeping or the consequences of poor sleep?",
+      sub: "Sleep-related anxiety is one of the most powerful perpetuating factors of insomnia.",
+      answers: [
+        { text: "Rarely — I don't think much about sleep in bed", score: 0 },
+        { text: "Sometimes — thoughts about sleep arise but I let them go", score: 1 },
+        { text: "Often — worry about sleep keeps me awake or worsens it", score: 2 },
+        { text: "Every night — sleep anxiety is a dominant and self-fulfilling feature", score: 3 },
+      ]
+    },
+    { text: "How does your sleep on weekend nights or nights with no obligations compare to work nights?",
+      sub: "Large differences can suggest behavioural/environmental components rather than pure insomnia.",
+      answers: [
+        { text: "Similar — my sleep doesn't vary much", score: 0 },
+        { text: "Slightly better — I sleep a bit longer when I can", score: 1 },
+        { text: "Much better — I clearly recover when pressure is off", score: 2 },
+        { text: "Dramatically better — weekends show my insomnia is largely situation-driven", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌙 Restful sleep';
+    const meterRight = 'Severe insomnia';
+    if (pct < 26) {
+      icon = '😴'; title = 'No Significant Insomnia';
+      subtitle = 'Your sleep patterns don\'t indicate clinically significant insomnia.';
+      traits = [
+        { icon: '✅', text: '<strong>Sleep quality in this range</strong> corresponds to the ISI\'s "no clinically significant insomnia" category (scores 0–7 on the full scale).' },
+        { icon: '🌱', text: '<strong>Good sleep is foundational</strong> — Walker\'s research confirms sleep affects memory consolidation, emotional regulation, immune function, and cardiovascular health.' },
+        { icon: '💡', text: '<strong>Sleep hygiene maintenance</strong> — consistent wake times, light exposure management, and temperature are the three highest-leverage variables in sleep science.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — no clinically significant insomnia<br><br>Based on: Morin, C.M. (1993). <em>Insomnia: Psychological Assessment and Management</em>. Bastien et al. (2001) validated the ISI with Cronbach\'s α = .74.`;
+    } else if (pct < 52) {
+      icon = '🌛'; title = 'Subthreshold Insomnia';
+      subtitle = 'Mild sleep difficulties are present that may benefit from attention.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Subthreshold insomnia is not minor</strong> — Ohayon\'s population research found it associated with elevated daytime impairment, emotional dysregulation, and risk of progression.' },
+        { icon: '🔄', text: '<strong>Behavioural perpetuating factors</strong> — variable sleep schedules, time in bed awake, and pre-sleep anxiety are the main drivers of insomnia that CBT-I (Cognitive Behavioural Therapy for Insomnia) targets.' },
+        { icon: '🌡️', text: '<strong>Sleep restriction therapy sounds counterintuitive</strong> but is the most effective CBT-I component — mildly restricting time in bed builds sleep pressure and rebuilds the association between bed and sleep.' },
+        { icon: '📱', text: '<strong>Screen light before bed</strong> delays melatonin onset by ~90 minutes on average (Chang et al., 2015). This alone can explain subthreshold insomnia in many people.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — subthreshold insomnia (ISI 8–14 range)<br><br>Based on: Morin et al. (1993/2011). Bastien et al. (2001). Simple sleep hygiene changes and a sleep diary for 2 weeks often resolve subthreshold insomnia.`;
+    } else if (pct < 76) {
+      icon = '🌚'; title = 'Moderate Clinical Insomnia';
+      subtitle = 'Your sleep difficulties are at a level that significantly affects daily functioning.';
+      traits = [
+        { icon: '🔴', text: '<strong>Scores in this range correspond to moderate clinical insomnia</strong> (ISI 15–21) — a level consistently linked to meaningful impairment in cognitive performance, mood, and physical health.' },
+        { icon: '🧠', text: '<strong>CBT-I is the first-line treatment</strong> — the APA, AASM, and European Sleep Research Society all recommend it above medication. Meta-analyses show 70–80% improvement rates.' },
+        { icon: '💊', text: '<strong>Sleep medication doesn\'t create normal sleep</strong> — Walker\'s research shows sedatives suppress REM and slow-wave sleep. CBT-I produces more durable improvement without dependency.' },
+        { icon: '🌿', text: '<strong>Sleep anxiety is self-reinforcing</strong> — worry about not sleeping is one of the strongest predictors of ongoing insomnia. Breaking this cycle is the core therapeutic target.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate clinical insomnia (ISI 15–21 range)<br><br>Based on: Morin et al. CBT-I delivered via apps (Sleepio, Somryst) or in person has strong evidence. <strong>Consider consulting a sleep medicine specialist or CBT-I practitioner.</strong>`;
+    } else {
+      icon = '🌑'; title = 'Severe Insomnia';
+      subtitle = 'Your sleep is severely disrupted and the impact on your life is substantial.';
+      traits = [
+        { icon: '❗', text: '<strong>Severe insomnia (ISI 22–28) carries cumulative health costs</strong> — Cappuccio\'s meta-analysis linked chronic sleep deprivation to increased risk of cardiovascular disease, diabetes, and all-cause mortality.' },
+        { icon: '🔬', text: '<strong>Insomnia at this level is rarely just about sleep</strong> — depression, anxiety, PTSD, chronic pain, and sleep apnoea are common comorbidities that each require separate assessment.' },
+        { icon: '🏥', text: '<strong>A sleep study (polysomnography) or specialist assessment</strong> is warranted — sleep apnoea in particular is massively underdiagnosed and can entirely explain severe insomnia symptoms.' },
+        { icon: '🤝', text: '<strong>You don\'t have to manage this alone</strong> — sleep medicine is an established specialty with powerful tools. Please seek professional support.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe clinical insomnia (ISI 22–28 range)<br><br>Based on: Morin et al. (1993–2011). At this severity, please seek assessment from a sleep medicine physician or psychiatrist. Rule out sleep apnoea if not already done.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+perfectionism: {
+  id: 'perfectionism', color: '#e879f9',
+  icon: '🎯', title: 'Is My Perfectionism Helping or Hurting?',
+  descHtml: `Based on the <strong>FMPS</strong> (Frost Multidimensional Perfectionism Scale, 1990) and Hewitt & Flett\'s work on adaptive vs. maladaptive perfectionism. Research distinguishes <em>healthy high standards</em> from <em>perfectionism driven by fear of failure</em> — this quiz helps locate where you fall.<br><br><strong>11 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When you make a mistake, how long does the feeling linger?",
+      sub: "Concern over mistakes is the strongest predictor of maladaptive perfectionism in Frost's research.",
+      answers: [
+        { text: "Briefly — I note it, correct where possible, and move on", score: 0 },
+        { text: "A while, but I can refocus", score: 1 },
+        { text: "It replays persistently and is hard to dismiss", score: 2 },
+        { text: "I ruminate on mistakes for days, sometimes weeks", score: 3 },
+      ]
+    },
+    { text: "Do you believe that if you cannot do something perfectly, there's little point in doing it at all?",
+      answers: [
+        { text: "No — I believe good enough is often genuinely good enough", score: 0 },
+        { text: "Sometimes I aim for perfection, but imperfect completion still feels worthwhile", score: 1 },
+        { text: "Often — partial success feels unsatisfying in ways that hold me back", score: 2 },
+        { text: "Yes — falling short of perfect feels like failure, making starting feel pointless", score: 3 },
+      ]
+    },
+    { text: "How much does your sense of self-worth depend on your achievements and performance?",
+      sub: "Hewitt & Flett found this self-worth contingency is the core driver of perfectionist distress.",
+      answers: [
+        { text: "Moderately — I take pride in my work but don't define myself by it", score: 0 },
+        { text: "Quite a lot — I feel better about myself when I perform well", score: 1 },
+        { text: "Significantly — poor performance genuinely shakes my sense of worth", score: 2 },
+        { text: "Completely — I feel worthless when I fall short of my own standards", score: 3 },
+      ]
+    },
+    { text: "Do you find yourself doubting whether you've done something properly, even after checking multiple times?",
+      sub: "'Doubting actions' is a key FMPS subscale linked to anxiety and OCD overlap.",
+      answers: [
+        { text: "Rarely — I trust my own judgement once I've checked", score: 0 },
+        { text: "Sometimes — I need reassurance but can usually settle", score: 1 },
+        { text: "Often — I re-check and still feel uncertain", score: 2 },
+        { text: "Very often — persistent doubt about completeness is a real problem", score: 3 },
+      ]
+    },
+    { text: "Does the fear of doing something imperfectly stop you from starting it?",
+      sub: "Perfectionism-driven procrastination is one of the most documented patterns in the literature.",
+      answers: [
+        { text: "Rarely — I can start even when the outcome is uncertain", score: 0 },
+        { text: "Sometimes — high-stakes tasks are harder to begin", score: 1 },
+        { text: "Often — fear of imperfection creates real delays in my work or creative life", score: 2 },
+        { text: "Regularly — I avoid starting things where I can't guarantee a good result", score: 3 },
+      ]
+    },
+    { text: "How do you compare your performance to others?",
+      answers: [
+        { text: "I focus on my own standards, not comparison", score: 0 },
+        { text: "I compare sometimes, but it motivates rather than undermines me", score: 1 },
+        { text: "I compare frequently and often come up feeling inadequate", score: 2 },
+        { text: "Social comparison drives persistent feelings of falling short", score: 3 },
+      ]
+    },
+    { text: "How important is neatness, organisation, and order to you?",
+      sub: "In Frost's model, organisation is a distinct subscale — high organisation can be adaptive. This question probes distress when order is absent.",
+      answers: [
+        { text: "I have preferences but disorder doesn't bother me much", score: 0 },
+        { text: "I value organisation and feel mildly uncomfortable with disorder", score: 1 },
+        { text: "Disorder creates real discomfort and I invest significant time in maintaining order", score: 2 },
+        { text: "Lack of order is highly distressing — I reorganise rather than proceed with tasks", score: 3 },
+      ]
+    },
+    { text: "Do the expectations others hold of you feel like a heavy, difficult-to-escape pressure?",
+      sub: "Frost's 'parental expectations' subscale (applied broadly to any significant figures).",
+      answers: [
+        { text: "No — I have healthy boundaries around others' expectations", score: 0 },
+        { text: "Somewhat — I'm aware of pressure but manage to stay grounded", score: 1 },
+        { text: "Often — the weight of others' expectations shapes my choices significantly", score: 2 },
+        { text: "Constantly — I feel driven by external expectations more than my own desires", score: 3 },
+      ]
+    },
+    { text: "When you're working on something, how difficult is it to know when to stop or call it 'done'?",
+      answers: [
+        { text: "Easy — I have a reasonable sense of when something is complete", score: 0 },
+        { text: "Sometimes I over-polish but I can decide when to stop", score: 1 },
+        { text: "Often hard — I keep revising past the point of diminishing returns", score: 2 },
+        { text: "Very hard — 'done' never feels truly done; I revise compulsively", score: 3 },
+      ]
+    },
+    { text: "How do you respond when your work or output is criticised?",
+      answers: [
+        { text: "I can take feedback constructively without it destabilising me", score: 0 },
+        { text: "Criticism stings but I recover and integrate it", score: 1 },
+        { text: "Criticism hits hard and I replay it extensively", score: 2 },
+        { text: "Criticism is devastating — I take it as confirmation of worthlessness", score: 3 },
+      ]
+    },
+    { text: "Do you feel more motivated by the genuine desire to do good work, or by the fear of what happens if you don't?",
+      sub: "Slade & Owens (1998) called these 'positive striving' vs 'negative' perfectionism — the single most important distinction.",
+      answers: [
+        { text: "Mostly desire — I do things because I genuinely care about the work", score: 0 },
+        { text: "Both — some fear mixes with genuine interest", score: 1 },
+        { text: "Mostly fear — I perform to avoid shame, criticism, or failure", score: 2 },
+        { text: "Entirely fear — dread of consequences drives almost everything I do", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌟 Healthy striving';
+    const meterRight = 'Maladaptive perfectionism';
+    if (pct < 27) {
+      icon = '🌟'; title = 'Healthy High Standards';
+      subtitle = 'Your drive for quality appears to be adaptive rather than fear-driven.';
+      traits = [
+        { icon: '✅', text: '<strong>Slade & Owens\' research</strong> confirms "positive striving" — setting high standards without harsh self-criticism — predicts better performance and wellbeing outcomes.' },
+        { icon: '🚀', text: '<strong>The distinction matters</strong>: intrinsic motivation for quality is associated with flow states and mastery. Fear-driven perfectionism produces anxiety and procrastination.' },
+        { icon: '🌱', text: '<strong>Your ability to call things "good enough"</strong> when warranted is a genuine skill — Herbert Simon\'s concept of "satisficing" is more cognitively efficient than maximising.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — adaptive perfectionism range<br><br>Based on: Frost, R.O. et al. (1990). The dimensions of perfectionism. <em>Cognitive Therapy and Research, 14</em>(5), 449–468.`;
+    } else if (pct < 52) {
+      icon = '⚖️'; title = 'Moderate Perfectionist Tendencies';
+      subtitle = 'High standards coexist with some fear-driven patterns worth examining.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Mixed perfectionism profile</strong> — you likely combine genuine striving with some self-critical patterns. The key variable is whether your standards motivate or paralyse.' },
+        { icon: '🔄', text: '<strong>Concern over mistakes</strong> is the most toxic FMPS subscale — when errors feel catastrophic, they trigger avoidance and rumination that undermine the very performance you\'re protecting.' },
+        { icon: '🧩', text: '<strong>Self-compassion as performance tool</strong> — Neff\'s research shows self-compassionate people actually perform better after failure, because they can process mistakes without defensive shutdown.' },
+        { icon: '💡', text: '<strong>CBT for perfectionism</strong> (Antony & Swinson\'s protocol) specifically targets unhelpful rules ("I must never make mistakes") and the avoidance they produce.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate range<br><br>Based on: Frost et al. (1990). Hewitt, P.L. & Flett, G.L. (1991). The Multidimensional Perfectionism Scale. <em>Journal of Personality and Social Psychology, 60</em>(3).`;
+    } else if (pct < 75) {
+      icon = '🎯'; title = 'Maladaptive Perfectionism';
+      subtitle = 'Perfectionism appears to be generating significant distress and interference.';
+      traits = [
+        { icon: '🔴', text: '<strong>Scores in this range</strong> correlate with the FMPS subscales most associated with clinical outcomes — especially concern over mistakes, doubting actions, and performance-contingent self-worth.' },
+        { icon: '😰', text: '<strong>Perfectionism and anxiety are tightly coupled</strong> — Antony & Swinson\'s research found 80%+ of people with anxiety disorders scored highly on perfectionism measures.' },
+        { icon: '🚫', text: '<strong>Perfectionism-driven procrastination is paradoxical</strong> — the very thing protecting you from failure is causing more of it, through delay and avoidance.' },
+        { icon: '🌿', text: '<strong>Recovery isn\'t about lowering your standards</strong> — it\'s about changing your relationship with imperfection. The standards stay; the self-punishment goes.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — maladaptive range<br><br>Based on: Frost et al. (1990). Flett, G.L. & Hewitt, P.L. (2002). <em>Perfectionism: Theory, Research, and Treatment</em>. APA. Consider CBT focused on perfectionism or acceptance-based work (ACT).`;
+    } else {
+      icon = '🌪️'; title = 'Severe Perfectionism';
+      subtitle = 'Perfectionism is likely causing significant suffering and limiting your life.';
+      traits = [
+        { icon: '❗', text: '<strong>High perfectionism at this level</strong> is associated with depression, eating disorders, OCD, chronic procrastination, and relationship difficulties across multiple meta-analyses.' },
+        { icon: '🧠', text: '<strong>The shame-perfectionism loop</strong> — Brené Brown\'s research and Hewitt\'s clinical work both identify shame as the fuel. Perfectionism is often an unconscious attempt to avoid the unbearable feeling of being "not enough".' },
+        { icon: '💔', text: '<strong>Perfectionism can masquerade as conscientiousness</strong> — often praised externally while causing enormous internal suffering. Your distress is real, even if others see only your high standards.' },
+        { icon: '🤝', text: '<strong>Compassion-Focused Therapy (CFT)</strong> and schema therapy targeting the "unrelenting standards" schema have strong evidence for perfectionism at this severity. Please consider professional support.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe range<br><br>Based on: Frost et al. (1990). Hewitt & Flett (1991). Shafran, R. et al. (2002) developed CBT-P (CBT for Perfectionism) — a highly effective, structured protocol. This level of perfectionism warrants professional attention.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+codependency: {
+  id: 'codependency', color: '#fb923c',
+  icon: '🪢', title: 'Am I Codependent?',
+  descHtml: `Based on research by <strong>Melody Beattie</strong> (<em>Codependent No More</em>, 1986), <strong>Pia Mellody</strong>\'s codependency model, and the <strong>Friel Codependency Assessment Inventory</strong> (Friel & Friel, 1987). Codependency is characterised by excessive external focus, difficulty with self-identity, and relationships organised around managing or fixing others.<br><br><strong>11 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "Do you find your mood and sense of wellbeing closely tied to how others around you are feeling?",
+      sub: "Beattie describes this as 'emotional enmeshment' — your inner weather follows theirs.",
+      answers: [
+        { text: "Rarely — I'm empathetic but maintain my own emotional state", score: 0 },
+        { text: "Sometimes — close people's moods affect me, but I can separate", score: 1 },
+        { text: "Often — I find it very hard to feel OK when someone close is upset", score: 2 },
+        { text: "Always — my internal state is almost entirely regulated by others", score: 3 },
+      ]
+    },
+    { text: "Do you feel responsible for other people's feelings, problems, or wellbeing — to the point of putting their needs above your own?",
+      answers: [
+        { text: "No — I care about others without feeling responsible for their inner world", score: 0 },
+        { text: "Sometimes — with certain people I take on more than I should", score: 1 },
+        { text: "Often — I feel it's my job to manage or fix others' emotional states", score: 2 },
+        { text: "I feel this with almost everyone I'm close to — their pain is my responsibility", score: 3 },
+      ]
+    },
+    { text: "Do you say yes to requests or demands even when you want to say no, out of fear of conflict or abandonment?",
+      sub: "Mellody identifies difficulty with boundaries and limits as a core codependency characteristic.",
+      answers: [
+        { text: "Rarely — I can say no when I need to", score: 0 },
+        { text: "Sometimes — certain relationships make it harder", score: 1 },
+        { text: "Often — I agree to things I don't want to do to avoid upsetting people", score: 2 },
+        { text: "Almost always — saying no feels dangerous or unbearable", score: 3 },
+      ]
+    },
+    { text: "Do you have difficulty identifying what you truly feel, want, or need — separate from what others feel or expect?",
+      sub: "Mellody calls this 'difficulty owning one's own reality' — a fundamental codependency feature.",
+      answers: [
+        { text: "Rarely — I have a clear sense of my own wants and feelings", score: 0 },
+        { text: "Sometimes — I need to pause to separate my feelings from theirs", score: 1 },
+        { text: "Often — my own preferences and needs feel unclear to me", score: 2 },
+        { text: "I rarely know what I truly want — it's usually shaped by what others want from me", score: 3 },
+      ]
+    },
+    { text: "Do you feel a compulsive need to help, fix, or rescue people — even when they haven't asked for it?",
+      sub: "Beattie distinguishes helping from caretaking: the latter is driven by anxiety, not genuine choice.",
+      answers: [
+        { text: "No — I can support people without needing to fix them", score: 0 },
+        { text: "Sometimes — I have a strong urge to help but can hold back", score: 1 },
+        { text: "Often — I feel anxious until I've done something about others' problems", score: 2 },
+        { text: "Compulsively — not intervening feels intolerable; I can't let problems be", score: 3 },
+      ]
+    },
+    { text: "Do you tolerate mistreatment, disrespect, or harmful behaviour in relationships rather than setting limits?",
+      answers: [
+        { text: "Rarely — I have and enforce clear standards in my relationships", score: 0 },
+        { text: "Sometimes — I accept things I shouldn't with certain people", score: 1 },
+        { text: "Often — I endure treatment that I know is wrong because I fear the alternative", score: 2 },
+        { text: "Yes — I stay in harmful patterns because I don't feel I have the right to leave or object", score: 3 },
+      ]
+    },
+    { text: "Do you seek approval, validation, or reassurance from others to feel OK about yourself?",
+      sub: "Mellody's 'other-esteem' concept — self-worth dependent on external feedback.",
+      answers: [
+        { text: "Rarely — my self-worth is mostly self-generated", score: 0 },
+        { text: "Sometimes — affirmation feels good but I don't depend on it", score: 1 },
+        { text: "Often — I feel uncertain about my worth without external reassurance", score: 2 },
+        { text: "Constantly — approval from others is the primary source of my self-esteem", score: 3 },
+      ]
+    },
+    { text: "Do you find yourself adapting, minimising, or changing who you are depending on who you're with?",
+      answers: [
+        { text: "Rarely — I have a consistent sense of self across different people", score: 0 },
+        { text: "Sometimes — I adjust tone and presentation but my core stays the same", score: 1 },
+        { text: "Often — I mould myself significantly depending on what others seem to want", score: 2 },
+        { text: "Substantially — I'm not sure who I am outside of the roles I play for others", score: 3 },
+      ]
+    },
+    { text: "Do you feel that you love someone more deeply when they are in crisis, struggle, or need you?",
+      sub: "Trauma bonding and crisis-based attachment are hallmarks of codependent relationship patterns.",
+      answers: [
+        { text: "No — my love doesn't increase with others' crises or dependency", score: 0 },
+        { text: "Somewhat — I feel more connected when I'm supporting someone through difficulty", score: 1 },
+        { text: "Yes — relationships feel more real or bonded when someone needs my help", score: 2 },
+        { text: "Strongly — intimacy and being needed feel synonymous to me", score: 3 },
+      ]
+    },
+    { text: "Do you struggle to end relationships that are harmful to you, even when you know they're not good for you?",
+      answers: [
+        { text: "Rarely — I can leave when I need to, even when it's painful", score: 0 },
+        { text: "Sometimes — it's hard but I've been able to walk away when necessary", score: 1 },
+        { text: "Often — I stay in harmful relationships far longer than is good for me", score: 2 },
+        { text: "Yes — leaving feels impossible, even in deeply harmful situations", score: 3 },
+      ]
+    },
+    { text: "Do you feel that your own needs are less important, or that taking care of your own needs is selfish?",
+      sub: "Mellody's research found that 'difficulty with self-care' is universal in codependency.",
+      answers: [
+        { text: "No — I believe my needs are as valid as anyone else's", score: 0 },
+        { text: "Sometimes — I deprioritise my needs but it doesn't feel shameful", score: 1 },
+        { text: "Often — I feel guilty attending to my own needs while others have problems", score: 2 },
+        { text: "Deeply — taking care of myself feels inherently selfish or wrong", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌿 Healthy relating';
+    const meterRight = 'High codependency';
+    if (pct < 26) {
+      icon = '🌿'; title = 'Healthy Interdependence';
+      subtitle = 'Your relating patterns show healthy independence alongside genuine connection.';
+      traits = [
+        { icon: '✅', text: '<strong>Healthy interdependence</strong> — Bowen\'s family systems research distinguishes codependency from genuine intimacy: the ability to be close without losing self is the hallmark of relational health.' },
+        { icon: '🌱', text: '<strong>Clear sense of self in relationships</strong> — you appear to maintain your identity, feelings, and needs across different relational contexts.' },
+        { icon: '💡', text: '<strong>The capacity to say no</strong> while staying connected is one of the most sophisticated relational skills. It reflects security rather than selfishness.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — healthy range<br><br>Based on: Beattie, M. (1986). <em>Codependent No More</em>. Mellody, P. (1989). <em>Facing Codependence</em>. Friel, J. & Friel, L. (1988). <em>Adult Children: The Secrets of Dysfunctional Families</em>.`;
+    } else if (pct < 50) {
+      icon = '🪢'; title = 'Mild to Moderate Codependency';
+      subtitle = 'Some codependent patterns are present that may affect your relationships.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Codependency exists on a spectrum</strong> — Friel\'s research found it in most adults who grew up in families with addiction, mental illness, chronic conflict, or emotional unavailability.' },
+        { icon: '🔄', text: '<strong>Caretaking vs. caring</strong> — the key distinction is whether helping is chosen freely or driven by anxiety and the inability to tolerate others\' discomfort.' },
+        { icon: '🧩', text: '<strong>Enmeshment and boundaries</strong> — Bowen\'s differentiation scale maps exactly this territory. Moderate codependency often means lower differentiation — difficulty staying yourself when others are emotionally reactive.' },
+        { icon: '🌱', text: '<strong>Recovery tools that work</strong>: Codependents Anonymous (CODA), IFS therapy, learning to identify and honour needs, and practising saying no in low-stakes situations first.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild-moderate codependency range<br><br>Based on: Beattie (1986). Mellody (1989). This pattern often traces to family-of-origin dynamics. Awareness at this level allows meaningful change with relatively modest intervention.`;
+    } else if (pct < 73) {
+      icon = '🌀'; title = 'Significant Codependency';
+      subtitle = 'Codependent patterns appear to be meaningfully organising your relationships and sense of self.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, codependency is not just a tendency but a relational blueprint</strong> — shaping who you\'re attracted to, how you communicate, and whether you can feel OK alone.' },
+        { icon: '🧬', text: '<strong>Codependency often has roots in childhood</strong> — Mellody\'s clinical research found it almost universally linked to growing up in families where children had to manage parental emotions or were parentified.' },
+        { icon: '💔', text: '<strong>The cost is real</strong>: chronic self-abandonment, exhaustion from caretaking, attraction to unavailable or wounded partners, and a persistent sense of emptiness when not needed.' },
+        { icon: '🌿', text: '<strong>Recovery is possible and well-documented</strong> — CODA, IFS, and attachment-focused therapy all have strong evidence. The work is returning to yourself, not changing your capacity to love.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant codependency range<br><br>Based on: Beattie (1986). Mellody (1989). Friel (1988). A therapist who works with attachment, trauma, or family systems will be most useful here. CODA meetings are free and evidence-supported.`;
+    } else {
+      icon = '🔥'; title = 'High Codependency';
+      subtitle = 'Codependent patterns are deeply embedded and likely causing significant suffering.';
+      traits = [
+        { icon: '❗', text: '<strong>High codependency is often a trauma response</strong> — Mellody\'s model frames it as arrested development in self-care, limits, reality, wants/needs, and moderation, caused by childhood wounding.' },
+        { icon: '🏚️', text: '<strong>The self is organised around others</strong> at this level — what you feel, want, and value has become secondary to what others need from you. Recovery involves reclaiming these as valid and real.' },
+        { icon: '🔗', text: '<strong>Attachment to harmful relationships</strong> is often driven by trauma bonding (Carnes, 1997) — the intermittent reinforcement of crisis + relief creates a biochemical addiction that mirrors substance dependency.' },
+        { icon: '🤝', text: '<strong>Please seek support</strong> — this pattern is not who you are; it\'s a survival strategy that has outlived its context. IFS therapy, trauma-informed care, and CODA have helped many people with exactly this profile.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high codependency range<br><br>Based on: Beattie (1986). Mellody, P. (1989). <em>Facing Codependence</em>. At this level, professional support is strongly recommended. The work of healing codependency is genuinely life-changing.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
 }; // end genericQuizzes
