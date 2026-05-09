@@ -93,9 +93,9 @@ export default function Landing({ goTo }) {
               : 'radial-gradient(ellipse at 28% 55%, rgba(168,161,248,0.10) 0%, rgba(10,8,18,0.98) 65%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             justifyContent: 'center',
-            padding: '80px 48px 80px 56px',
+            padding: '80px 32px',
             transition: 'background 0.6s ease',
             opacity: vis ? 1 : 0,
             transform: vis ? 'none' : 'translateX(-20px)',
@@ -206,9 +206,9 @@ export default function Landing({ goTo }) {
               : 'radial-gradient(ellipse at 72% 45%, rgba(232,96,122,0.10) 0%, rgba(10,8,18,0.98) 65%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-end',
+            alignItems: 'center',
             justifyContent: 'center',
-            padding: '80px 56px 80px 48px',
+            padding: '80px 32px',
             transition: 'background 0.6s ease',
             opacity: vis ? 1 : 0,
             transform: vis ? 'none' : 'translateX(20px)',
@@ -216,7 +216,7 @@ export default function Landing({ goTo }) {
             transitionDuration: '0.6s, 0.8s, 0.8s',
             transitionDelay: '0s, 0.12s, 0.12s',
             overflow: 'hidden',
-            textAlign: 'right',
+            textAlign: 'left',
           }}
         >
           <StarField side="right" />
