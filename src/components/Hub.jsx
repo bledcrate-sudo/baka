@@ -104,8 +104,14 @@ export default function Hub({ goTo, launchQuiz }) {
 
   return (
     <div
-      className="glass-card rounded-[28px] sm:rounded-[32px] shadow-[0_32px_80px_rgba(0,0,0,0.5)]"
-      style={{ position: 'relative', overflow: 'hidden' }}
+      className="rounded-[14px] sm:rounded-[18px]"
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'oklch(8.5% 0.022 284)',
+        border: '1px solid oklch(17% 0.025 284)',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.55)',
+      }}
     >
       {/* Top shimmer line */}
       <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
@@ -115,9 +121,10 @@ export default function Hub({ goTo, launchQuiz }) {
         <div className="w-[46px] h-[46px] sm:w-[68px] sm:h-[68px] rounded-[18px] sm:rounded-[22px] bg-white/5 border border-white/10 flex items-center justify-center text-[22px] sm:text-[34px] mx-auto mb-2.5 sm:mb-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">🪐</div>
         <h1
           className="font-serif text-[1.65rem] sm:text-[2.4rem] font-bold leading-[1.15] tracking-[-0.5px] mb-1.5 sm:mb-2.5"
-          style={{ background: 'linear-gradient(135deg, #e8607a 0%, #c084fc 50%, #2ec4b6 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
+          style={{ color: 'oklch(94% 0.009 284)' }}
         >
-          Know <em>Yourself</em>
+          Know{' '}
+          <em style={{ color: 'oklch(72% 0.17 20)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
         </h1>
         <p className="hidden sm:block text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
           Twenty psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
@@ -218,35 +225,26 @@ export default function Hub({ goTo, launchQuiz }) {
             <button
               key={q.id}
               onClick={() => q.onClick(goTo, launchQuiz)}
-              className="flex flex-col gap-2 sm:gap-2 p-3.5 sm:p-4 rounded-[16px] sm:rounded-[18px] border border-white/[0.08] text-left transition-all active:scale-[0.96] group"
-              style={{ background: 'rgba(255,255,255,0.04)' }}
+              className="flex flex-col gap-1.5 p-3.5 sm:p-4 rounded-[10px] sm:rounded-[12px] border border-white/[0.06] text-left transition-all active:scale-[0.97] group"
+              style={{ background: 'rgba(255,255,255,0.025)' }}
               onMouseEnter={e => {
-                e.currentTarget.style.borderColor = `rgba(${q.colorRgb},0.3)`
-                e.currentTarget.style.boxShadow = `0 4px 20px rgba(${q.colorRgb},0.12)`
+                e.currentTarget.style.borderColor = `rgba(${q.colorRgb},0.28)`
+                e.currentTarget.style.background = `rgba(${q.colorRgb},0.05)`
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
-                e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+                e.currentTarget.style.background = 'rgba(255,255,255,0.025)'
               }}
             >
-              <div
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-[12px] sm:rounded-[13px] flex items-center justify-center text-[1.35rem] sm:text-[1.5rem] shrink-0"
-                style={{ background: `rgba(${q.colorRgb},0.14)` }}
+              <span style={{ fontSize: '1.15rem', lineHeight: 1 }}>{q.icon}</span>
+              <div className="font-serif text-[0.86rem] sm:text-[0.94rem] font-semibold leading-[1.3]">{q.title}</div>
+              <div className="hidden sm:block text-[0.7rem] leading-[1.45]" style={{ color: 'oklch(55% 0.04 284)' }}>{q.sub}</div>
+              <span
+                className="text-[0.6rem] font-bold uppercase tracking-[1.4px] mt-0.5"
+                style={{ color: `rgba(${q.colorRgb},0.55)` }}
               >
-                {q.icon}
-              </div>
-              <div className="flex-1">
-                <div className="font-serif text-[0.85rem] sm:text-[0.95rem] font-semibold leading-[1.3] mb-0.5">{q.title}</div>
-                <div className="hidden sm:block text-[0.72rem] text-[#7e79a0] leading-[1.4]">{q.sub}</div>
-              </div>
-              <div>
-                <span
-                  className="text-[0.65rem] sm:text-[0.68rem] font-bold uppercase tracking-[1.2px]"
-                  style={{ color: q.color + '99' }}
-                >
-                  Start →
-                </span>
-              </div>
+                Start →
+              </span>
             </button>
           ))}
         </div>

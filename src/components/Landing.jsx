@@ -98,27 +98,34 @@ export default function Landing({ goTo }) {
 
           <div className="landing-title" style={{
             fontFamily: '"Cormorant Garamond", serif',
-            fontSize: 'clamp(1.9rem, 4.5vw, 3rem)',
+            fontSize: 'clamp(2rem, 4.5vw, 3.1rem)',
             fontWeight: 600,
             lineHeight: 1.2,
             letterSpacing: '-0.01em',
-            background: 'linear-gradient(135deg, #f0ecfc 0%, rgba(168,161,248,0.85) 45%, rgba(232,96,122,0.9) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            marginBottom: 12,
+            color: 'oklch(94% 0.009 284)',
+            marginBottom: 14,
             opacity: vis ? 1 : 0,
             transform: vis ? 'translateY(0)' : 'translateY(12px)',
             transition: 'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
           }}>
-            Your mind deserves care.<br />Let healing begin.
+            Your{' '}
+            <em style={{ color: 'oklch(70% 0.16 284)', fontStyle: 'italic', fontWeight: 500 }}>mind</em>
+            {' '}deserves care.
+            <br />
+            <span style={{
+              fontSize: '0.78em',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              color: 'oklch(60% 0.1 284)',
+              letterSpacing: '0em',
+            }}>Let healing begin.</span>
           </div>
 
           <div className="landing-sub" style={{
             fontFamily: 'Manrope, sans-serif',
-            fontSize: 'clamp(0.8rem, 1.5vw, 0.92rem)',
-            color: 'rgba(255,255,255,0.4)',
-            letterSpacing: '0.04em',
+            fontSize: 'clamp(0.79rem, 1.4vw, 0.9rem)',
+            color: 'oklch(50% 0.04 284)',
+            letterSpacing: '0.02em',
             fontWeight: 400,
             fontStyle: 'italic',
             opacity: vis ? 1 : 0,
