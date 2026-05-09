@@ -2846,4 +2846,734 @@ codependency: {
   }
 },
 
+
+resilience: {
+  id: 'resilience', color: '#34d399',
+  icon: '🪨', title: 'How Resilient Am I?',
+  descHtml: `Based on the <strong>Brief Resilience Scale</strong> (BRS; Smith et al., 2008), this quiz measures your capacity to recover from stress, adversity, and difficult life events. Resilience isn't the absence of struggle — it's the ability to move through it.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "After going through something hard, I tend to bounce back within a reasonable time.",
+      answers: [
+        { text: "Not like me — difficult events tend to linger and derail me for a long time", score: 0 },
+        { text: "Somewhat — I eventually recover, but it takes longer than I'd like", score: 1 },
+        { text: "Often — I usually find my footing again after a while", score: 2 },
+        { text: "Very much like me — I recover relatively quickly, even from serious setbacks", score: 3 },
+      ]
+    },
+    { text: "When something stressful happens, I struggle significantly to get through it.",
+      sub: "Think about your actual pattern, not how you'd like to respond.",
+      answers: [
+        { text: "Rarely — I generally manage to get through without losing myself entirely", score: 3 },
+        { text: "Sometimes — certain events genuinely knock me down for a while", score: 2 },
+        { text: "Often — I find it genuinely hard to get through hard times", score: 1 },
+        { text: "Almost always — stressful events feel overwhelming and hard to survive", score: 0 },
+      ]
+    },
+    { text: "Even when things are difficult, I usually believe they will eventually get better.",
+      answers: [
+        { text: "Rarely — pessimism is more natural to me in hard times", score: 0 },
+        { text: "Sometimes — I can hold hope, but it doesn't come easily", score: 1 },
+        { text: "Often — I tend to expect things to improve, even if slowly", score: 2 },
+        { text: "Almost always — I generally trust that things will turn around", score: 3 },
+      ]
+    },
+    { text: "I take a long time to recover from setbacks in my life.",
+      answers: [
+        { text: "Rarely — I'm usually able to move forward without too much delay", score: 3 },
+        { text: "Sometimes — it depends on the severity of the setback", score: 2 },
+        { text: "Often — recovery tends to be a slow, difficult process for me", score: 1 },
+        { text: "Almost always — I hold onto difficult experiences for a long time", score: 0 },
+      ]
+    },
+    { text: "When life gets hard, I find inner resources I didn't know I had.",
+      answers: [
+        { text: "Rarely — hard times mostly reveal my limitations", score: 0 },
+        { text: "Sometimes — occasionally I surprise myself with what I can handle", score: 1 },
+        { text: "Often — difficulty tends to surface a strength in me I don't always feel", score: 2 },
+        { text: "Consistently — adversity tends to bring out a resilient part of me", score: 3 },
+      ]
+    },
+    { text: "I tend to come through difficult periods with little lasting damage.",
+      answers: [
+        { text: "Rarely — hard periods leave significant marks that persist", score: 0 },
+        { text: "Sometimes — I get through, but difficulty does leave traces", score: 1 },
+        { text: "Often — I tend to emerge from hard times relatively intact", score: 2 },
+        { text: "Usually — I generally come through difficulty without lasting damage", score: 3 },
+      ]
+    },
+    { text: "During challenges, I'm able to stay connected to the things that give my life meaning.",
+      answers: [
+        { text: "Rarely — difficulty tends to disconnect me from everything meaningful", score: 0 },
+        { text: "Sometimes — it's a struggle but I find at least one anchor", score: 1 },
+        { text: "Often — I manage to maintain some connection to what matters", score: 2 },
+        { text: "Consistently — I can usually stay anchored even in hard times", score: 3 },
+      ]
+    },
+    { text: "I find it hard to maintain my sense of self when things go wrong.",
+      answers: [
+        { text: "Rarely — I feel grounded in who I am even when circumstances are difficult", score: 3 },
+        { text: "Sometimes — significant hardship can shake my sense of self", score: 2 },
+        { text: "Often — difficulty tends to destabilise how I see myself", score: 1 },
+        { text: "Strongly — when things go wrong, I lose my sense of who I am", score: 0 },
+      ]
+    },
+    { text: "I'm able to keep going even when I don't know how things will turn out.",
+      answers: [
+        { text: "Rarely — uncertainty feels paralyzing", score: 0 },
+        { text: "Sometimes — I can keep moving, but uncertainty really costs me", score: 1 },
+        { text: "Often — I manage to act even without guarantees", score: 2 },
+        { text: "Consistently — I can tolerate uncertainty and keep moving forward", score: 3 },
+      ]
+    },
+    { text: "People who know me would describe me as someone who handles adversity well.",
+      sub: "Your honest estimate of how others perceive your resilience.",
+      answers: [
+        { text: "Unlikely — they'd probably say adversity hits me hard", score: 0 },
+        { text: "Some might — I have good days and hard days", score: 1 },
+        { text: "Probably — they've seen me get through difficult things", score: 2 },
+        { text: "Very likely — resilience is something people notice in me", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌿 Low resilience';
+    const meterRight = 'High resilience 🪨';
+    if (pct < 26) {
+      icon = '🌧️'; title = 'Low Resilience';
+      subtitle = 'You\'re finding it hard to recover from adversity — setbacks tend to leave lasting marks.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Resilience is a skill, not a trait you\'re born with</strong> — Smith et al.\'s BRS research consistently shows resilience can be built through deliberate practice and supportive relationships.' },
+        { icon: '🔍', text: '<strong>Low resilience often reflects cumulative stress or unprocessed trauma</strong> — your nervous system may be operating in a depleted state, leaving fewer resources for recovery.' },
+        { icon: '🤝', text: '<strong>Social connection is the single strongest predictor of resilience</strong> — Southwick & Charney (2012) found that supportive relationships outperform every individual-level coping skill.' },
+        { icon: '🌱', text: '<strong>What actually builds resilience</strong>: therapy (especially ACT and somatic approaches), sleep restoration, regular movement, and gradually expanding your window of tolerance.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low resilience range<br><br>Based on: Smith, B.W. et al. (2008). The brief resilience scale. <em>International Journal of Behavioral Medicine, 15</em>(3), 194–200. Southwick, S.M. & Charney, D.S. (2012). <em>Resilience: The Science of Mastering Life's Greatest Challenges.</em>`;
+    } else if (pct < 50) {
+      icon = '⛅'; title = 'Developing Resilience';
+      subtitle = 'You have some capacity to recover from adversity, but setbacks can significantly derail you.';
+      traits = [
+        { icon: '🔄', text: '<strong>Resilience at this level is inconsistent</strong> — you have genuine coping resources, but they aren\'t yet reliable across different types of stressors.' },
+        { icon: '💡', text: '<strong>The gap is often in self-compassion</strong> — Neff & Germer\'s research shows that people who struggle to recover often apply harsher standards to themselves during hardship than they would to others.' },
+        { icon: '🧠', text: '<strong>Cognitive flexibility predicts resilience</strong> — Tugade & Fredrickson (2004) found that resilient people can hold multiple interpretations of a difficult event simultaneously, reducing the impact of any single narrative.' },
+        { icon: '🌿', text: '<strong>Practical growth areas</strong>: identifying one reliable person to process difficulty with, developing a physical regulation practice, and working on meaning-making around past hardships.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — developing resilience range<br><br>Based on: Smith et al. (2008). Neff, K. & Germer, C. (2013). <em>Journal of Clinical Psychology, 69</em>(1). Tugade, M.M. & Fredrickson, B.L. (2004). <em>Journal of Personality and Social Psychology, 86</em>(2).`;
+    } else if (pct < 75) {
+      icon = '🌤️'; title = 'Solid Resilience';
+      subtitle = 'You have a real capacity to recover from adversity — you get through hard times without losing yourself.';
+      traits = [
+        { icon: '✅', text: '<strong>Functional resilience</strong> — you have enough inner and social resources to move through difficulty without being permanently derailed. This is more than most.' },
+        { icon: '🔬', text: '<strong>Resilience at this level correlates with several protective factors</strong>: meaning-making, self-efficacy, and what Bonanno (2004) calls the "flexibility sequence" — shifting coping strategies depending on what a situation demands.' },
+        { icon: '🌱', text: '<strong>Resilient people aren\'t unaffected</strong> — they feel pain fully. The difference is they have ways to process it rather than getting stuck in it.' },
+        { icon: '💡', text: '<strong>Deepening resilience from here</strong>: post-traumatic growth research (Tedeschi & Calhoun) suggests that directly engaging with, rather than managing, difficult experiences produces the deepest expansion of resilience.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — solid resilience range<br><br>Based on: Smith et al. (2008). Bonanno, G.A. (2004). Loss, trauma, and human resilience. <em>American Psychologist, 59</em>(1). Tedeschi, R.G. & Calhoun, L.G. (2004). <em>Psychological Inquiry, 15</em>(1).`;
+    } else {
+      icon = '🪨'; title = 'High Resilience';
+      subtitle = 'You have a strong, reliable capacity to recover from adversity and bounce back from difficult events.';
+      traits = [
+        { icon: '💪', text: '<strong>High resilience is a genuine protective factor</strong> — Luthar et al.\'s research found it correlates with better health outcomes, stronger relationships, and longer life expectancy.' },
+        { icon: '🌊', text: '<strong>Resilient people aren\'t unbothered — they\'re unbroken</strong> — they feel difficulty fully but have learned to move through it. The difference is processing, not suppression.' },
+        { icon: '🔬', text: '<strong>High resilience correlates with</strong>: a coherent life narrative, the ability to make meaning from hardship, strong social ties, and flexible coping strategies.' },
+        { icon: '🤝', text: '<strong>Resilience is contagious</strong> — research by Jeste et al. (2013) shows highly resilient people often anchor those around them through difficult periods simply through their presence.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high resilience range<br><br>Based on: Smith et al. (2008). Luthar, S.S. (2006). Resilience in development. <em>Development and Psychopathology, 18.</em> Jeste, D.V. et al. (2013). <em>Psychiatric Annals, 43.</em>`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+grief: {
+  id: 'grief', color: '#818cf8',
+  icon: '🕊️', title: 'Am I in Complicated Grief?',
+  descHtml: `Based on the <strong>Prolonged Grief Disorder scale</strong> (PG-13; Prigerson et al., 2009) and DSM-5-TR criteria. This quiz is for people who have experienced a significant loss — a death, the end of a relationship, or another major loss.<br><br>Answer based on how you've been feeling in the <strong>past month</strong>.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "How often do you feel a yearning or longing for the person or thing you lost?",
+      sub: "A persistent ache for their presence, their voice, or life as it was.",
+      answers: [
+        { text: "Rarely or never", score: 0 },
+        { text: "Sometimes — it comes and goes", score: 1 },
+        { text: "Often — it's a regular presence in my days", score: 2 },
+        { text: "Almost constantly — I'm rarely without it", score: 3 },
+      ]
+    },
+    { text: "How much difficulty do you have accepting the reality of the loss?",
+      answers: [
+        { text: "Little or none — I've largely accepted what happened", score: 0 },
+        { text: "Some — acceptance is happening but isn't complete", score: 1 },
+        { text: "Significant — some part of me still resists the reality", score: 2 },
+        { text: "I can barely accept it — it still feels unreal or impossible", score: 3 },
+      ]
+    },
+    { text: "How much emotional pain or anguish do you experience around this loss?",
+      answers: [
+        { text: "Little — I've grieved and the acute pain has largely passed", score: 0 },
+        { text: "Some — there is still pain, but it's manageable", score: 1 },
+        { text: "Considerable — the pain is still significant and regular", score: 2 },
+        { text: "Overwhelming — the pain is intense and hard to live with", score: 3 },
+      ]
+    },
+    { text: "Do you feel that life is meaningless or empty without this person or thing?",
+      answers: [
+        { text: "Not really — I've been able to find meaning despite the loss", score: 0 },
+        { text: "Sometimes — meaning is harder to find than it used to be", score: 1 },
+        { text: "Often — the loss has significantly drained my sense of purpose", score: 2 },
+        { text: "Constantly — life feels hollow or pointless since the loss", score: 3 },
+      ]
+    },
+    { text: "Do you feel a persistent sense of bitterness or anger about the loss?",
+      answers: [
+        { text: "Rarely — I've moved through most of the anger", score: 0 },
+        { text: "Sometimes — anger still surfaces but doesn't dominate", score: 1 },
+        { text: "Often — significant anger or bitterness remains", score: 2 },
+        { text: "Strongly — anger or bitterness around the loss is very present", score: 3 },
+      ]
+    },
+    { text: "How much trouble do you have engaging in activities that mattered to you before the loss?",
+      answers: [
+        { text: "Little or none — I've largely returned to my normal life", score: 0 },
+        { text: "Some — it takes more effort but I can engage", score: 1 },
+        { text: "Significant — many activities feel hollow or hard to access", score: 2 },
+        { text: "Very much — I've largely stopped doing things I used to care about", score: 3 },
+      ]
+    },
+    { text: "Do you feel that part of yourself died or was permanently altered by the loss?",
+      sub: "A sense that you are not the same person you were before.",
+      answers: [
+        { text: "Not really — I still feel fundamentally like myself", score: 0 },
+        { text: "Somewhat — I've changed, but I still feel like me", score: 1 },
+        { text: "Often — something fundamental about me feels absent", score: 2 },
+        { text: "Strongly — I barely recognise who I am now", score: 3 },
+      ]
+    },
+    { text: "Do you avoid people, places, or things that remind you of the loss?",
+      answers: [
+        { text: "Rarely — I can engage with reminders without being destabilised", score: 0 },
+        { text: "Sometimes — I avoid certain reminders but not comprehensively", score: 1 },
+        { text: "Often — I avoid significant things tied to the loss", score: 2 },
+        { text: "Extensively — my life is organised around avoiding reminders", score: 3 },
+      ]
+    },
+    { text: "Since the loss, do you find it harder to trust that the people you love will stay?",
+      answers: [
+        { text: "Not noticeably — my capacity for trust hasn't significantly changed", score: 0 },
+        { text: "Somewhat — loss has made trust harder, but I'm still able to connect", score: 1 },
+        { text: "Yes — I find it harder to trust in permanence since the loss", score: 2 },
+        { text: "Strongly — the loss has deeply shaken my ability to trust", score: 3 },
+      ]
+    },
+    { text: "Is this loss still significantly interfering with your work, relationships, or daily functioning?",
+      sub: "PGD is defined by symptoms that cause meaningful disruption to daily life.",
+      answers: [
+        { text: "No — I'm functioning reasonably well despite the loss", score: 0 },
+        { text: "Somewhat — there's some impact, but I'm managing", score: 1 },
+        { text: "Yes — the loss is meaningfully disrupting important areas of my life", score: 2 },
+        { text: "Substantially — the loss has significantly impaired my ability to function", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌱 Normal grief';
+    const meterRight = 'Complicated grief 🕊️';
+    if (pct < 25) {
+      icon = '🌱'; title = 'Normal Grief Process';
+      subtitle = 'Your grief, while real and painful, appears to be following a natural course.';
+      traits = [
+        { icon: '🌊', text: '<strong>Grief is not a disorder to be fixed</strong> — Bonanno (2009) found that most people pass through acute grief without lasting impairment, and that this natural resilience is more common than cultural narratives suggest.' },
+        { icon: '💛', text: '<strong>Normal grief still hurts deeply</strong> — absence of complicated grief doesn\'t mean absence of pain. It means your grief is moving rather than frozen.' },
+        { icon: '🕰️', text: '<strong>Grief has no single timeline</strong> — the old "five stages" model has been largely replaced by oscillation theory (Stroebe & Schut, 2010): healthy grief moves between loss-oriented and restoration-oriented focus.' },
+        { icon: '💡', text: '<strong>What helps</strong>: allowing the grief to move through you, maintaining social connection, and permitting yourself both to feel the loss and to engage with life.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — normal grief range<br><br>Based on: Prigerson, H.G. et al. (2009). Prolonged grief disorder. <em>PLOS Medicine, 6</em>(8). Bonanno, G.A. (2009). <em>The Other Side of Sadness.</em>`;
+    } else if (pct < 50) {
+      icon = '🌫️'; title = 'Moderate Grief Symptoms';
+      subtitle = 'Your grief is significant and may be moving slowly — some features of complicated grief are present.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Grief becomes complicated when it freezes rather than flows</strong> — at this level, your loss is still significantly organising your emotional life in ways that go beyond normal mourning.' },
+        { icon: '🔬', text: '<strong>Prolonged Grief Disorder (PGD) was added to DSM-5-TR in 2022</strong> — it\'s defined by intense grief symptoms lasting more than 12 months that cause significant impairment. Not all grief that hurts is disordered.' },
+        { icon: '🤝', text: '<strong>Complicated grief often benefits from specific therapy</strong> — Shear et al.\'s randomised trials found Complicated Grief Treatment (CGT) significantly outperforms standard depression treatment for grief symptoms.' },
+        { icon: '🌱', text: '<strong>Grief at this level doesn\'t mean something is wrong with you</strong> — it often reflects the depth of what you\'ve lost, and sometimes unprocessed earlier losses that this loss has awakened.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate grief range<br><br>Based on: Prigerson et al. (2009). Shear, M.K. et al. (2005). Treatment of complicated grief. <em>JAMA, 293</em>(21). If symptoms have lasted 12+ months and are disrupting your daily life, a grief-specialised therapist is recommended.`;
+    } else if (pct < 75) {
+      icon = '🕊️'; title = 'Significant Complicated Grief';
+      subtitle = 'Your grief symptoms are significant and appear to be meaningfully disrupting your daily life.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, grief is no longer moving naturally</strong> — it has become more like a chronic state than an acute process. This is more common than most people realise, especially after traumatic or sudden losses.' },
+        { icon: '🧬', text: '<strong>Complicated grief has distinct neurobiology</strong> — O\'Connor et al. (2008) found that in prolonged grief, the brain\'s reward centre activates in response to reminders of the deceased, creating a yearning loop distinct from standard sadness.' },
+        { icon: '💊', text: '<strong>Evidence-based treatments exist and work</strong>: Complicated Grief Treatment (CGT) by Katherine Shear has the strongest evidence base. It combines imaginal revisiting, situational revisiting, and connection work.' },
+        { icon: '🤝', text: '<strong>Please reach out for support</strong> — prolonged grief at this level is treatable and you don\'t need to carry it alone. A grief-specialised therapist can make a meaningful difference.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant complicated grief range<br><br>Based on: Prigerson et al. (2009). Shear, M.K. (2015). Complicated grief. <em>NEJM, 372</em>(2). Professional support is strongly recommended.`;
+    } else {
+      icon = '❄️'; title = 'Severe Prolonged Grief';
+      subtitle = 'Your grief symptoms are severe and appear to be significantly impairing your daily functioning.';
+      traits = [
+        { icon: '❗', text: '<strong>Prolonged grief at this severity is a recognised clinical condition</strong> — DSM-5-TR Prolonged Grief Disorder. It\'s not a sign of weakness or inability to cope — it\'s a treatable disorder.' },
+        { icon: '🧠', text: '<strong>Grief of this intensity often has two layers</strong>: the current loss, and earlier losses or attachment wounds that this loss has reopened. Effective treatment addresses both.' },
+        { icon: '🌊', text: '<strong>The frozen quality of complicated grief</strong> often comes from avoided confrontation with the reality of the loss. CGT\'s "revisiting" approach gently breaks this avoidance and produces significant symptom relief.' },
+        { icon: '🤝', text: '<strong>Please seek support now</strong> — grief at this level causes genuine suffering that you don\'t need to endure alone. Your GP, a grief therapist, or a bereavement helpline are good first steps.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe prolonged grief range<br><br>Based on: Prigerson et al. (2009). APA (2022). DSM-5-TR. Shear, M.K. (2015). <em>NEJM, 372</em>(2). At this level, professional support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+anger: {
+  id: 'anger', color: '#ef4444',
+  icon: '🌋', title: 'How Do I Relate to Anger?',
+  descHtml: `Based on Spielberger's <strong>State-Trait Anger Expression Inventory (STAXI-2)</strong> (1999) and Novaco's anger framework. This quiz explores your trait anger — how often and intensely you experience anger, and how you express or suppress it.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I am quick-tempered — things that wouldn't bother others can make me quite angry.",
+      answers: [
+        { text: "Rarely — my anger threshold is fairly high", score: 0 },
+        { text: "Sometimes — certain things trigger me faster than others", score: 1 },
+        { text: "Often — I tend to get angry faster than most people", score: 2 },
+        { text: "Very much — I am noticeably quick to anger", score: 3 },
+      ]
+    },
+    { text: "When I get angry, I tend to express it outwardly — raising my voice, snapping, or showing it clearly.",
+      sub: "STAXI-2 calls this 'Anger-Out'. Neither expression nor suppression is inherently better.",
+      answers: [
+        { text: "Rarely — my anger tends to stay contained", score: 0 },
+        { text: "Sometimes — I express it in some situations but not others", score: 1 },
+        { text: "Often — I find it hard to hide anger when I feel it", score: 2 },
+        { text: "Very much — people around me usually know when I'm angry", score: 3 },
+      ]
+    },
+    { text: "When I get angry, I tend to suppress it — keeping it in while it simmers.",
+      sub: "STAXI-2 calls this 'Anger-In'. Suppressed anger is associated with cardiovascular health risks.",
+      answers: [
+        { text: "Rarely — I process anger fairly openly", score: 0 },
+        { text: "Sometimes — I suppress it in certain contexts (work, some relationships)", score: 1 },
+        { text: "Often — I swallow anger rather than express it", score: 2 },
+        { text: "Almost always — I rarely let anyone see my anger, even when it's intense", score: 3 },
+      ]
+    },
+    { text: "After I get angry, I remain upset for a while — anger lingers even after the situation resolves.",
+      sub: "Research on 'anger rumination' (Sukhodolsky et al., 2001) found it is more predictive of anger problems than anger intensity.",
+      answers: [
+        { text: "Rarely — I tend to let go of anger fairly quickly", score: 0 },
+        { text: "Sometimes — certain incidents stay with me longer", score: 1 },
+        { text: "Often — I replay angry situations and stay agitated", score: 2 },
+        { text: "Significantly — anger tends to linger and I revisit it repeatedly", score: 3 },
+      ]
+    },
+    { text: "I feel angry when I'm treated unfairly — even in minor situations.",
+      answers: [
+        { text: "Rarely — unfairness bothers me but doesn't typically produce anger", score: 0 },
+        { text: "Sometimes — significant unfairness triggers anger", score: 1 },
+        { text: "Often — I react with anger to unfairness, including minor incidents", score: 2 },
+        { text: "Strongly — perceived injustice is one of my most reliable anger triggers", score: 3 },
+      ]
+    },
+    { text: "My anger has caused problems in my relationships, work, or daily life.",
+      answers: [
+        { text: "Rarely or never", score: 0 },
+        { text: "Occasionally — there have been some incidents I regret", score: 1 },
+        { text: "Yes — anger has created meaningful friction in my relationships or work", score: 2 },
+        { text: "Significantly — anger has caused serious or recurring problems", score: 3 },
+      ]
+    },
+    { text: "I can control my anger — even when I feel it, I can choose how or whether to express it.",
+      sub: "Anger control is STAXI-2's positive dimension — the ability to regulate expression.",
+      answers: [
+        { text: "Consistently — I feel anger but manage how I respond to it", score: 3 },
+        { text: "Usually — I can control it, but lose it under specific conditions", score: 2 },
+        { text: "Sometimes — control is inconsistent", score: 1 },
+        { text: "Rarely — when I'm angry, it tends to come out regardless of my intentions", score: 0 },
+      ]
+    },
+    { text: "I feel anger about things that happened in the past — incidents or people I haven't fully let go of.",
+      answers: [
+        { text: "Rarely — I've processed most past grievances", score: 0 },
+        { text: "Sometimes — certain past experiences still produce anger", score: 1 },
+        { text: "Often — past events still provoke significant anger", score: 2 },
+        { text: "Substantially — unresolved past anger is a significant part of my inner life", score: 3 },
+      ]
+    },
+    { text: "I find myself experiencing anger that seems disproportionate to what actually happened.",
+      sub: "Disproportionate anger often signals that current events are activating older, unprocessed experiences.",
+      answers: [
+        { text: "Rarely — my anger is usually proportionate to the situation", score: 0 },
+        { text: "Sometimes — occasionally my reaction exceeded what the moment warranted", score: 1 },
+        { text: "Often — I frequently notice my anger is bigger than the trigger", score: 2 },
+        { text: "Yes — disproportionate anger is a recognisable pattern in my life", score: 3 },
+      ]
+    },
+    { text: "I feel angry at myself — self-directed anger, frustration, or self-blame is a regular presence.",
+      answers: [
+        { text: "Rarely — I'm reasonably self-compassionate", score: 0 },
+        { text: "Sometimes — I turn anger inward in certain situations", score: 1 },
+        { text: "Often — self-directed anger is a meaningful feature of my inner life", score: 2 },
+        { text: "Strongly — I'm much harder on myself than I am on anyone else", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '😌 Healthy anger';
+    const meterRight = 'Problematic anger 🌋';
+    if (pct < 26) {
+      icon = '😌'; title = 'Healthy Anger Relationship';
+      subtitle = 'Your relationship with anger appears healthy — you feel it proportionately and manage it well.';
+      traits = [
+        { icon: '✅', text: '<strong>Anger is biologically necessary</strong> — it signals boundary violations, injustice, and threat. The goal is never to eliminate anger but to feel it clearly and choose how to respond.' },
+        { icon: '🌊', text: '<strong>Healthy anger is clean</strong> — it arises, informs, and passes. Your pattern suggests anger is doing its job without becoming a chronic state or causing collateral damage.' },
+        { icon: '💡', text: '<strong>The emotion itself is never the problem</strong> — Linehan\'s DBT framework is clear: all emotions are valid. What matters is the behaviour that follows, which you appear to manage well.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — healthy anger range<br><br>Based on: Spielberger, C.D. (1999). STAXI-2. Novaco, R.W. (2011). Anger regulation. In M. Potegal et al. (Eds.), <em>International Handbook of Anger.</em>`;
+    } else if (pct < 50) {
+      icon = '⚡'; title = 'Moderate Anger Tendencies';
+      subtitle = 'You experience anger regularly and some aspects of how you experience or express it may be creating friction.';
+      traits = [
+        { icon: '🔍', text: '<strong>Anger at this level often has an unexamined signal underneath</strong> — the question is always: what is this protecting, or what loss or threat is it trying to address?' },
+        { icon: '🔄', text: '<strong>Anger rumination is the key risk factor</strong> — Sukhodolsky et al. (2001) found that replaying angry thoughts (not anger intensity) is the strongest predictor of anger-related problems.' },
+        { icon: '🛠️', text: '<strong>What works</strong>: anger journals to identify triggers, somatic discharge (physical movement to process physiological arousal), and EMDR or somatic therapy for trauma-based anger.' },
+        { icon: '💡', text: '<strong>Anger often masks pain</strong> — van der Kolk\'s somatic work consistently finds that chronic anger is often grief or fear that the system learned to armour into aggression.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate anger range<br><br>Based on: Spielberger (1999). Sukhodolsky, D.G. et al. (2001). A dispositional approach to anger. <em>Journal of Research in Personality, 35.</em>`;
+    } else if (pct < 75) {
+      icon = '🌋'; title = 'Significant Anger Patterns';
+      subtitle = 'Anger is playing a significant role in your life — it may be chronic, intense, or creating meaningful problems.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, anger has become a system rather than a signal</strong> — a default way of relating to threat, pain, or perceived injustice that is running on autopilot.' },
+        { icon: '🧠', text: '<strong>Chronic anger has real health consequences</strong> — Chida & Steptoe (2009) meta-analysis found trait anger associated with significantly elevated cardiovascular risk.' },
+        { icon: '🌊', text: '<strong>Suppressed anger is not safer</strong> — STAXI-2 research shows anger-in is associated with equal or greater health risks than anger-out. The goal isn\'t to contain it — it\'s to process it.' },
+        { icon: '🛠️', text: '<strong>Evidence-based approaches</strong>: Cognitive-Behavioral Anger Management (CBAM), EMDR for trauma-based anger, somatic experiencing, and DBT emotion regulation skills all show strong evidence.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant anger range<br><br>Based on: Spielberger (1999). Chida, Y. & Steptoe, A. (2009). <em>Journal of the American College of Cardiology, 53</em>(11). Working with a therapist on anger is strongly recommended at this level.`;
+    } else {
+      icon = '🔥'; title = 'High Anger Profile';
+      subtitle = 'Anger is playing a central and problematic role in your daily life and relationships.';
+      traits = [
+        { icon: '❗', text: '<strong>High trait anger affects every domain of life</strong> — relationships, health, work, and self-perception. It is treatable, but usually requires more than insight: it requires somatic work and sometimes trauma processing.' },
+        { icon: '🧬', text: '<strong>Chronic high anger frequently has a trauma history</strong> — van der Kolk\'s research found that anger dysregulation is one of the most common presentations of unresolved trauma, especially early experiences of helplessness or violation.' },
+        { icon: '🔗', text: '<strong>Anger and shame are often intertwined</strong> — Lewis (1971) found that what looks like anger is often shame-rage: the defensive anger that arises from intolerable feelings of inadequacy or humiliation.' },
+        { icon: '🤝', text: '<strong>Please seek support</strong> — anger at this level causes suffering for you and those around you. CBAM, EMDR, and somatic trauma work are all effective approaches.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high anger range<br><br>Based on: Spielberger (1999). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Lewis, H.B. (1971). <em>Shame and Guilt in Neurosis.</em> Professional support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+emotionalneglect: {
+  id: 'emotionalneglect', color: '#a78bfa',
+  icon: '🫧', title: 'Did I Experience Emotional Neglect?',
+  descHtml: `Based on <strong>Jonice Webb's Childhood Emotional Neglect (CEN) questionnaire</strong> from <em>Running on Empty</em> (2012). CEN is not what happened to you — it's what <em>didn't</em> happen: the absence of emotional attunement from caregivers during childhood.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "As a child, did you feel that your emotions were understood and responded to by your family?",
+      sub: "Not just that you were loved, but that your feelings were noticed and validated.",
+      answers: [
+        { text: "Yes — I generally felt emotionally seen and understood", score: 0 },
+        { text: "Sometimes — some emotions were acknowledged, others dismissed", score: 1 },
+        { text: "Rarely — my emotional experience was mostly not acknowledged", score: 2 },
+        { text: "Almost never — my inner world was essentially invisible in my family", score: 3 },
+      ]
+    },
+    { text: "As a child, did you feel comfortable going to your parents when you were distressed, scared, or sad?",
+      answers: [
+        { text: "Yes — they were generally available and responsive", score: 0 },
+        { text: "Sometimes — it depended on the situation or the parent", score: 1 },
+        { text: "Rarely — going to them for emotional needs didn't feel reliable", score: 2 },
+        { text: "No — I learned to handle distress alone; going to them felt pointless", score: 3 },
+      ]
+    },
+    { text: "Growing up, do you recall your parents asking about your feelings or inner life?",
+      answers: [
+        { text: "Regularly — they showed genuine interest in my inner experience", score: 0 },
+        { text: "Sometimes — they asked, though not consistently", score: 1 },
+        { text: "Rarely — emotional conversations were uncommon", score: 2 },
+        { text: "Almost never — emotions simply weren't discussed or enquired about", score: 3 },
+      ]
+    },
+    { text: "As an adult, do you find it difficult to identify what you are feeling in a given moment?",
+      sub: "Webb identifies difficulty naming emotions as one of the clearest signs of CEN.",
+      answers: [
+        { text: "Rarely — I'm usually able to identify my feelings reasonably well", score: 0 },
+        { text: "Sometimes — certain emotions are hard to identify or name", score: 1 },
+        { text: "Often — putting names to feelings is consistently hard", score: 2 },
+        { text: "Very much — I frequently don't know what I'm feeling until much later, if at all", score: 3 },
+      ]
+    },
+    { text: "Do you feel that your needs are less important than other people's, or that having needs is selfish?",
+      answers: [
+        { text: "Rarely — I feel entitled to having and expressing my needs", score: 0 },
+        { text: "Sometimes — in certain relationships I deprioritise my needs", score: 1 },
+        { text: "Often — needing things from others feels inherently demanding", score: 2 },
+        { text: "Strongly — I've felt for as long as I can remember that my needs don't count", score: 3 },
+      ]
+    },
+    { text: "Do you struggle to ask for help, even when you genuinely need it?",
+      sub: "CEN teaches children that their needs are inconvenient or wrong — leading to lifelong difficulty seeking support.",
+      answers: [
+        { text: "Rarely — I can ask for help when I need it", score: 0 },
+        { text: "Sometimes — it's uncomfortable but I do it when necessary", score: 1 },
+        { text: "Often — asking for help feels difficult or shameful", score: 2 },
+        { text: "Almost never — I find it nearly impossible to ask for help, even in crisis", score: 3 },
+      ]
+    },
+    { text: "Do you sometimes feel fundamentally different from other people — like there's something essential others have that you lack?",
+      sub: "Webb describes this as the 'empty feeling' — one of CEN's most common adult presentations.",
+      answers: [
+        { text: "Rarely — I generally feel like I belong among people", score: 0 },
+        { text: "Sometimes — there are moments of feeling outside or different", score: 1 },
+        { text: "Often — a persistent sense of being somehow different or missing something", score: 2 },
+        { text: "Frequently — I've felt for much of my life like I lack something others simply have", score: 3 },
+      ]
+    },
+    { text: "Are you harder on yourself than you would be on others in the same situation?",
+      answers: [
+        { text: "Rarely — I generally apply similar compassion to myself and others", score: 0 },
+        { text: "Sometimes — I hold higher standards for myself in some areas", score: 1 },
+        { text: "Often — I'm noticeably harsher on myself than I'd be on anyone else", score: 2 },
+        { text: "Consistently — self-compassion feels foreign or unearned", score: 3 },
+      ]
+    },
+    { text: "As a child, were emotions in your family generally seen as weakness, inconvenient, or something to be controlled?",
+      answers: [
+        { text: "No — emotions were accepted as a normal part of life", score: 0 },
+        { text: "Somewhat — some emotions were accepted, others weren't", score: 1 },
+        { text: "Often — showing emotions was discouraged or uncomfortable in my family", score: 2 },
+        { text: "Very much — emotions were treated as weakness, drama, or a burden", score: 3 },
+      ]
+    },
+    { text: "Do you feel a persistent sense of guilt or shame when you do something for yourself?",
+      answers: [
+        { text: "Rarely — self-care doesn't produce guilt", score: 0 },
+        { text: "Sometimes — in certain areas, doing things for myself feels uncomfortable", score: 1 },
+        { text: "Often — self-focused activity frequently produces guilt", score: 2 },
+        { text: "Strongly — I feel guilty or selfish almost anytime I prioritise myself", score: 3 },
+      ]
+    },
+    { text: "Do you feel a vague, persistent emptiness that's hard to name or explain?",
+      answers: [
+        { text: "Rarely — I generally feel full and connected", score: 0 },
+        { text: "Sometimes — there are periods where emptiness creeps in", score: 1 },
+        { text: "Often — a background emptiness is a familiar companion", score: 2 },
+        { text: "Consistently — the emptiness is a defining feature of my inner experience", score: 3 },
+      ]
+    },
+    { text: "Looking back, do you feel you had to be emotionally self-sufficient earlier than was appropriate for your age?",
+      sub: "CEN children often learn to meet their own emotional needs because the adults around them weren't available.",
+      answers: [
+        { text: "Not particularly — I felt cared for emotionally at a developmentally appropriate level", score: 0 },
+        { text: "Somewhat — I grew up fairly quickly, but wasn't entirely without support", score: 1 },
+        { text: "Yes — I learned early to handle most emotional experiences on my own", score: 2 },
+        { text: "Strongly — I was emotionally on my own from very early — I didn't expect comfort", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌿 Well nurtured';
+    const meterRight = 'Significant neglect 🫧';
+    if (pct < 25) {
+      icon = '🌿'; title = 'Well-Nurtured Emotional Foundation';
+      subtitle = 'Your childhood emotional environment appears to have been reasonably attuned and supportive.';
+      traits = [
+        { icon: '✅', text: '<strong>Emotional attunement in childhood literally shapes the brain</strong> — Allan Schore and Daniel Siegel\'s research has established that attuned caregiving shapes the structure of the developing brain\'s emotional regulation circuits.' },
+        { icon: '💛', text: '<strong>No childhood is perfect</strong> — a nurturing foundation means "good enough" parenting (Winnicott\'s term), not flawless. Imperfect but attuned caregiving is the norm for emotionally healthy adults.' },
+        { icon: '💡', text: '<strong>Emotional intelligence is partly learned</strong> — if you grew up with parents who acknowledged your inner world, that becomes your template for relating to your own emotions and to others\'.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — well-nurtured range<br><br>Based on: Webb, J. (2012). <em>Running on Empty: Overcome Your Childhood Emotional Neglect.</em> Schore, A.N. (2001). Effects of a secure attachment on right brain development. <em>Infant Mental Health Journal, 22.</em>`;
+    } else if (pct < 50) {
+      icon = '🌘'; title = 'Mild to Moderate Emotional Neglect';
+      subtitle = 'Some gaps in emotional attunement during childhood appear to be present.';
+      traits = [
+        { icon: '⚠️', text: '<strong>CEN exists on a spectrum</strong> — at this level, emotional attunement was inconsistent. Some emotional needs were met, others weren\'t. This creates a confusing template: the self is partly recognised, partly invisible.' },
+        { icon: '🧠', text: '<strong>Common adult presentations</strong>: difficulty naming feelings (alexithymia), mild self-dismissal, discomfort asking for help, and a vague sense that others have something you don\'t.' },
+        { icon: '🌱', text: '<strong>Awareness alone produces significant relief</strong> — Webb\'s research shows that simply learning that CEN is a real thing that happened — and understanding its effects — begins meaningful change for many people.' },
+        { icon: '🛠️', text: '<strong>Practical starting points</strong>: feelings journals, learning emotion vocabulary (the Feelings Wheel), IFS therapy to reconnect with dismissed inner parts, and Webb\'s workbook <em>Running on Empty No More.</em>' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild-moderate CEN range<br><br>Based on: Webb, J. (2012). CEN often produces adults who are functional but feel "empty" or somehow incomplete. Awareness at this level allows meaningful change with relatively modest intervention.`;
+    } else if (pct < 75) {
+      icon = '🫧'; title = 'Significant Childhood Emotional Neglect';
+      subtitle = 'Significant gaps in early emotional attunement appear likely, with real adult effects.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, CEN has shaped your relationship with your own inner world</strong> — you may have learned to dismiss, distrust, or be largely out of contact with your emotions, needs, and sense of deserving care.' },
+        { icon: '🧬', text: '<strong>CEN is not about dramatic events</strong> — it\'s about the daily thousand small moments of emotional misattunement. Its effects can be as significant as active abuse while being far harder to identify and name.' },
+        { icon: '💔', text: '<strong>Common presentations</strong>: pervasive emptiness, difficulty feeling worthy of love, strong drive for self-sufficiency, and relationships where you give far more than you receive.' },
+        { icon: '🌿', text: '<strong>Recovery is possible</strong> — IFS therapy (Internal Family Systems), attachment-focused therapy, and schema therapy are among the most effective approaches for healing CEN.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant CEN range<br><br>Based on: Webb (2012). Young, J. et al. (2003). <em>Schema Therapy.</em> Schwartz, R. (1995). <em>Internal Family Systems Therapy.</em> A therapist familiar with CEN or attachment-based approaches is strongly recommended.`;
+    } else {
+      icon = '🌚'; title = 'Severe Childhood Emotional Neglect';
+      subtitle = 'Your early emotional environment appears to have been significantly neglectful, with substantial adult effects.';
+      traits = [
+        { icon: '❗', text: '<strong>Severe CEN is a form of childhood trauma</strong> — the absence of consistent emotional attunement produces effects equivalent to, and sometimes more lasting than, active harm. This is not a deficit in you — it\'s something that happened to you by omission.' },
+        { icon: '🧠', text: '<strong>The deepest wound of CEN</strong> — Webb identifies it as a pervasive unconscious belief that your emotions don\'t matter, your needs are invisible, and you\'re fundamentally different from others in a way you can\'t name.' },
+        { icon: '🔗', text: '<strong>CEN overlaps with many other presentations</strong> — depression, complex PTSD, persistent emptiness, identity disturbance, and chronic loneliness can all be presentations of severe CEN.' },
+        { icon: '🤝', text: '<strong>Please seek therapeutic support</strong> — IFS, EMDR, somatic therapy, and attachment-focused approaches all produce meaningful results with CEN. You deserve emotional attunement now, even if you didn\'t get it then.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe CEN range<br><br>Based on: Webb, J. (2012). <em>Running on Empty.</em> Herman, J.L. (1992). <em>Trauma and Recovery.</em> van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Professional support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+narcissism: {
+  id: 'narcissism', color: '#f59e0b',
+  icon: '👑', title: 'Do I Have Narcissistic Tendencies?',
+  descHtml: `Based on the <strong>Narcissistic Personality Inventory (NPI-16)</strong> by Ames et al. (2006) and Pincus & Lukowitsky's distinction between grandiose and vulnerable narcissism. Narcissistic traits exist on a spectrum — this quiz measures where you fall, not whether you have a disorder.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I am a special person with abilities or qualities that most people don't have.",
+      sub: "Answer honestly — this is not about whether you're 'allowed' to think this.",
+      answers: [
+        { text: "Not like me — I see myself as largely similar to others", score: 0 },
+        { text: "Somewhat — I have some qualities that set me apart", score: 1 },
+        { text: "Often — I do feel I have unusual qualities", score: 2 },
+        { text: "Very much — I genuinely feel I am more special than most people", score: 3 },
+      ]
+    },
+    { text: "I expect to be treated with special consideration in situations where others are not.",
+      answers: [
+        { text: "Rarely — I expect standard treatment", score: 0 },
+        { text: "Sometimes — in certain contexts I feel I deserve different treatment", score: 1 },
+        { text: "Often — I feel I warrant special consideration", score: 2 },
+        { text: "Consistently — I genuinely expect more consideration than the average person", score: 3 },
+      ]
+    },
+    { text: "I feel that other people often don't give me the recognition I deserve.",
+      sub: "NPI research identifies this 'entitlement-exploitativeness' dimension as central to narcissism.",
+      answers: [
+        { text: "Rarely — I feel my recognition is roughly appropriate", score: 0 },
+        { text: "Sometimes — there are areas where I feel underappreciated", score: 1 },
+        { text: "Often — I frequently feel undervalued relative to my actual worth", score: 2 },
+        { text: "Strongly — a persistent sense of being underrecognised is very present for me", score: 3 },
+      ]
+    },
+    { text: "I am skilled at influencing or steering people to get what I want.",
+      answers: [
+        { text: "Not really — I rely on honest communication", score: 0 },
+        { text: "Somewhat — I can be persuasive but stop short of manipulation", score: 1 },
+        { text: "Often — I am skilled at getting others to do what I want", score: 2 },
+        { text: "Yes — I'm quite effective at steering people toward outcomes I prefer", score: 3 },
+      ]
+    },
+    { text: "I become quite upset when I'm criticised, ignored, or not treated as I expect to be.",
+      sub: "Pincus & Lukowitsky (2010) identify 'narcissistic injury' — intense distress to perceived slights — as the core of vulnerable narcissism.",
+      answers: [
+        { text: "Rarely — I handle criticism without significant distress", score: 0 },
+        { text: "Sometimes — certain types of criticism affect me more than they should", score: 1 },
+        { text: "Often — criticism or being ignored causes significant upset", score: 2 },
+        { text: "Strongly — being criticised or ignored is one of the most difficult experiences I face", score: 3 },
+      ]
+    },
+    { text: "I feel I am more intelligent, perceptive, or capable than most people I encounter.",
+      answers: [
+        { text: "Rarely — I see others as largely comparable to me in ability", score: 0 },
+        { text: "Sometimes — in certain areas I feel more capable than average", score: 1 },
+        { text: "Often — I frequently see myself as more able than those around me", score: 2 },
+        { text: "Consistently — I generally feel I'm operating at a higher level than most", score: 3 },
+      ]
+    },
+    { text: "I have a strong need for admiration from others — it matters significantly how others perceive me.",
+      sub: "The need for external validation is one of the most consistently replicated features of narcissism across cultures.",
+      answers: [
+        { text: "Rarely — admiration is nice but not something I rely on", score: 0 },
+        { text: "Sometimes — external validation matters, though I don't need it constantly", score: 1 },
+        { text: "Often — I have a significant need for others to admire or think highly of me", score: 2 },
+        { text: "Strongly — how others perceive me is very important to my sense of self", score: 3 },
+      ]
+    },
+    { text: "In conversations, I find it natural to bring things back to my own experiences, achievements, or perspective.",
+      answers: [
+        { text: "Rarely — I actively work to make conversations mutual", score: 0 },
+        { text: "Sometimes — it happens, though I'm aware of it", score: 1 },
+        { text: "Often — conversations do tend to centre on me", score: 2 },
+        { text: "Frequently — I'm most comfortable when I'm the subject of conversation", score: 3 },
+      ]
+    },
+    { text: "I find it difficult to genuinely consider how my actions affect others when it conflicts with what I want.",
+      answers: [
+        { text: "Rarely — empathy and consideration of others are natural for me", score: 0 },
+        { text: "Sometimes — under certain conditions, self-interest overrides consideration of others", score: 1 },
+        { text: "Often — I find myself prioritising my needs in ways that minimise others' experiences", score: 2 },
+        { text: "Frequently — consideration of others competes strongly with my own interests", score: 3 },
+      ]
+    },
+    { text: "I believe I deserve the best — best partners, best outcomes, best treatment.",
+      answers: [
+        { text: "Not particularly — I have realistic expectations", score: 0 },
+        { text: "Somewhat — I have high standards but can manage realistic outcomes", score: 1 },
+        { text: "Often — I feel I deserve exceptional outcomes and am genuinely bothered when I don't get them", score: 2 },
+        { text: "Strongly — a deep sense of deserving the best is central to how I navigate life", score: 3 },
+      ]
+    },
+    { text: "I fantasise about being highly successful, admired, powerful, or famous.",
+      answers: [
+        { text: "Rarely — I have ambitions but not persistent fantasies about exceptional status", score: 0 },
+        { text: "Sometimes — I have occasional fantasies of significant success or recognition", score: 1 },
+        { text: "Often — I spend significant time imagining scenarios where I'm greatly admired", score: 2 },
+        { text: "Frequently — fantasies of exceptional status or admiration are a regular feature of my inner life", score: 3 },
+      ]
+    },
+    { text: "I feel envious of others' successes or qualities, or I believe others are envious of me.",
+      sub: "Both directions are relevant — envying others, or believing you are envied.",
+      answers: [
+        { text: "Rarely — I can celebrate others' success without envy", score: 0 },
+        { text: "Sometimes — certain successes trigger envy", score: 1 },
+        { text: "Often — envy (of others or belief in others' envy of me) is present", score: 2 },
+        { text: "Significantly — envy or the sense of being envied features frequently in my experience", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🤝 Healthy self-regard';
+    const meterRight = 'High narcissism 👑';
+    if (pct < 26) {
+      icon = '🤝'; title = 'Healthy Self-Regard';
+      subtitle = 'Your self-view appears realistic and grounded — neither self-deflating nor inflated.';
+      traits = [
+        { icon: '✅', text: '<strong>Not all confidence is narcissism</strong> — research distinguishes healthy self-esteem (stable, realistic, internally-sourced) from narcissistic self-regard (fragile, inflated, dependent on external validation).' },
+        { icon: '🌱', text: '<strong>Healthy narcissism exists</strong> — Kohut (1977) distinguished healthy narcissism (the capacity to love yourself and have ambitions) from pathological narcissism. Some self-regard is necessary for functioning.' },
+        { icon: '💡', text: '<strong>Empathy is a key differentiator</strong> — people with low narcissism maintain genuine interest in others\' inner lives as ends in themselves, not instruments to manage for self-regulation.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — healthy self-regard range<br><br>Based on: Ames, D.R. et al. (2006). The NPI-16. <em>Journal of Research in Personality, 40</em>(4). Pincus, A.L. & Lukowitsky, M.R. (2010). Pathological narcissism. <em>Annual Review of Clinical Psychology, 6.</em>`;
+    } else if (pct < 50) {
+      icon = '⭐'; title = 'Mild Narcissistic Tendencies';
+      subtitle = 'Some narcissistic traits are present — this is normal and common.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Narcissistic traits are normally distributed across the population</strong> — Stinson et al. (2008) found most people fall somewhere on the narcissism spectrum rather than having a discrete disorder.' },
+        { icon: '🔍', text: '<strong>At this level, key traits to watch</strong>: the need for admiration, sensitivity to criticism, and occasional entitlement. These don\'t cause problems unless they\'re increasing or affecting close relationships.' },
+        { icon: '💡', text: '<strong>Narcissistic traits often reflect unmet early needs</strong> — Kohut\'s self-psychology framework suggests these patterns emerge when early needs for mirroring and recognition weren\'t sufficiently met.' },
+        { icon: '🌱', text: '<strong>Self-awareness is itself anti-narcissistic</strong> — the fact that you\'re examining these patterns reduces the likelihood of blind spots that cause harm in relationships.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild narcissistic tendencies range<br><br>Based on: Ames et al. (2006). Stinson, F.S. et al. (2008). <em>Journal of Clinical Psychiatry, 69</em>(7). Kohut, H. (1977). <em>The Restoration of the Self.</em>`;
+    } else if (pct < 75) {
+      icon = '👑'; title = 'Significant Narcissistic Traits';
+      subtitle = 'Narcissistic traits are significantly present and may be creating friction in your relationships.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, narcissistic patterns are likely creating real relational costs</strong> — entitlement, need for admiration, and difficulty with empathy are felt by those close to you, even if not by you.' },
+        { icon: '🌊', text: '<strong>Grandiose and vulnerable narcissism often coexist</strong> — Pincus & Lukowitsky (2010) found that the same person often oscillates between feeling superior (grandiose) and feeling injured or underappreciated (vulnerable).' },
+        { icon: '🧠', text: '<strong>Narcissism is paradoxically fragile</strong> — the inflated self-image requires constant maintenance through external validation, making it more brittle, not more stable, than healthy self-esteem.' },
+        { icon: '🛠️', text: '<strong>Schema therapy and psychodynamic approaches</strong> show the strongest evidence for reducing pathological narcissism. Mentalisation-based therapy (MBT) also helps by increasing capacity to see others as full people.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant narcissistic traits range<br><br>Based on: Ames et al. (2006). Pincus & Lukowitsky (2010). Campbell, W.K. & Miller, J.D. (Eds., 2011). <em>Handbook of Narcissism and Narcissistic Personality Disorder.</em> Therapeutic support is recommended.`;
+    } else {
+      icon = '🔮'; title = 'High Narcissism Profile';
+      subtitle = 'Narcissistic traits are highly elevated and likely creating significant relational difficulties.';
+      traits = [
+        { icon: '❗', text: '<strong>High narcissism at this level may significantly impair close relationships</strong> — empathy deficits, entitlement, and sensitivity to criticism create patterns that partners and others experience as deeply hurtful.' },
+        { icon: '🧬', text: '<strong>Narcissistic traits at this level usually have developmental roots</strong> — either excessive idealisation by caregivers (preventing reality-testing) or emotional neglect (producing compensatory grandiosity as defense).' },
+        { icon: '💔', text: '<strong>The hidden suffering of high narcissism</strong> — despite appearances, people with high narcissism often suffer significantly from shame, relationships that can\'t sustain them, and the exhaustion of maintaining the self-image.' },
+        { icon: '🤝', text: '<strong>Therapy works, but requires honesty</strong> — schema therapy, psychodynamic therapy, and transference-focused psychotherapy (TFP) all show evidence. Insight must come before change is possible.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high narcissism range<br><br>Based on: Ames et al. (2006). Kernberg, O.F. (1975). <em>Borderline Conditions and Pathological Narcissism.</em> If your relationships are suffering, professional support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
 }; // end genericQuizzes

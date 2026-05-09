@@ -1,0 +1,50 @@
+2026-05-07T15:51:49Z INF Starting tunnel tunnelID=01b40e18-ad4d-4e69-b8d3-1d7e1f6afab6
+2026-05-07T15:51:49Z INF Version 2026.3.0 (Checksum 59b12880b24af581cf5b1013db601c7d843b9b097e9c78aa5957c7f39f741885)
+2026-05-07T15:51:49Z INF GOOS: windows, GOVersion: go1.24.13, GoArch: amd64
+2026-05-07T15:51:49Z INF Settings: map[token:*****]
+2026-05-07T15:51:49Z INF cloudflared will not automatically update on Windows systems.
+2026-05-07T15:51:49Z INF Generated Connector ID: d44dcf3d-82c3-44b0-ad18-1fcfb852ecb8
+2026-05-07T15:51:49Z INF Initial protocol quic
+2026-05-07T15:51:49Z INF ICMP proxy will use 192.168.0.11 as source for IPv4
+2026-05-07T15:51:49Z INF ICMP proxy will use 2607:fa49:7560:a600::312b in zone Ethernet as source for IPv6
+2026-05-07T15:51:49Z INF ICMP proxy will use 192.168.0.11 as source for IPv4
+2026-05-07T15:51:49Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:49Z INF ICMP proxy will use 2607:fa49:7560:a600::312b in zone Ethernet as source for IPv6
+2026-05-07T15:51:49Z INF Starting metrics server on 127.0.0.1:20241/metrics
+2026-05-07T15:51:49Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:49Z ERR failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:49Z ERR Serve tunnel error error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:49Z INF Retrying connection in up to 2s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR Serve tunnel error error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z INF Retrying connection in up to 4s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z ERR Serve tunnel error error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z INF Retrying connection in up to 8s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:51Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:52Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:52Z ERR failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:52Z ERR Serve tunnel error error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:52Z INF Retrying connection in up to 16s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:59Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:59Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:59Z ERR failed to serve tunnel connection error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:59Z ERR Serve tunnel error error="control stream encountered a failure while serving" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:51:59Z INF Retrying connection in up to 32s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:17Z INF Switching to fallback protocol http2 connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:17Z ERR failed to serve incoming request error="Unauthorized: Invalid tunnel secret"
+2026-05-07T15:52:17Z ERR Register tunnel error from server side error="Unauthorized: Invalid tunnel secret" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:17Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:18Z ERR failed to serve incoming request error="Unauthorized: Invalid tunnel secret"
+2026-05-07T15:52:18Z ERR Register tunnel error from server side error="Unauthorized: Invalid tunnel secret" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:18Z INF Retrying connection in up to 4s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:19Z ERR failed to serve incoming request error="Unauthorized: Invalid tunnel secret"
+2026-05-07T15:52:19Z ERR Register tunnel error from server side error="Unauthorized: Invalid tunnel secret" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:19Z INF Retrying connection in up to 8s connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:19Z ERR failed to serve incoming request error="Unauthorized: Invalid tunnel secret"
+2026-05-07T15:52:19Z ERR Register tunnel error from server side error="Unauthorized: Invalid tunnel secret" connIndex=0 event=0 ip=198.41.192.77
+2026-05-07T15:52:19Z INF Retrying connection in up to 16s connIndex=0 event=0 ip=198.41.192.77

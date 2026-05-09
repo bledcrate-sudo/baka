@@ -232,7 +232,7 @@ export default function Landing({ goTo }) {
           hover={hoverQ}
           setHover={setHoverQ}
           vis={vis}
-          label="20 Psychology Quizzes"
+          label="25 Psychology Quizzes"
           title="Know "
           titleAccent="Yourself"
           description={<>Validated clinical tools for love,<br />burnout, anxiety, and trauma.</>}

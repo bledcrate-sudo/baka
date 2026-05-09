@@ -27,6 +27,12 @@ const HUB_QUIZZES = [
   { id: 'insomnia', icon: '🌙', title: 'How Bad Is My Insomnia?', sub: 'ISI — Morin\'s Insomnia Severity Index, used in clinical trials worldwide.', color: '#6366f1', colorRgb: '99,102,241', section: 'Stress & Burnout', onClick: (_, l) => l('insomnia') },
   { id: 'perfectionism', icon: '🎯', title: 'Is My Perfectionism Helping or Hurting?', sub: 'Based on Frost\'s FMPS — distinguishes healthy striving from fear-driven perfectionism.', color: '#e879f9', colorRgb: '232,121,249', section: 'Inner World', onClick: (_, l) => l('perfectionism') },
   { id: 'codependency', icon: '🪢', title: 'Am I Codependent?', sub: 'Based on Beattie, Mellody & Friel — maps emotional enmeshment and self-abandonment patterns.', color: '#fb923c', colorRgb: '251,146,60', section: 'Relationships', onClick: (_, l) => l('codependency') },
+  // New quizzes
+  { id: 'resilience', icon: '🪨', title: 'How Resilient Am I?', sub: 'Brief Resilience Scale (Smith et al., 2008) — measures your capacity to recover from adversity and bounce back.', color: '#34d399', colorRgb: '52,211,153', section: 'Inner World', onClick: (_, l) => l('resilience') },
+  { id: 'grief', icon: '🕊️', title: 'Am I in Complicated Grief?', sub: 'PG-13 (Prigerson et al., 2009) — the clinical standard for screening prolonged grief disorder.', color: '#818cf8', colorRgb: '129,140,248', section: 'Inner World', onClick: (_, l) => l('grief') },
+  { id: 'anger', icon: '🌋', title: 'How Do I Relate to Anger?', sub: 'STAXI-2 (Spielberger, 1999) — explores trait anger, anger expression, and anger suppression.', color: '#ef4444', colorRgb: '239,68,68', section: 'Inner World', onClick: (_, l) => l('anger') },
+  { id: 'emotionalneglect', icon: '🫧', title: 'Did I Experience Emotional Neglect?', sub: 'Based on Jonice Webb\'s CEN questionnaire — maps the invisible wounds of childhood emotional neglect.', color: '#a78bfa', colorRgb: '167,139,250', section: 'Relationships', onClick: (_, l) => l('emotionalneglect') },
+  { id: 'narcissism', icon: '👑', title: 'Do I Have Narcissistic Tendencies?', sub: 'NPI-16 (Ames et al., 2006) — measures narcissistic traits on a spectrum, from healthy to pathological.', color: '#f59e0b', colorRgb: '245,158,11', section: 'Self & Social', onClick: (_, l) => l('narcissism') },
 ]
 
 const SECTIONS = ['All', 'Relationships', 'Inner World', 'Mental Health Screening', 'Stress & Burnout', 'Self & Social']
@@ -127,10 +133,10 @@ export default function Hub({ goTo, launchQuiz }) {
           <em style={{ color: 'oklch(72% 0.17 20)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
         </h1>
         <p className="hidden sm:block text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
-          Twenty psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
+          25 psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
         </p>
         <p className="sm:hidden text-[#7e79a0] text-[0.78rem] leading-[1.6]">
-          20 psychology tools. Pick a category below.
+          25 psychology tools. Pick a category below.
         </p>
       </div>
 

@@ -30,6 +30,6 @@ echo  shugiai.com is now starting up
 echo ══════════════════════════════════════════════
 echo.
 
-"%~dp0cloudflared.exe" tunnel run --token eyJhIjoiZTc3ZTk3NDRlNWJkYWVhMjEwZGU5NTEyMGNhZWZjMWEiLCJ0IjoiMDFiNDBlMTgtYWQ0ZC00ZTY5LWI4ZDMtMWQ3ZTFmNmFmYWI2IiwicyI6Ill6STVNak15TWpndFlUQmxOQzAwWmpBMkxUaGhOalV0WmpneU4ySTVZakkxTVRoayJ9
+"%~dp0cloudflared.exe" tunnel run --token eyJhIjoiZTc3ZTk3NDRlNWJkYWVhMjEwZGU5NTEyMGNhZWZjMWEiLCJ0IjoiMDFiNDBlMTgtYWQ0ZC00ZTY5LWI4ZDMtMWQ3ZTFmNmFmYWI2IiwicyI6IllqSm1ZMk14WmpRdFpqaGpOaTAwWmpZNUxXSmpaV1V0TlRGalpUbGtaV014TW1aaiJ9
 
 pause
