@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-const STARS = Array.from({ length: 70 }, (_, i) => ({
+const STARS = Array.from({ length: 80 }, (_, i) => ({
   id: i,
   x: Math.random() * 100,
   y: Math.random() * 100,
-  size: 0.7 + Math.random() * 1.8,
+  size: 0.8 + Math.random() * 1.8,
   delay: Math.random() * 5,
   dur: 2.5 + Math.random() * 3,
 }))
@@ -35,6 +35,144 @@ function StarField({ side }) {
   )
 }
 
+function Panel({ side, onClick, hover, setHover, vis, label, title, titleAccent, description, cta, trust, delay = 0 }) {
+  const isLeft = side === 'left'
+  const accent = isLeft ? 'rgba(168,161,248,' : 'rgba(232,96,122,'
+
+  return (
+    <button
+      className="landing-panel"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onClick}
+      style={{
+        flex: 1,
+        position: 'relative',
+        border: 'none',
+        cursor: 'pointer',
+        background: hover
+          ? `radial-gradient(ellipse at ${isLeft ? '30%' : '70%'} 50%, ${accent}0.22) 0%, rgba(10,8,18,0.98) 65%)`
+          : `radial-gradient(ellipse at ${isLeft ? '30%' : '70%'} 50%, ${accent}0.09) 0%, rgba(10,8,18,0.98) 65%)`,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '80px 40px',
+        transition: 'background 0.5s ease',
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'none' : `translateX(${isLeft ? '-20px' : '20px'})`,
+        transitionProperty: 'background, opacity, transform',
+        transitionDuration: `0.5s, 0.8s, 0.8s`,
+        transitionDelay: `0s, ${delay}s, ${delay}s`,
+        overflow: 'hidden',
+        textAlign: 'center',
+      }}
+    >
+      <StarField side={side} />
+
+      {/* Vertical divider on right edge of left panel */}
+      {isLeft && (
+        <div className="panel-divider-v" style={{
+          position: 'absolute', right: 0, top: '8%', bottom: '8%', width: 1,
+          background: 'linear-gradient(to bottom, transparent, rgba(168,161,248,0.3) 35%, rgba(232,96,122,0.3) 65%, transparent)',
+          zIndex: 2,
+        }} />
+      )}
+
+      {/* Glow blob */}
+      <div style={{
+        position: 'absolute',
+        left: isLeft ? '20%' : 'auto',
+        right: isLeft ? 'auto' : '20%',
+        top: '20%',
+        width: 380, height: 380, borderRadius: '50%',
+        background: `radial-gradient(circle, ${accent}0.2), transparent 70%)`,
+        filter: 'blur(80px)',
+        transform: hover ? 'scale(1.35)' : 'scale(1)',
+        transition: 'transform 0.8s ease',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Content — fixed 300px wide, centered */}
+      <div style={{ position: 'relative', zIndex: 2, width: '300px', maxWidth: 'calc(100% - 32px)' }}>
+        <div style={{
+          fontFamily: 'Manrope, sans-serif',
+          fontSize: '0.6rem', letterSpacing: '0.25em',
+          textTransform: 'uppercase', color: `${accent}0.5)`,
+          fontWeight: 700, marginBottom: 20,
+          opacity: vis ? 1 : 0,
+          transition: `opacity 0.7s ease ${delay + 0.25}s`,
+        }}>
+          {label}
+        </div>
+
+        <div style={{
+          fontFamily: '"Cormorant Garamond", serif',
+          fontSize: 'clamp(2.6rem, 4vw, 3.6rem)',
+          fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em',
+          color: 'rgba(240,236,252,0.96)',
+          marginBottom: 18,
+          opacity: vis ? 1 : 0,
+          transform: vis ? 'none' : 'translateY(14px)',
+          transition: `opacity 0.9s ease ${delay + 0.15}s, transform 0.9s ease ${delay + 0.15}s`,
+        }}>
+          {title}
+          {titleAccent && (
+            <em style={{ color: isLeft ? 'rgba(168,161,248,0.9)' : 'rgba(232,96,122,0.9)', fontStyle: 'italic' }}>
+              {titleAccent}
+            </em>
+          )}
+        </div>
+
+        <div style={{
+          fontFamily: 'Manrope, sans-serif',
+          fontSize: '0.85rem',
+          color: `${accent}0.45)`,
+          lineHeight: 1.7, marginBottom: 28,
+          fontWeight: 400,
+          opacity: vis ? 1 : 0,
+          transition: `opacity 0.8s ease ${delay + 0.4}s`,
+        }}>
+          {description}
+        </div>
+
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 9,
+          color: hover ? `${accent}0.95)` : `${accent}0.65)`,
+          fontFamily: 'Manrope, sans-serif',
+          fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.04em',
+          borderBottom: `1px solid ${accent}0.3)`,
+          paddingBottom: 3,
+          transition: `color 0.25s ease`,
+          opacity: vis ? 1 : 0,
+          // separate opacity transition
+          ...(vis ? {} : {}),
+        }}>
+          <span style={{
+            opacity: vis ? 1 : 0,
+            transition: `opacity 0.8s ease ${delay + 0.55}s`,
+            display: 'inline-flex', alignItems: 'center', gap: 9,
+          }}>
+            {cta}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </span>
+        </div>
+
+        <div style={{
+          marginTop: 14, fontFamily: 'Manrope, sans-serif',
+          fontSize: '0.66rem', color: 'rgba(255,255,255,0.18)',
+          letterSpacing: '0.04em',
+          opacity: vis ? 1 : 0, transition: `opacity 0.8s ease ${delay + 0.65}s`,
+        }}>
+          {trust}
+        </div>
+      </div>
+    </button>
+  )
+}
+
 export default function Landing({ goTo }) {
   const [vis, setVis] = useState(false)
   const [hoverAI, setHoverAI] = useState(false)
@@ -54,15 +192,14 @@ export default function Landing({ goTo }) {
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, zIndex: 30,
         display: 'flex', justifyContent: 'center', padding: '24px 0',
-        opacity: vis ? 1 : 0,
-        transition: 'opacity 0.8s ease',
+        opacity: vis ? 1 : 0, transition: 'opacity 0.8s ease',
         pointerEvents: 'none',
       }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 7,
           fontFamily: 'Manrope, sans-serif',
           fontSize: '0.68rem', letterSpacing: '0.3em',
-          color: 'rgba(168,161,248,0.55)',
+          color: 'rgba(168,161,248,0.5)',
           textTransform: 'uppercase', fontWeight: 700,
           padding: '6px 16px', borderRadius: 100,
           border: '1px solid rgba(168,161,248,0.12)',
@@ -74,229 +211,35 @@ export default function Landing({ goTo }) {
         </div>
       </div>
 
-      {/* Two panels */}
+      {/* Panels */}
       <div className="panels-row" style={{ display: 'flex', flex: 1 }}>
-
-        {/* AI Panel */}
-        <button
-          className="landing-panel"
-          onMouseEnter={() => setHoverAI(true)}
-          onMouseLeave={() => setHoverAI(false)}
+        <Panel
+          side="left"
           onClick={() => { window.location.href = '/chat' }}
-          style={{
-            flex: 1,
-            position: 'relative',
-            border: 'none',
-            cursor: 'pointer',
-            background: hoverAI
-              ? 'radial-gradient(ellipse at 28% 55%, rgba(168,161,248,0.22) 0%, rgba(10,8,18,0.98) 65%)'
-              : 'radial-gradient(ellipse at 28% 55%, rgba(168,161,248,0.10) 0%, rgba(10,8,18,0.98) 65%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '80px 32px',
-            transition: 'background 0.6s ease',
-            opacity: vis ? 1 : 0,
-            transform: vis ? 'none' : 'translateX(-20px)',
-            transitionProperty: 'background, opacity, transform',
-            transitionDuration: '0.6s, 0.8s, 0.8s',
-            overflow: 'hidden',
-            textAlign: 'left',
-          }}
-        >
-          <StarField side="left" />
-
-          {/* Vertical divider */}
-          <div className="panel-divider-v" style={{
-            position: 'absolute', right: 0, top: '8%', bottom: '8%', width: 1,
-            background: 'linear-gradient(to bottom, transparent, rgba(168,161,248,0.3) 35%, rgba(232,96,122,0.3) 65%, transparent)',
-            zIndex: 2,
-          }} />
-
-          {/* Glow blob */}
-          <div style={{
-            position: 'absolute', left: '10%', top: '25%',
-            width: 400, height: 400, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(168,161,248,0.18), transparent 70%)',
-            filter: 'blur(80px)',
-            transform: hoverAI ? 'scale(1.35)' : 'scale(1)',
-            transition: 'transform 0.8s ease',
-            pointerEvents: 'none',
-          }} />
-
-          <div style={{ position: 'relative', zIndex: 2, maxWidth: 340 }}>
-            <div style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.6rem', letterSpacing: '0.25em',
-              textTransform: 'uppercase', color: 'rgba(168,161,248,0.55)',
-              fontWeight: 700, marginBottom: 20,
-              opacity: vis ? 1 : 0,
-              transition: 'opacity 0.7s ease 0.25s',
-            }}>
-              AI Companion
-            </div>
-
-            <div style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 'clamp(2.8rem, 4.5vw, 4rem)',
-              fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em',
-              color: 'rgba(240,236,252,0.96)',
-              marginBottom: 18,
-              opacity: vis ? 1 : 0,
-              transform: vis ? 'none' : 'translateY(14px)',
-              transition: 'opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s',
-            }}>
-              Shugi AI
-            </div>
-
-            <div style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.87rem',
-              color: 'rgba(168,161,248,0.5)',
-              lineHeight: 1.7, marginBottom: 30,
-              fontWeight: 400,
-              opacity: vis ? 1 : 0,
-              transition: 'opacity 0.8s ease 0.4s',
-            }}>
-              Talk freely about what you're carrying.<br />No judgment. No agenda.
-            </div>
-
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 9,
-              color: hoverAI ? 'rgba(168,161,248,0.95)' : 'rgba(168,161,248,0.65)',
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.04em',
-              borderBottom: '1px solid rgba(168,161,248,0.3)',
-              paddingBottom: 3,
-              transition: 'color 0.25s ease, opacity 0.8s ease',
-              opacity: vis ? 1 : 0,
-              transitionDelay: '0s, 0.55s',
-            }}>
-              Start talking
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-
-            <div style={{
-              marginTop: 16, fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.67rem', color: 'rgba(255,255,255,0.18)',
-              letterSpacing: '0.04em',
-              opacity: vis ? 1 : 0, transition: 'opacity 0.8s ease 0.65s',
-            }}>
-              Free · No account needed
-            </div>
-          </div>
-        </button>
-
-        {/* Quiz Panel */}
-        <button
-          className="landing-panel"
-          onMouseEnter={() => setHoverQ(true)}
-          onMouseLeave={() => setHoverQ(false)}
+          hover={hoverAI}
+          setHover={setHoverAI}
+          vis={vis}
+          label="AI Companion"
+          title="Shugi AI"
+          description={<>Talk freely about what you're carrying.<br />No judgment. No agenda.</>}
+          cta="Start talking"
+          trust="Free · No account needed"
+          delay={0}
+        />
+        <Panel
+          side="right"
           onClick={() => goTo('hub')}
-          style={{
-            flex: 1,
-            position: 'relative',
-            border: 'none',
-            cursor: 'pointer',
-            background: hoverQ
-              ? 'radial-gradient(ellipse at 72% 45%, rgba(232,96,122,0.22) 0%, rgba(10,8,18,0.98) 65%)'
-              : 'radial-gradient(ellipse at 72% 45%, rgba(232,96,122,0.10) 0%, rgba(10,8,18,0.98) 65%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '80px 32px',
-            transition: 'background 0.6s ease',
-            opacity: vis ? 1 : 0,
-            transform: vis ? 'none' : 'translateX(20px)',
-            transitionProperty: 'background, opacity, transform',
-            transitionDuration: '0.6s, 0.8s, 0.8s',
-            transitionDelay: '0s, 0.12s, 0.12s',
-            overflow: 'hidden',
-            textAlign: 'left',
-          }}
-        >
-          <StarField side="right" />
-
-          {/* Glow blob */}
-          <div style={{
-            position: 'absolute', right: '10%', top: '20%',
-            width: 400, height: 400, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(232,96,122,0.18), transparent 70%)',
-            filter: 'blur(80px)',
-            transform: hoverQ ? 'scale(1.35)' : 'scale(1)',
-            transition: 'transform 0.8s ease',
-            pointerEvents: 'none',
-          }} />
-
-          <div style={{ position: 'relative', zIndex: 2, maxWidth: 340 }}>
-            <div style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.6rem', letterSpacing: '0.25em',
-              textTransform: 'uppercase', color: 'rgba(232,96,122,0.55)',
-              fontWeight: 700, marginBottom: 20,
-              opacity: vis ? 1 : 0,
-              transition: 'opacity 0.7s ease 0.35s',
-            }}>
-              20 Psychology Quizzes
-            </div>
-
-            <div style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 'clamp(2.8rem, 4.5vw, 4rem)',
-              fontWeight: 700, lineHeight: 1.05, letterSpacing: '-0.02em',
-              color: 'rgba(240,236,252,0.96)',
-              marginBottom: 18,
-              opacity: vis ? 1 : 0,
-              transform: vis ? 'none' : 'translateY(14px)',
-              transition: 'opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s',
-            }}>
-              Know{' '}
-              <em style={{ color: 'rgba(232,96,122,0.9)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
-            </div>
-
-            <div style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.87rem',
-              color: 'rgba(232,96,122,0.5)',
-              lineHeight: 1.7, marginBottom: 30,
-              fontWeight: 400,
-              opacity: vis ? 1 : 0,
-              transition: 'opacity 0.8s ease 0.5s',
-            }}>
-              Validated clinical tools for love,<br />burnout, anxiety, and trauma.
-            </div>
-
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 9,
-              color: hoverQ ? 'rgba(232,96,122,0.95)' : 'rgba(232,96,122,0.65)',
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.04em',
-              borderBottom: '1px solid rgba(232,96,122,0.3)',
-              paddingBottom: 3,
-              transition: 'color 0.25s ease, opacity 0.8s ease',
-              opacity: vis ? 1 : 0,
-              transitionDelay: '0s, 0.65s',
-            }}>
-              Explore quizzes
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-
-            <div style={{
-              marginTop: 16, fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.67rem', color: 'rgba(255,255,255,0.18)',
-              letterSpacing: '0.04em',
-              opacity: vis ? 1 : 0, transition: 'opacity 0.8s ease 0.75s',
-            }}>
-              Free · Love · Burnout · Anxiety · 17 more
-            </div>
-          </div>
-        </button>
+          hover={hoverQ}
+          setHover={setHoverQ}
+          vis={vis}
+          label="20 Psychology Quizzes"
+          title="Know "
+          titleAccent="Yourself"
+          description={<>Validated clinical tools for love,<br />burnout, anxiety, and trauma.</>}
+          cta="Explore quizzes"
+          trust="Free · Love · Burnout · Anxiety · 17 more"
+          delay={0.1}
+        />
       </div>
 
       {/* Bottom signature */}
@@ -306,10 +249,7 @@ export default function Landing({ goTo }) {
         transition: 'opacity 1.4s ease 0.8s',
         pointerEvents: 'none', zIndex: 20,
       }}>
-        <span style={{
-          fontFamily: 'Manrope, sans-serif', fontSize: '0.62rem',
-          letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
-        }}>— R</span>
+        <span style={{ fontFamily: 'Manrope, sans-serif', fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>— R</span>
       </div>
 
       <style>{`
@@ -327,16 +267,11 @@ export default function Landing({ goTo }) {
           .landing-root {
             position: relative !important; inset: auto !important;
             min-height: 100svh !important; overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch !important;
           }
           .landing-panel {
             flex: none !important; min-height: 52svh !important;
-            padding: 48px 28px !important;
-            align-items: flex-start !important; text-align: left !important;
+            padding: 48px 24px !important;
           }
-        }
-        @media (max-width: 480px) {
-          .landing-panel { padding: 40px 22px !important; min-height: 55svh !important; }
         }
       `}</style>
     </div>
