@@ -33,6 +33,12 @@ const HUB_QUIZZES = [
   { id: 'anger', icon: '🌋', title: 'How Do I Relate to Anger?', sub: 'STAXI-2 (Spielberger, 1999) — explores trait anger, anger expression, and anger suppression.', color: '#ef4444', colorRgb: '239,68,68', section: 'Inner World', onClick: (_, l) => l('anger') },
   { id: 'emotionalneglect', icon: '🫧', title: 'Did I Experience Emotional Neglect?', sub: 'Based on Jonice Webb\'s CEN questionnaire — maps the invisible wounds of childhood emotional neglect.', color: '#a78bfa', colorRgb: '167,139,250', section: 'Relationships', onClick: (_, l) => l('emotionalneglect') },
   { id: 'narcissism', icon: '👑', title: 'Do I Have Narcissistic Tendencies?', sub: 'NPI-16 (Ames et al., 2006) — measures narcissistic traits on a spectrum, from healthy to pathological.', color: '#f59e0b', colorRgb: '245,158,11', section: 'Self & Social', onClick: (_, l) => l('narcissism') },
+  { id: 'mindfulness', icon: '🌿', title: 'How Present Am I?', sub: 'MAAS (Brown & Ryan, 2003) — measures dispositional mindfulness and tendency to operate on autopilot.', color: '#06b6d4', colorRgb: '6,182,212', section: 'Inner World', onClick: (_, l) => l('mindfulness') },
+  { id: 'dissociation', icon: '🫥', title: 'Do I Dissociate?', sub: 'DES-II (Putnam, 1993) — the gold standard clinical screening tool for dissociative experiences.', color: '#7c3aed', colorRgb: '124,58,237', section: 'Mental Health Screening', onClick: (_, l) => l('dissociation') },
+  { id: 'impostor', icon: '🎭', title: 'Do I Have Impostor Syndrome?', sub: 'CIPS (Clance, 1978) — measures the belief that you\'re a fraud who will eventually be "found out".', color: '#0ea5e9', colorRgb: '14,165,233', section: 'Self & Social', onClick: (_, l) => l('impostor') },
+  { id: 'alexithymia', icon: '🔇', title: 'Can I Name My Emotions?', sub: 'TAS-20 (Bagby et al., 1994) — measures alexithymia, the clinical difficulty identifying and describing feelings.', color: '#8b5cf6', colorRgb: '139,92,246', section: 'Inner World', onClick: (_, l) => l('alexithymia') },
+  { id: 'lifesatisfaction', icon: '🌅', title: 'How Satisfied Am I with My Life?', sub: 'SWLS (Diener et al., 1985) — one of the most widely-used wellbeing measures in psychology worldwide.', color: '#10b981', colorRgb: '16,185,129', section: 'Self & Social', onClick: (_, l) => l('lifesatisfaction') },
+  { id: 'shame', icon: '🩹', title: 'How Much Shame Do I Carry?', sub: 'Based on Nathanson\'s Compass of Shame (1992) and Tangney\'s GASP scale — maps chronic shame vs. healthy guilt.', color: '#ec4899', colorRgb: '236,72,153', section: 'Inner World', onClick: (_, l) => l('shame') },
 ]
 
 const SECTIONS = ['All', 'Relationships', 'Inner World', 'Mental Health Screening', 'Stress & Burnout', 'Self & Social']
@@ -133,10 +139,10 @@ export default function Hub({ goTo, launchQuiz }) {
           <em style={{ color: 'oklch(72% 0.17 20)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
         </h1>
         <p className="hidden sm:block text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
-          25 psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
+          31 psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
         </p>
         <p className="sm:hidden text-[#7e79a0] text-[0.78rem] leading-[1.6]">
-          25 psychology tools. Pick a category below.
+          31 psychology tools. Pick a category below.
         </p>
       </div>
 

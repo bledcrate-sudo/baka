@@ -3576,4 +3576,827 @@ narcissism: {
   }
 },
 
+
+mindfulness: {
+  id: 'mindfulness', color: '#06b6d4',
+  icon: '🌿', title: 'How Present Am I?',
+  descHtml: `Based on the <strong>Mindful Attention Awareness Scale</strong> (MAAS; Brown & Ryan, 2003, <em>Journal of Personality and Social Psychology, 84</em>(4)), this quiz measures dispositional mindfulness — how often you operate on autopilot versus being attentively present in daily life.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I find myself doing things on autopilot without really paying attention to what I'm doing.",
+      sub: "Think about everyday activities — driving, eating, moving through routines.",
+      answers: [
+        { text: "Rarely — I'm generally present and intentional in what I do", score: 3 },
+        { text: "Sometimes — I catch myself on autopilot but it isn't constant", score: 2 },
+        { text: "Often — operating on autopilot is a recognisable pattern for me", score: 1 },
+        { text: "Almost always — I frequently arrive somewhere or finish something with no memory of doing it", score: 0 },
+      ]
+    },
+    { text: "I find it difficult to stay focused on what's happening in the present moment.",
+      answers: [
+        { text: "Rarely — I'm generally able to bring my attention to the present", score: 3 },
+        { text: "Sometimes — my mind drifts but I can usually return to the present", score: 2 },
+        { text: "Often — staying present takes real effort and I frequently lose it", score: 1 },
+        { text: "Almost always — my mind is nearly always somewhere other than where I am", score: 0 },
+      ]
+    },
+    { text: "I rush through activities without genuinely noticing or experiencing them.",
+      sub: "For example, eating while distracted, moving between tasks without pausing.",
+      answers: [
+        { text: "Rarely — I tend to slow down and experience what I'm doing", score: 3 },
+        { text: "Sometimes — I rush in certain situations but not habitually", score: 2 },
+        { text: "Often — rushing through activities is my default mode", score: 1 },
+        { text: "Almost always — I rarely fully experience the activity I'm engaged in", score: 0 },
+      ]
+    },
+    { text: "I forget someone's name almost immediately after being introduced to them.",
+      answers: [
+        { text: "Rarely — I usually retain names because I'm paying attention when introduced", score: 3 },
+        { text: "Sometimes — I forget occasionally, especially in busy social situations", score: 2 },
+        { text: "Often — I frequently forget names almost as soon as I've heard them", score: 1 },
+        { text: "Almost always — names disappear within seconds of meeting someone", score: 0 },
+      ]
+    },
+    { text: "I break or spill things because of inattention — moving or acting on autopilot rather than with awareness.",
+      answers: [
+        { text: "Rarely — I tend to move with care and awareness", score: 3 },
+        { text: "Sometimes — small accidents happen but not frequently", score: 2 },
+        { text: "Often — inattention-related mishaps happen regularly", score: 1 },
+        { text: "Very frequently — accidents caused by not paying attention are a regular occurrence", score: 0 },
+      ]
+    },
+    { text: "I find myself snacking or eating without noticing whether I'm actually hungry.",
+      answers: [
+        { text: "Rarely — I generally notice my hunger signals before eating", score: 3 },
+        { text: "Sometimes — I eat mindlessly in certain contexts (stress, TV, etc.)", score: 2 },
+        { text: "Often — I frequently eat out of habit or distraction rather than actual hunger", score: 1 },
+        { text: "Almost always — awareness of hunger rarely informs when I eat", score: 0 },
+      ]
+    },
+    { text: "I get so preoccupied with the future or the past that I miss what's happening right now.",
+      sub: "Planning, worrying, ruminating — these pull attention away from the present.",
+      answers: [
+        { text: "Rarely — I can plan and reflect without losing the present", score: 3 },
+        { text: "Sometimes — future or past preoccupation costs me some present experience", score: 2 },
+        { text: "Often — my attention is frequently somewhere other than now", score: 1 },
+        { text: "Almost always — the present is consistently crowded out by past or future", score: 0 },
+      ]
+    },
+    { text: "I carry out activities without being fully attentive to what I'm doing — as though on automatic pilot.",
+      answers: [
+        { text: "Rarely — I'm mostly engaged with what I'm doing as I do it", score: 3 },
+        { text: "Sometimes — I go through the motions in certain routine tasks", score: 2 },
+        { text: "Often — I frequently act without real engagement or awareness", score: 1 },
+        { text: "Almost always — automatic pilot is my dominant mode of operating", score: 0 },
+      ]
+    },
+    { text: "I don't notice feelings of tension, discomfort, or emotion in my body until they've become significant.",
+      sub: "Mindfulness includes interoception — awareness of physical and emotional signals.",
+      answers: [
+        { text: "Rarely — I tend to notice subtle physical/emotional signals early", score: 3 },
+        { text: "Sometimes — I notice them, but often after they've already built up", score: 2 },
+        { text: "Often — emotions and tension usually build before I become aware of them", score: 1 },
+        { text: "Almost always — I only notice feelings when they've become impossible to ignore", score: 0 },
+      ]
+    },
+    { text: "I find it difficult to pay full attention to one thing at a time — my mind tends to multitask.",
+      answers: [
+        { text: "Rarely — I can generally give one thing my full attention", score: 3 },
+        { text: "Sometimes — sustained single-focus is possible but not easy", score: 2 },
+        { text: "Often — my attention is split and hard to gather on one thing", score: 1 },
+        { text: "Almost always — my mind is nearly always running multiple threads simultaneously", score: 0 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '😶 Autopilot';
+    const meterRight = 'Fully present 🌿';
+    if (pct < 26) {
+      icon = '🌫️'; title = 'Low Mindfulness';
+      subtitle = 'You spend much of your time on autopilot — moving through life without fully inhabiting your experience.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Autopilot has real costs</strong> — Brown & Ryan (2003) found that low dispositional mindfulness predicted significantly lower wellbeing, more negative affect, and less life satisfaction across multiple studies.' },
+        { icon: '🧠', text: '<strong>The mind\'s default mode is wandering</strong> — Killingsworth & Gilbert\'s (2010) landmark study found minds are wandering nearly 47% of waking hours, and mind-wandering consistently predicts lower happiness, regardless of what the mind wanders to.' },
+        { icon: '🌱', text: '<strong>Mindfulness can be built</strong> — Kabat-Zinn\'s Mindfulness-Based Stress Reduction (MBSR) programme demonstrates measurable changes in attentional patterns after just 8 weeks of practice.' },
+        { icon: '🛠️', text: '<strong>Start small</strong>: even 5 minutes of deliberate sensory attention daily — the texture of food, the feeling of feet on the ground — begins to rewire the brain\'s default mode network over time.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low mindfulness range<br><br>Based on: Brown, K.W. & Ryan, R.M. (2003). The benefits of being present. <em>Journal of Personality and Social Psychology, 84</em>(4), 822–848. Kabat-Zinn, J. (1994). <em>Wherever You Go, There You Are.</em> Siegel, D.J. (2010). <em>The Mindful Therapist.</em>`;
+    } else if (pct < 50) {
+      icon = '🌥️'; title = 'Moderate Mindfulness';
+      subtitle = 'You have some capacity for present-moment awareness, but autopilot tendencies are frequent.';
+      traits = [
+        { icon: '🔍', text: '<strong>Mindfulness exists on a spectrum</strong> — even at this level, you have genuine moments of presence. The work is extending those moments and catching yourself sooner when you drift.' },
+        { icon: '💡', text: '<strong>The key mechanism is metacognitive awareness</strong> — Siegel (2010) calls this "mindsight": the ability to observe your own mental processes without being fully identified with them. It can be cultivated.' },
+        { icon: '🔄', text: '<strong>Informal practice often outperforms formal meditation</strong> — research shows that deliberate attention during everyday activities (eating, walking, conversations) has comparable benefits to seated meditation for many people.' },
+        { icon: '🌿', text: '<strong>The research is consistent</strong>: higher dispositional mindfulness predicts better emotional regulation, lower anxiety and depression, stronger relationships, and better immune functioning.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate mindfulness range<br><br>Based on: Brown & Ryan (2003). Killingsworth, M.A. & Gilbert, D.T. (2010). A wandering mind is an unhappy mind. <em>Science, 330</em>(6006). Kabat-Zinn, J. (1994). <em>Wherever You Go, There You Are.</em>`;
+    } else if (pct < 75) {
+      icon = '🌤️'; title = 'Solid Mindfulness';
+      subtitle = 'You have a genuine capacity for present-moment awareness — you live with more intention than most.';
+      traits = [
+        { icon: '✅', text: '<strong>At this level, mindfulness is a real resource</strong> — Brown & Ryan found that people scoring in this range show measurably better emotional regulation and recover more quickly from negative events.' },
+        { icon: '🔬', text: '<strong>Mindfulness at this level has neurological correlates</strong> — Lazar et al. (2005) found thickening in the prefrontal cortex and insula in regular meditators, associated with better attention and interoception.' },
+        { icon: '🌱', text: '<strong>The growth edge at this level</strong> is extending mindfulness into high-stress or high-emotion moments — where autopilot is most likely to take over and when presence matters most.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — solid mindfulness range<br><br>Based on: Brown & Ryan (2003). Lazar, S.W. et al. (2005). Meditation experience is associated with increased cortical thickness. <em>NeuroReport, 16</em>(17). Siegel, D.J. (2010). <em>The Mindful Therapist.</em>`;
+    } else {
+      icon = '🌿'; title = 'High Mindfulness';
+      subtitle = 'You demonstrate a strong capacity for present-moment awareness — you live with genuine attentiveness.';
+      traits = [
+        { icon: '🏆', text: '<strong>High dispositional mindfulness is associated with a wide range of benefits</strong> — Brown & Ryan\'s research links high MAAS scores with greater vitality, positive affect, and autonomy, and lower anxiety, depression, and neuroticism.' },
+        { icon: '🧘', text: '<strong>Presence isn\'t the absence of thought</strong> — at this level, you likely still have thoughts about past and future, but you\'re less captured by them. Siegel calls this "integration" — being with experience rather than being swept away by it.' },
+        { icon: '💡', text: '<strong>Your pattern is relatively rare</strong> — Killingsworth & Gilbert\'s large-scale study found only a minority of people maintain this level of present-moment contact across daily life. It reflects something genuinely cultivated.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high mindfulness range<br><br>Based on: Brown, K.W. & Ryan, R.M. (2003). <em>Journal of Personality and Social Psychology, 84</em>(4). Kabat-Zinn, J. (1994). <em>Wherever You Go, There You Are.</em> Siegel, D.J. (2010). <em>The Mindful Therapist.</em>`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+dissociation: {
+  id: 'dissociation', color: '#7c3aed',
+  icon: '🫥', title: 'Do I Dissociate?',
+  descHtml: `Based on the <strong>Dissociative Experiences Scale II</strong> (DES-II; Carlson & Putnam, 1993), the gold standard clinical screening tool for dissociative experiences. This is a <em>screening instrument only</em>, not a diagnostic tool.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I find myself somewhere — a room, a place, outside — without knowing how I got there or why.",
+      sub: "This refers to gaps in autobiographical continuity, not just distraction.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally — a few times a year", score: 1 },
+        { text: "Fairly often — monthly or more", score: 2 },
+        { text: "Frequently — a regular experience", score: 3 },
+      ]
+    },
+    { text: "People, places, or familiar objects feel unreal, distant, or as though they are not really there.",
+      sub: "This is called derealisation — the world or others seem like a dream, a set, or at a remove.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally — in certain situations or when very tired/stressed", score: 1 },
+        { text: "Fairly often — a recurring experience", score: 2 },
+        { text: "Frequently — a significant and regular feature of my experience", score: 3 },
+      ]
+    },
+    { text: "I feel as though I am watching myself from outside my body — observing my own actions, as if from a distance.",
+      sub: "This is called depersonalisation — feeling detached from your own body, thoughts, or emotions.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally — in specific states (extreme stress, exhaustion)", score: 1 },
+        { text: "Fairly often — this happens with some regularity", score: 2 },
+        { text: "Frequently — feeling outside myself is a familiar experience", score: 3 },
+      ]
+    },
+    { text: "I look in the mirror and do not recognise myself, or my reflection feels unfamiliar or strange.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally", score: 1 },
+        { text: "Fairly often", score: 2 },
+        { text: "Frequently — my reflection often feels unfamiliar or not quite 'me'", score: 3 },
+      ]
+    },
+    { text: "Other people tell me about events I was present for — conversations, things I said, places I went — that I have no memory of.",
+      sub: "Dissociative amnesia can range from patches to extended gaps in memory.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally — there are occasional gaps that others point out", score: 1 },
+        { text: "Fairly often — gaps in memory that others fill in are a recognisable pattern", score: 2 },
+        { text: "Frequently — significant gaps that others need to fill in happen regularly", score: 3 },
+      ]
+    },
+    { text: "I feel like a different person in different contexts or situations — not just adapting, but feeling like a fundamentally different self.",
+      sub: "This reflects identity fragmentation — distinct self-states rather than adaptive social flexibility.",
+      answers: [
+        { text: "Rarely — I feel basically continuous across different situations", score: 0 },
+        { text: "Sometimes — I notice significant variation in how I feel and behave", score: 1 },
+        { text: "Often — the 'me' in different contexts feels meaningfully different", score: 2 },
+        { text: "Frequently — different contexts feel like different people, not the same self", score: 3 },
+      ]
+    },
+    { text: "I find objects, drawings, writing, or evidence of things I've done that I don't remember creating or doing.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally", score: 1 },
+        { text: "Fairly often", score: 2 },
+        { text: "Frequently", score: 3 },
+      ]
+    },
+    { text: "I hear voices, sounds, or commentary inside my head that doesn't feel like my own thinking.",
+      sub: "Inner voices in dissociation are ego-dystonic — they feel distinct from the self's own internal dialogue.",
+      answers: [
+        { text: "Never or almost never", score: 0 },
+        { text: "Occasionally — I'm aware of inner voices that feel somewhat distinct", score: 1 },
+        { text: "Fairly often", score: 2 },
+        { text: "Frequently — inner voices that feel separate are a regular experience", score: 3 },
+      ]
+    },
+    { text: "I feel emotionally numb, cut off, or detached from my own feelings — as though a glass wall exists between me and my emotions.",
+      sub: "Emotional detachment is a core dissociative process — the numbing of affective experience.",
+      answers: [
+        { text: "Rarely — I feel my emotions with reasonable directness", score: 0 },
+        { text: "Sometimes — in certain situations or periods I feel cut off from emotion", score: 1 },
+        { text: "Often — emotional numbness or detachment is a regular experience", score: 2 },
+        { text: "Frequently — feeling cut off from my emotions is more the rule than the exception", score: 3 },
+      ]
+    },
+    { text: "When I'm under stress, time feels strange — either passing very fast or very slowly — or I 'come to' and realise I've been somewhere else mentally.",
+      answers: [
+        { text: "Rarely or never", score: 0 },
+        { text: "Sometimes — stress does distort my sense of time or presence", score: 1 },
+        { text: "Often — stress-related time distortion or 'coming to' is recognisable", score: 2 },
+        { text: "Frequently — time distortion and spacey episodes are a consistent stress response", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Non-dissociative';
+    const meterRight = 'High dissociation 🫥';
+    if (pct < 26) {
+      icon = '🟢'; title = 'Non-Dissociative Range';
+      subtitle = 'Your responses suggest minimal dissociative experiences — within the everyday range.';
+      traits = [
+        { icon: '✅', text: '<strong>Mild transient dissociation is universal</strong> — highway hypnosis (driving on autopilot), absorption in a book, or brief derealization from exhaustion affect almost everyone occasionally. This isn\'t clinically significant.' },
+        { icon: '🧠', text: '<strong>The DES-II measures frequency, not presence</strong> — Putnam et al. designed the scale to distinguish ordinary dissociative experiences (near-universal) from clinically significant ones (much rarer). Your frequency is in the healthy range.' },
+        { icon: '💡', text: '<strong>Dissociation exists on a spectrum</strong> — van der Kolk (2014) emphasises that all mammals have dissociative capacities as an evolutionary response to overwhelming threat. The question is frequency and interference with daily life.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — non-dissociative range<br><br>Based on: Carlson, E.B. & Putnam, F.W. (1993). An update on the Dissociative Experiences Scale. <em>Dissociation, 6</em>(1). Ross, C.A. et al. (1991). The frequency of multiple personality disorder. <em>Journal of Nervous and Mental Disease, 179.</em> van der Kolk, B. (2014). <em>The Body Keeps the Score.</em>`;
+    } else if (pct < 50) {
+      icon = '🌀'; title = 'Mild to Moderate Dissociation';
+      subtitle = 'You experience dissociative states with some regularity — possibly linked to stress, trauma history, or nervous system patterns.';
+      traits = [
+        { icon: '🔍', text: '<strong>Dissociation at this level often has a protective history</strong> — the brain learns to detach during overwhelming experiences. What was once adaptive becomes automatic in less threatening contexts.' },
+        { icon: '🌊', text: '<strong>Stress is a reliable trigger</strong> — mild-to-moderate dissociation frequently intensifies under stress or in situations that resemble past threatening contexts, even without conscious awareness of the connection.' },
+        { icon: '🧠', text: '<strong>Grounding techniques have strong evidence</strong> — sensory grounding (5-4-3-2-1, temperature, texture) interrupts dissociative activation by re-engaging the somatosensory system, which operates differently from the dissociated state.' },
+        { icon: '💡', text: '<strong>Trauma-informed therapy is the indicated approach</strong> — EMDR, somatic experiencing, and internal family systems (IFS) all have evidence for reducing dissociative experiences by processing the underlying material.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild to moderate dissociation range<br><br>Based on: Carlson & Putnam (1993). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Note: clinical threshold on the DES-II is typically a mean score of >30 (corresponding to frequent dissociation across items). Consider discussing with a mental health professional.`;
+    } else if (pct < 75) {
+      icon = '🌫️'; title = 'Significant Dissociation';
+      subtitle = 'Dissociative experiences are a significant and frequent feature of your life. This level warrants professional attention.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, dissociation is likely interfering with daily functioning</strong> — memory gaps, identity discontinuity, and depersonalisation at this frequency create real difficulties in relationships, work, and self-continuity.' },
+        { icon: '🧬', text: '<strong>Significant dissociation is strongly linked to trauma history</strong> — Ross et al. (1991) and van der Kolk\'s research consistently find that higher DES-II scores predict earlier, more severe, or more chronic trauma, particularly relational trauma.' },
+        { icon: '🛠️', text: '<strong>The evidence-based treatment is phase-based</strong> — ISSTD guidelines recommend safety stabilisation first (grounding, regulation skills), before trauma processing, to prevent retraumatisation. Internal family systems (IFS) and sensorimotor psychotherapy have strong evidence.' },
+        { icon: '🤝', text: '<strong>Please consider professional support</strong> — a trauma-informed therapist experienced in dissociation can make a significant difference. Dissociation at this level is treatable.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant dissociation range<br><br>Based on: Carlson & Putnam (1993). DES-II clinical threshold: mean score >30. Ross, C.A. et al. (1991). <em>Journal of Nervous and Mental Disease, 179.</em> van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Professional support is recommended.`;
+    } else {
+      icon = '🫥'; title = 'High Dissociation';
+      subtitle = 'Your responses suggest frequent, significant dissociative experiences across multiple domains. Please seek professional support.';
+      traits = [
+        { icon: '❗', text: '<strong>This level of dissociation is clinically significant</strong> — frequent amnesia, identity fragmentation, depersonalisation and derealisation at this level typically indicate a need for professional trauma assessment and treatment.' },
+        { icon: '🧠', text: '<strong>High dissociation often reflects the nervous system\'s most extreme protection</strong> — van der Kolk\'s work shows that when neither fight nor flight was possible (often in early relational or chronic trauma), the brain\'s final protection is structural dissociation.' },
+        { icon: '🛡️', text: '<strong>Dissociation was adaptive at its origin</strong> — it allowed survival in situations that were otherwise unbearable. The goal of therapy isn\'t to eliminate this capacity but to increase choice: to be able to stay present when it\'s safe.' },
+        { icon: '🤝', text: '<strong>Support is available</strong> — trauma-informed therapists specialising in structural dissociation, DID, and complex PTSD can help. EMDR, IFS, somatic experiencing, and phase-based trauma treatment all have strong evidence at this level.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high dissociation range<br><br>Based on: Carlson & Putnam (1993). DES-II mean score >30 indicates clinical-level dissociation (Ross et al., 1991). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Strongly recommended to seek professional evaluation from a trauma-informed clinician.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+impostor: {
+  id: 'impostor', color: '#0ea5e9',
+  icon: '🎭', title: 'Do I Have Impostor Syndrome?',
+  descHtml: `Based on the <strong>Clance Impostor Phenomenon Scale</strong> (CIPS; Clance, 1978; validated Chrisman et al., 1995). Impostor syndrome is the persistent belief that you are a fraud who will eventually be "found out" — despite external evidence of competence.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "I am afraid that people who matter to me will find out that I'm not as capable as they think I am.",
+      sub: "This is the core fear of impostor phenomenon — anticipated exposure.",
+      answers: [
+        { text: "Rarely — I generally feel my competence is reasonably accurate", score: 0 },
+        { text: "Sometimes — the fear shows up in certain contexts", score: 1 },
+        { text: "Often — the fear of being 'found out' is a regular presence", score: 2 },
+        { text: "Frequently — this fear significantly shapes my behaviour", score: 3 },
+      ]
+    },
+    { text: "When I succeed at something important, I attribute it mainly to luck, timing, or circumstances rather than my own ability.",
+      sub: "Clance identified external attribution of success as one of the most consistent markers of impostor phenomenon.",
+      answers: [
+        { text: "Rarely — I generally recognise my own contribution to my successes", score: 0 },
+        { text: "Sometimes — I can see my role, but doubt creeps in", score: 1 },
+        { text: "Often — luck or circumstance feels like the more accurate explanation", score: 2 },
+        { text: "Almost always — my successes feel like things that happened to me, not things I earned", score: 3 },
+      ]
+    },
+    { text: "When I am praised or congratulated, I feel uncomfortable — as though the person doesn't really know what they're talking about.",
+      answers: [
+        { text: "Rarely — I can generally receive positive feedback with reasonable grace", score: 0 },
+        { text: "Sometimes — positive feedback triggers some internal resistance or dismissal", score: 1 },
+        { text: "Often — praise feels unearned, and I tend to dismiss or deflect it", score: 2 },
+        { text: "Almost always — compliments feel actively uncomfortable, like they're addressed to the wrong person", score: 3 },
+      ]
+    },
+    { text: "Even in areas where I've had repeated success, I still fear that my next performance will reveal a fundamental inadequacy.",
+      answers: [
+        { text: "Rarely — past success generally gives me reasonable confidence going forward", score: 0 },
+        { text: "Sometimes — the fear resurfaces despite my track record", score: 1 },
+        { text: "Often — past success feels irrelevant to what might happen next", score: 2 },
+        { text: "Consistently — a history of success provides little or no protection against this fear", score: 3 },
+      ]
+    },
+    { text: "I'm aware that other people seem smarter, more capable, or more qualified than me — and fear this will eventually become obvious.",
+      sub: "This involves social comparison and the belief that others see through you, even if they haven't caught on yet.",
+      answers: [
+        { text: "Rarely — I can hold my own competence alongside others' without persistent comparison", score: 0 },
+        { text: "Sometimes — I make unfavourable comparisons in certain settings", score: 1 },
+        { text: "Often — I frequently feel outpaced by others and fear it shows", score: 2 },
+        { text: "Consistently — I nearly always feel less capable than the people around me", score: 3 },
+      ]
+    },
+    { text: "I have difficulty fully accepting a compliment or achievement without an internal 'yes, but…' that qualifies or deflates it.",
+      answers: [
+        { text: "Rarely — I can let good news land without immediately undermining it", score: 0 },
+        { text: "Sometimes — I notice the qualifying voice, but don't always believe it", score: 1 },
+        { text: "Often — positive feedback consistently triggers an internal counter-argument", score: 2 },
+        { text: "Almost always — the 'yes, but' arrives before the appreciation does", score: 3 },
+      ]
+    },
+    { text: "I work significantly harder than necessary — driven by a fear that any gap in effort will expose my incompetence.",
+      sub: "Overwork is a common coping behaviour in impostor phenomenon — a preemptive defence against exposure.",
+      answers: [
+        { text: "Rarely — my effort level is generally proportionate to the task", score: 0 },
+        { text: "Sometimes — I over-prepare in certain high-stakes situations", score: 1 },
+        { text: "Often — I regularly put in far more effort than the task requires, from fear rather than interest", score: 2 },
+        { text: "Consistently — anxiety about being exposed drives me to overprepare most of the time", score: 3 },
+      ]
+    },
+    { text: "I feel like a fraud in my professional role, academic setting, or social position — as though I don't really belong there.",
+      answers: [
+        { text: "Rarely — I generally feel reasonably entitled to the positions I hold", score: 0 },
+        { text: "Sometimes — in certain contexts or after certain failures, the fraud feeling emerges", score: 1 },
+        { text: "Often — I regularly feel like I've been mistakenly admitted somewhere I don't truly belong", score: 2 },
+        { text: "Almost always — the sense of being a fraud in my position is persistent", score: 3 },
+      ]
+    },
+    { text: "If I perform well on something, my first thought is relief that I wasn't caught out — not satisfaction in what I achieved.",
+      sub: "This relief response (rather than pride) is a diagnostic marker of impostor phenomenon.",
+      answers: [
+        { text: "Rarely — success tends to produce genuine satisfaction rather than just relief", score: 0 },
+        { text: "Sometimes — relief and satisfaction are mixed", score: 1 },
+        { text: "Often — relief dominates — I avoided exposure rather than demonstrated competence", score: 2 },
+        { text: "Almost always — success feels like a near miss, not an accomplishment", score: 3 },
+      ]
+    },
+    { text: "I feel that my achievements do not accurately reflect my actual ability — they overstate what I'm truly capable of.",
+      answers: [
+        { text: "Rarely — I feel my achievements are generally a fair representation of my ability", score: 0 },
+        { text: "Sometimes — there's a gap between my outcomes and my sense of my true capability", score: 1 },
+        { text: "Often — my achievements consistently feel like they overshoot my actual competence", score: 2 },
+        { text: "Almost always — I feel my achievements are largely a misrepresentation of who I really am", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 No impostor syndrome';
+    const meterRight = 'High impostor syndrome 🎭';
+    if (pct < 26) {
+      icon = '🟢'; title = 'No Significant Impostor Syndrome';
+      subtitle = 'You demonstrate a relatively healthy relationship with your own competence — you can own your achievements without excessive self-doubt.';
+      traits = [
+        { icon: '✅', text: '<strong>A healthy self-appraisal is balanced</strong> — Clance\'s research distinguishes healthy humility and self-awareness (which acknowledge genuine uncertainty) from impostor phenomenon (which systematically denies evidence of competence).' },
+        { icon: '💡', text: '<strong>Low impostor syndrome doesn\'t mean arrogance</strong> — it means you can hold your successes and failures with approximate accuracy. Dunning & Kruger\'s (1999) research found that competent people tend to slightly underestimate themselves — which is different from the persistent fraud narrative.' },
+        { icon: '🌱', text: '<strong>Competence calibration matters for wellbeing</strong> — Sakulku & Alexander (2011) found that people who can own their achievements report significantly better occupational functioning, less anxiety, and more sustainable performance.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — no significant impostor syndrome<br><br>Based on: Clance, P.R. (1978). The impostor phenomenon. <em>Georgia State University.</em> Sakulku, J. & Alexander, J. (2011). The impostor phenomenon. <em>International Journal of Behavioral Science, 6</em>(1). Harvey, J.C. & Katz, C. (1985). <em>If I'm So Successful, Why Do I Feel Like a Fake?</em>`;
+    } else if (pct < 50) {
+      icon = '🎭'; title = 'Mild Impostor Tendencies';
+      subtitle = 'Some impostor-like experiences are present — self-doubt and difficulty internalising success appear in certain contexts.';
+      traits = [
+        { icon: '🔍', text: '<strong>Impostor tendencies are extremely common</strong> — Clance\'s original work found these patterns in 70% of high-achieving individuals. At a mild level, they can actually motivate preparation without becoming crippling.' },
+        { icon: '⚠️', text: '<strong>The key risk is chronic under-ownership</strong> — when successes are consistently attributed to luck and failures to ability, the internal evidence base for competence never grows, even through repeated success.' },
+        { icon: '🌱', text: '<strong>Externalising attribution is the core mechanism to work on</strong> — cognitive behavioural approaches focus on systematically challenging the evidence for fraud beliefs and building an accurate internal success archive.' },
+        { icon: '💡', text: '<strong>Impostor syndrome is particularly common among women, minorities, and first-generation achievers</strong> — contextual factors matter. Clance\'s (1985) research showed that in environments where belonging is uncertain, impostor feelings intensify.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild impostor tendencies<br><br>Based on: Clance (1978). Chrisman, S.M. et al. (1995). Validation of the CIPS. <em>Current Psychology, 14.</em> Sakulku & Alexander (2011). Harvey & Katz (1985). <em>If I'm So Successful, Why Do I Feel Like a Fake?</em>`;
+    } else if (pct < 75) {
+      icon = '🌫️'; title = 'Significant Impostor Syndrome';
+      subtitle = 'Impostor syndrome is meaningfully present — fear of exposure, difficulty owning success, and fraud feelings are recurring themes.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, impostor syndrome has real costs</strong> — it drives overwork, inhibits appropriate self-advocacy, creates anxiety before high-stakes situations, and prevents the satisfaction of genuine achievement.' },
+        { icon: '🧠', text: '<strong>The impostor cycle is self-reinforcing</strong> — fear of failure → over-preparation or avoidance → success attributed to extra effort or luck → no update to self-concept → next challenge triggers the same fear.' },
+        { icon: '🛠️', text: '<strong>Evidence-based approaches include</strong>: CBT for challenging fraud beliefs with actual evidence, ACT for learning to act despite the doubt without needing it to disappear, and mentoring relationships where high achievers normalise the experience.' },
+        { icon: '🌊', text: '<strong>Impostor syndrome is often rooted in early experiences</strong> — excessive praise for achievement (rather than effort), environments where mistakes were shaming, or families where competence felt conditional on outcomes.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant impostor syndrome range<br><br>Based on: Clance (1978). Sakulku & Alexander (2011). <em>International Journal of Behavioral Science, 6</em>(1). Harvey & Katz (1985). Chrisman et al. (1995). Therapeutic support can be highly effective at this level.`;
+    } else {
+      icon = '🚨'; title = 'High Impostor Syndrome';
+      subtitle = 'Impostor syndrome is significantly elevated and is likely creating real suffering and limitation in how you live and work.';
+      traits = [
+        { icon: '❗', text: '<strong>High impostor syndrome at this level is associated with significant anxiety, depression, and burnout</strong> — the constant vigilance for exposure and the gap between internal self-view and external success is exhausting.' },
+        { icon: '🧬', text: '<strong>Impostor phenomenon interacts with perfectionism</strong> — Clance (1985) found that high-impostor individuals are often highly perfectionistic, treating mistakes as confirmatory evidence of their fraud rather than as normal learning events.' },
+        { icon: '🔗', text: '<strong>The internal experience is a hidden cost</strong> — Sakulku & Alexander note that externally successful people with high impostor syndrome live with a persistent private narrative of inadequacy that is invisible to others, creating profound isolation.' },
+        { icon: '🤝', text: '<strong>Therapy works</strong> — CBT, schema therapy, and group-based approaches (where hearing others describe identical fears can be powerfully normalising) have the strongest evidence. The belief that you are a fraud can be changed with targeted work.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high impostor syndrome range<br><br>Based on: Clance, P.R. (1978); Clance, P.R. (1985). <em>The Impostor Phenomenon.</em> Sakulku & Alexander (2011). Harvey & Katz (1985). <em>If I'm So Successful, Why Do I Feel Like a Fake?</em> Professional support is recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+alexithymia: {
+  id: 'alexithymia', color: '#8b5cf6',
+  icon: '🔇', title: 'Can I Name My Emotions?',
+  descHtml: `Based on the <strong>Toronto Alexithymia Scale</strong> (TAS-20; Bagby, Parker & Taylor, 1994, <em>Journal of Psychosomatic Research, 38</em>(1)). Alexithymia (from Greek: "no words for feelings") was coined by Sifneos (1973) and describes difficulty identifying, describing, and processing emotions.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When I feel something emotionally, I have difficulty knowing exactly what that feeling is.",
+      sub: "This refers to identifying the specific emotion — not just knowing you feel 'bad' or 'off', but being able to name what you're experiencing.",
+      answers: [
+        { text: "Rarely — I can usually identify what I'm feeling with reasonable clarity", score: 0 },
+        { text: "Sometimes — I can name some emotions clearly, but others remain vague", score: 1 },
+        { text: "Often — I frequently feel something without being able to name it", score: 2 },
+        { text: "Almost always — identifying what I'm feeling is genuinely difficult", score: 3 },
+      ]
+    },
+    { text: "I find it hard to describe my feelings to other people — I struggle to find the words.",
+      sub: "This is the expressive dimension of alexithymia — separate from identifying emotions internally.",
+      answers: [
+        { text: "Rarely — I can usually find words to describe my emotional experience", score: 0 },
+        { text: "Sometimes — with certain emotions or certain people, description is difficult", score: 1 },
+        { text: "Often — putting feelings into words is genuinely hard for me", score: 2 },
+        { text: "Almost always — I find it very difficult to describe what I'm feeling", score: 3 },
+      ]
+    },
+    { text: "I have physical sensations in my body when I'm upset, but I'm not sure what emotion is causing them.",
+      sub: "For example, tension, stomach discomfort, or a tight chest — without clarity on the emotional origin.",
+      answers: [
+        { text: "Rarely — I can usually connect bodily sensations to specific emotions", score: 0 },
+        { text: "Sometimes — the connection between physical sensations and emotions is unclear", score: 1 },
+        { text: "Often — I notice body sensations but don't know what they're emotionally about", score: 2 },
+        { text: "Almost always — my body reacts emotionally, but I rarely know what the feeling is", score: 3 },
+      ]
+    },
+    { text: "I prefer analysing problems logically rather than exploring how I feel about them.",
+      sub: "This is the externally-oriented thinking dimension of alexithymia — preferring facts and logic to inner experience.",
+      answers: [
+        { text: "Not particularly — I find emotional processing as valuable as logical analysis", score: 0 },
+        { text: "Sometimes — in certain situations I default to logic and analysis over feeling", score: 1 },
+        { text: "Often — analysis and logic are clearly more natural to me than emotional processing", score: 2 },
+        { text: "Strongly — I consistently prefer thinking about problems rather than feeling through them", score: 3 },
+      ]
+    },
+    { text: "I find it pointless or unnecessary to examine deeper feelings or their meaning.",
+      answers: [
+        { text: "Rarely — I find emotional self-examination meaningful and useful", score: 0 },
+        { text: "Sometimes — I see the value but don't find it particularly natural", score: 1 },
+        { text: "Often — I'm sceptical of the value of examining feelings closely", score: 2 },
+        { text: "Strongly — I find deep emotional introspection pointless or overly self-indulgent", score: 3 },
+      ]
+    },
+    { text: "People in my life tell me that I don't fully understand them emotionally — or that I seem disconnected from their feelings.",
+      sub: "Alexithymia affects not just one's own emotions but the capacity to resonate with others' emotional experience.",
+      answers: [
+        { text: "Rarely — I'm generally considered emotionally attuned", score: 0 },
+        { text: "Sometimes — this feedback has come up in certain relationships", score: 1 },
+        { text: "Often — emotional disconnection or misattuning has been a recurring theme in my relationships", score: 2 },
+        { text: "Frequently — I'm regularly perceived as emotionally unavailable or hard to connect with", score: 3 },
+      ]
+    },
+    { text: "I prefer to focus on the factual details or practical aspects of a situation rather than on people's emotional reactions.",
+      answers: [
+        { text: "Rarely — I give appropriate weight to both facts and feelings", score: 0 },
+        { text: "Sometimes — I'm more comfortable with concrete details, but feelings still matter to me", score: 1 },
+        { text: "Often — facts and practical matters feel more real and tractable to me than emotions", score: 2 },
+        { text: "Consistently — I nearly always focus on the concrete and practical over the emotional", score: 3 },
+      ]
+    },
+    { text: "I'm genuinely unsure how I feel about important things in my life — important relationships, choices, or experiences.",
+      sub: "This is not ambivalence about decisions, but uncertainty about the emotional content of significant life experiences.",
+      answers: [
+        { text: "Rarely — I generally have a sense of my emotional orientation to important things", score: 0 },
+        { text: "Sometimes — there are areas of genuine emotional uncertainty", score: 1 },
+        { text: "Often — I frequently don't know how I actually feel about things that matter", score: 2 },
+        { text: "Almost always — emotional uncertainty about important matters is the rule, not the exception", score: 3 },
+      ]
+    },
+    { text: "I find emotions confusing — they don't seem to operate according to any logic I can understand.",
+      answers: [
+        { text: "Rarely — while not always predictable, emotions make sense to me in context", score: 0 },
+        { text: "Sometimes — certain emotional reactions confuse me", score: 1 },
+        { text: "Often — I regularly find emotions, mine or others', confusing and hard to follow", score: 2 },
+        { text: "Almost always — emotional reactions — mine or others' — regularly feel opaque and inexplicable", score: 3 },
+      ]
+    },
+    { text: "When I'm emotionally affected by something, I notice it more as a physical state than as a feeling I could describe.",
+      sub: "For example: tension, fatigue, or a hollow feeling — with no accompanying emotional label.",
+      answers: [
+        { text: "Rarely — I experience my emotional reactions as recognisable feelings, not just body states", score: 0 },
+        { text: "Sometimes — emotions do sometimes register more physically than emotionally", score: 1 },
+        { text: "Often — I more frequently notice physical states than named emotions", score: 2 },
+        { text: "Almost always — emotional experiences mostly register as body states rather than identifiable feelings", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Emotionally fluent';
+    const meterRight = 'High alexithymia 🔇';
+    if (pct < 26) {
+      icon = '🌊'; title = 'Emotionally Fluent';
+      subtitle = 'You appear to have good emotional awareness — you can generally identify, describe, and process what you feel.';
+      traits = [
+        { icon: '✅', text: '<strong>Emotional fluency has significant protective effects</strong> — Taylor, Bagby & Parker (1997) found that low alexithymia predicts better psychological wellbeing, richer social relationships, and more effective stress processing.' },
+        { icon: '💡', text: '<strong>Emotion labelling itself is therapeutic</strong> — Lieberman et al.\'s (2007) neuroscience research found that naming an emotion reduces amygdala activation — the biological basis of "name it to tame it".' },
+        { icon: '🌱', text: '<strong>Emotional fluency supports physical health too</strong> — higher alexithymia scores are associated with increased somatic complaints, chronic pain, and autoimmune conditions. Naming feelings helps the body regulate.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — emotionally fluent range<br><br>Based on: Bagby, R.M., Parker, J.D.A. & Taylor, G.J. (1994). The twenty-item Toronto Alexithymia Scale. <em>Journal of Psychosomatic Research, 38</em>(1), 23–32. Sifneos, P.E. (1973). The prevalence of 'alexithymic' characteristics in psychosomatic patients. <em>Psychotherapy and Psychosomatics, 22.</em>`;
+    } else if (pct < 50) {
+      icon = '🔦'; title = 'Mild Alexithymia';
+      subtitle = 'Some difficulty identifying and describing emotions is present — your emotional inner life is sometimes unclear or hard to articulate.';
+      traits = [
+        { icon: '🔍', text: '<strong>Mild alexithymia is more common than recognised</strong> — Bagby et al. (1994) found approximately 13% of the general population meeting full alexithymia criteria, with a much larger proportion showing partial features.' },
+        { icon: '🧠', text: '<strong>The gap between feeling and language is the key difficulty</strong> — Taylor & Bagby\'s research highlights that alexithymia is not an absence of emotion, but a difficulty in cognitive elaboration of emotional states — the emotions are there, but the processing pathway to language is less developed.' },
+        { icon: '🌱', text: '<strong>Emotion vocabulary can be expanded</strong> — deliberately learning a richer emotional lexicon (beyond "fine", "good", "upset") builds neural pathways between the limbic system and prefrontal cortex, improving emotional processing over time.' },
+        { icon: '🔗', text: '<strong>Alexithymia is linked to attachment history</strong> — van der Kolk (2014) and Fonagy\'s mentalisation research both find that alexithymia often reflects early environments where emotional states weren\'t named, mirrored, or elaborated on by caregivers.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild alexithymia range<br><br>Based on: Bagby et al. (1994). Taylor, G.J., Bagby, R.M. & Parker, J.D.A. (1997). <em>Disorders of Affect Regulation.</em> Sifneos (1973). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em>`;
+    } else if (pct < 75) {
+      icon = '🔇'; title = 'Significant Alexithymia';
+      subtitle = 'Difficulty identifying and describing emotions is a significant feature of your experience. This affects relationships and wellbeing.';
+      traits = [
+        { icon: '🔴', text: '<strong>At this level, alexithymia has real relational costs</strong> — difficulty describing emotional experience makes intimacy harder, creates misattunement with partners, and can lead others to experience you as emotionally unavailable or cold.' },
+        { icon: '🧬', text: '<strong>Alexithymia is associated with comorbid conditions</strong> — Bagby et al. found higher alexithymia scores in people with PTSD, ASD, depression, substance use disorders, and chronic pain — often as a shared underlying mechanism.' },
+        { icon: '🛠️', text: '<strong>What helps</strong>: therapy approaches that focus on emotion identification and labelling (such as emotion-focused therapy, EFT), body-based approaches (somatic experiencing, yoga), and deliberate "feelings journaling" — naming emotional states in writing regularly.' },
+        { icon: '🧠', text: '<strong>The brain can develop this capacity</strong> — mentalisation-based therapy (MBT), developed by Fonagy and colleagues, is specifically designed to build the capacity to understand and name one\'s own and others\' mental states.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant alexithymia range<br><br>Based on: Bagby et al. (1994). Taylor et al. (1997). Sifneos (1973). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Note: alexithymia is also associated with ASD and PTSD — professional consultation may be beneficial.`;
+    } else {
+      icon = '🫙'; title = 'High Alexithymia';
+      subtitle = 'Emotional identification and description are significantly impaired. Your inner emotional world may feel largely inaccessible.';
+      traits = [
+        { icon: '❗', text: '<strong>High alexithymia profoundly affects wellbeing</strong> — without access to emotional information, decision-making, self-care, and intimate connection are all impaired. Sifneos (1973) noted that alexithymia patients often rely on external cues and structure to navigate a world others navigate emotionally.' },
+        { icon: '🌊', text: '<strong>Physical symptoms often carry the emotional load</strong> — Taylor et al. found that when emotions cannot be processed psychologically, they are often expressed somatically: chronic pain, gastrointestinal symptoms, fatigue, or autoimmune conditions may have an emotional loading that isn\'t being processed mentally.' },
+        { icon: '🔗', text: '<strong>Comorbidity with ASD and PTSD is significant</strong> — Frith & Hill (2003) found high alexithymia in ASD; van der Kolk found it centrally in complex PTSD. In both cases, early experience may have shaped neural pathways away from emotional elaboration.' },
+        { icon: '🤝', text: '<strong>Specialised support can help</strong> — emotion-focused therapy, somatic experiencing, MBT, and affect regulation training have all shown benefit. Working with a therapist who understands alexithymia and doesn\'t expect you to already have the language is important.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high alexithymia range<br><br>Based on: Bagby et al. (1994). <em>Journal of Psychosomatic Research, 38</em>(1). Taylor et al. (1997). <em>Disorders of Affect Regulation.</em> Sifneos, P.E. (1973). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Professional support from a therapist experienced in alexithymia is recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+lifesatisfaction: {
+  id: 'lifesatisfaction', color: '#10b981',
+  icon: '🌅', title: 'How Satisfied Am I with My Life?',
+  descHtml: `Based on the <strong>Satisfaction with Life Scale</strong> (SWLS; Diener, Emmons, Larsen & Griffin, 1985, <em>Journal of Personality Assessment, 49</em>(1)) — one of the most widely-used subjective wellbeing measures in psychology worldwide. It measures the cognitive dimension of life satisfaction: your overall judgment of how your life is going.<br><br><strong>7 questions · ~1 minute</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "In most ways, my life is close to my ideal.",
+      sub: "Your personal ideal — not a comparison with others or a social standard.",
+      answers: [
+        { text: "Strongly disagree — my life is far from what I would consider ideal", score: 0 },
+        { text: "Disagree — there are meaningful gaps between my life and my ideal", score: 1 },
+        { text: "Agree — my life is reasonably close to what I would want it to be", score: 2 },
+        { text: "Strongly agree — my life closely matches what I would choose", score: 3 },
+      ]
+    },
+    { text: "The conditions of my life are excellent.",
+      sub: "Conditions refers to circumstances — relationships, health, financial situation, environment.",
+      answers: [
+        { text: "Strongly disagree — the conditions of my life are quite poor", score: 0 },
+        { text: "Disagree — my life conditions have significant problems or limitations", score: 1 },
+        { text: "Agree — the objective conditions of my life are generally good", score: 2 },
+        { text: "Strongly agree — the conditions of my life are excellent", score: 3 },
+      ]
+    },
+    { text: "I am satisfied with my life.",
+      sub: "A global judgment — overall, not about any specific domain.",
+      answers: [
+        { text: "Strongly disagree — I am significantly dissatisfied with my life overall", score: 0 },
+        { text: "Disagree — I am more dissatisfied than satisfied", score: 1 },
+        { text: "Agree — I am more satisfied than dissatisfied", score: 2 },
+        { text: "Strongly agree — I feel genuinely satisfied with my life", score: 3 },
+      ]
+    },
+    { text: "So far I have gotten the important things I want in life.",
+      sub: "Not everything — but the things that genuinely matter to you.",
+      answers: [
+        { text: "Strongly disagree — the things that matter most to me are largely absent", score: 0 },
+        { text: "Disagree — key things are missing or unrealised", score: 1 },
+        { text: "Agree — I have achieved or have most of the important things I want", score: 2 },
+        { text: "Strongly agree — the most important things I wanted in life are present", score: 3 },
+      ]
+    },
+    { text: "If I could live my life over, I would change almost nothing.",
+      sub: "This measures retrospective acceptance — how you relate to the life you've lived.",
+      answers: [
+        { text: "Strongly disagree — I would change a great deal", score: 0 },
+        { text: "Disagree — there are significant things I would want to change", score: 1 },
+        { text: "Agree — I would change relatively little; I'm broadly at peace with how my life has gone", score: 2 },
+        { text: "Strongly agree — I would change almost nothing", score: 3 },
+      ]
+    },
+    { text: "I feel a clear sense of purpose or meaning in my life.",
+      sub: "Meaning and purpose are consistent predictors of life satisfaction, independent of circumstances.",
+      answers: [
+        { text: "Rarely — purpose and meaning are largely absent for me", score: 0 },
+        { text: "Sometimes — I have moments of purpose, but not a stable, clear sense of it", score: 1 },
+        { text: "Often — I generally feel a reasonably clear sense of purpose", score: 2 },
+        { text: "Strongly — purpose and meaning are a clear, present feature of my daily life", score: 3 },
+      ]
+    },
+    { text: "Overall, I would say my wellbeing — emotional, physical, and relational — is good.",
+      sub: "A holistic assessment of how you are doing across the different domains of life.",
+      answers: [
+        { text: "Strongly disagree — my overall wellbeing is quite poor across multiple domains", score: 0 },
+        { text: "Disagree — my wellbeing has significant problems", score: 1 },
+        { text: "Agree — my overall wellbeing is generally good", score: 2 },
+        { text: "Strongly agree — my overall wellbeing is strong across most domains", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🌑 Low satisfaction';
+    const meterRight = 'Very satisfied 🌅';
+    if (pct < 26) {
+      icon = '🌑'; title = 'Low Life Satisfaction';
+      subtitle = 'You are experiencing significant dissatisfaction with your life — across circumstances, goals, and overall wellbeing.';
+      traits = [
+        { icon: '⚠️', text: '<strong>Low life satisfaction at this level often co-occurs with depression and anxiety</strong> — Diener et al. (1985) found SWLS scores in this range are significantly correlated with depressive symptoms and should not be dismissed as merely circumstantial.' },
+        { icon: '🔍', text: '<strong>Circumstances matter, but they explain less than expected</strong> — Brickman & Campbell\'s adaptation research found that circumstances (income, status, even health) account for only 10–15% of life satisfaction variance. Cognitive patterns — how you interpret and relate to your life — account for far more.' },
+        { icon: '🌱', text: '<strong>Life satisfaction can change</strong> — Lyubomirsky, Sheldon & Schkade\'s (2005) research identified intentional activities (meaningful engagement, relationships, acts of kindness, mindfulness) as the most powerful lever for sustainable wellbeing improvement.' },
+        { icon: '🤝', text: '<strong>Meaning matters more than happiness</strong> — Frankl\'s work and subsequent research found that a sense of meaning provides psychological resilience even under extremely difficult circumstances. Finding or creating meaning is often more tractable than trying to feel happier.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low life satisfaction range<br><br>Based on: Diener, E., Emmons, R.A., Larsen, R.J. & Griffin, S. (1985). The satisfaction with life scale. <em>Journal of Personality Assessment, 49</em>(1), 71–75. Pavot, W. & Diener, E. (1993). Review of the SWLS. <em>Psychological Assessment, 5</em>(2). Seligman, M.E.P. (2011). <em>Flourish</em> (PERMA model).`;
+    } else if (pct < 50) {
+      icon = '⛅'; title = 'Moderate Life Satisfaction';
+      subtitle = 'You have a mixed relationship with your life — some satisfaction, but significant unmet needs or unfulfilled areas.';
+      traits = [
+        { icon: '🔄', text: '<strong>Moderate satisfaction often reflects genuine ambivalence</strong> — specific domains may be satisfying while others are not. Diener\'s domain-satisfaction research found work, relationships, health, and meaning operate somewhat independently.' },
+        { icon: '💡', text: '<strong>The PERMA model identifies the five empirical pillars of wellbeing</strong> (Seligman, 2011): Positive emotion, Engagement, Relationships, Meaning, and Achievement. Identifying which is most depleted is more useful than trying to improve "satisfaction" abstractly.' },
+        { icon: '🌱', text: '<strong>Social connection is the highest-return investment</strong> — Holt-Lunstad et al.\'s (2015) meta-analysis found that social isolation is as damaging to health as smoking 15 cigarettes a day. Relationships are the most consistently replicated predictor of life satisfaction.' },
+        { icon: '🔬', text: '<strong>The hedonic treadmill is real</strong> — Brickman & Campbell (1971) found that positive and negative events have less durable effects on satisfaction than people expect, as people adapt. Long-term satisfaction requires ongoing meaningful engagement, not better circumstances.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate life satisfaction range<br><br>Based on: Diener et al. (1985). Pavot & Diener (1993). Seligman, M.E.P. (2011). <em>Flourish.</em> Brickman, P. & Campbell, D.T. (1971). Hedonic relativism and planning the good society. In M.H. Appley (Ed.), <em>Adaptation Level Theory.</em>`;
+    } else if (pct < 75) {
+      icon = '🌤️'; title = 'High Life Satisfaction';
+      subtitle = 'You report meaningful satisfaction with your life — your circumstances, achievements, and overall wellbeing are in a good place.';
+      traits = [
+        { icon: '✅', text: '<strong>High life satisfaction has protective effects across domains</strong> — Pavot & Diener (1993) found that high SWLS scores predict better physical health, better occupational performance, stronger social relationships, and greater resilience under stress.' },
+        { icon: '🔬', text: '<strong>Positive emotions broaden and build</strong> — Fredrickson\'s (2001) broaden-and-build theory shows that positive emotions expand cognitive resources, improve problem-solving, and build lasting personal strengths — creating a virtuous cycle.' },
+        { icon: '🌱', text: '<strong>Satisfaction is partly a skill</strong> — Diener\'s longitudinal research found that people who maintain high satisfaction tend to actively invest in meaningful activities and relationships rather than merely enjoying favourable circumstances.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high life satisfaction range<br><br>Based on: Diener et al. (1985). Pavot & Diener (1993). <em>Psychological Assessment, 5</em>(2). Fredrickson, B.L. (2001). The role of positive emotions. <em>American Psychologist, 56</em>(3). Seligman (2011).`;
+    } else {
+      icon = '🌅'; title = 'Very High Life Satisfaction';
+      subtitle = 'You report very high satisfaction with your life — you feel your circumstances and overall wellbeing are excellent.';
+      traits = [
+        { icon: '🏆', text: '<strong>Very high life satisfaction is associated with flourishing</strong> — Keyes (2002) distinguishes "languishing" (low wellbeing despite absence of illness) from "flourishing" (high wellbeing with full functioning). Your score suggests flourishing.' },
+        { icon: '🌊', text: '<strong>High satisfaction supports prosocial behaviour</strong> — Diener & Biswas-Diener\'s research found that happy, satisfied people are more generous, more helpful, and form stronger social connections — suggesting wellbeing isn\'t merely internal but outward-looking.' },
+        { icon: '💡', text: '<strong>Authentic satisfaction is resilient</strong> — people with genuinely high life satisfaction (rooted in meaning, relationships, and purpose rather than just circumstances) show markedly better recovery from adversity and life transitions.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — very high life satisfaction range<br><br>Based on: Diener et al. (1985). <em>Journal of Personality Assessment, 49</em>(1). Pavot & Diener (1993). Keyes, C.L.M. (2002). The mental health continuum. <em>Journal of Health and Social Behavior, 43.</em> Seligman (2011). <em>Flourish.</em>`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+shame: {
+  id: 'shame', color: '#ec4899',
+  icon: '🩹', title: 'How Much Shame Do I Carry?',
+  descHtml: `Based on <strong>Nathanson's Compass of Shame</strong> (1992), <strong>Tangney & Dearing's GASP scale</strong> (2002), and <strong>Lewis's</strong> (1971) foundational distinction between shame and guilt. Shame is the belief that the <em>self</em> is fundamentally defective — not "I did something bad" but "I <em>am</em> bad."<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: "When I make a mistake, my first reaction is to feel that something is fundamentally wrong with me — not just that I did something wrong.",
+      sub: "This is the core Lewis (1971) distinction: shame (I am bad) vs. guilt (I did something bad).",
+      answers: [
+        { text: "Rarely — mistakes feel behavioural, not reflections of who I am", score: 0 },
+        { text: "Sometimes — certain failures do trigger a sense of fundamental inadequacy", score: 1 },
+        { text: "Often — mistakes typically make me feel defective rather than just mistaken", score: 2 },
+        { text: "Almost always — failure feels like confirmation that something is wrong with me at a basic level", score: 3 },
+      ]
+    },
+    { text: "When I am embarrassed or do something wrong in front of others, I have a strong urge to disappear, hide, or escape.",
+      sub: "The withdrawal response is one of the four poles in Nathanson's (1992) Compass of Shame.",
+      answers: [
+        { text: "Rarely — embarrassment is uncomfortable but doesn't produce a strong urge to vanish", score: 0 },
+        { text: "Sometimes — in certain situations the urge to disappear is strong", score: 1 },
+        { text: "Often — the wish to hide or disappear after embarrassment is a familiar, strong impulse", score: 2 },
+        { text: "Almost always — exposure feels so unbearable that escape or disappearing feels necessary", score: 3 },
+      ]
+    },
+    { text: "I experience my self-criticism as global — not 'I made a mistake' but 'I'm stupid/worthless/unlovable'.",
+      sub: "Global self-attribution is a defining feature of shame-proneness across all major theoretical models.",
+      answers: [
+        { text: "Rarely — my self-criticism is usually specific to the behaviour in question", score: 0 },
+        { text: "Sometimes — criticism about specific behaviours can expand into global self-judgements", score: 1 },
+        { text: "Often — self-criticism tends to be sweeping and generalised", score: 2 },
+        { text: "Almost always — I am the problem, not what I did — this is my default internal response to failure", score: 3 },
+      ]
+    },
+    { text: "I feel shame about who I am — my history, my body, my character, things that feel unchangeable about me.",
+      sub: "Shame about fixed self-attributes (body, history, identity) differs from guilt about actions.",
+      answers: [
+        { text: "Rarely — I have a reasonable relationship with who I fundamentally am", score: 0 },
+        { text: "Sometimes — there are aspects of myself or my history I carry with some shame", score: 1 },
+        { text: "Often — shame about fixed aspects of who I am is a meaningful presence", score: 2 },
+        { text: "Significantly — deep shame about fundamental aspects of myself is a persistent experience", score: 3 },
+      ]
+    },
+    { text: "I am intensely perfectionistic — driven not by a love of excellence but by the fear of being exposed as inadequate.",
+      sub: "Shame-driven perfectionism operates from fear of exposure, not from positive motivation.",
+      answers: [
+        { text: "Rarely — my perfectionism, if I have it, is more about standards than fear", score: 0 },
+        { text: "Sometimes — fear of inadequacy does drive my perfectionism in certain areas", score: 1 },
+        { text: "Often — my perfectionism is substantially driven by the fear of being exposed as not good enough", score: 2 },
+        { text: "Strongly — avoiding the exposure of inadequacy is the primary engine of my perfectionism", score: 3 },
+      ]
+    },
+    { text: "I struggle to separate what I do from who I am — my failures feel like they define me, not just reflect what happened.",
+      answers: [
+        { text: "Rarely — I can usually distinguish between my actions and my identity", score: 0 },
+        { text: "Sometimes — significant failures can blur the line between behaviour and self", score: 1 },
+        { text: "Often — I genuinely struggle to see failures as events rather than as evidence of who I am", score: 2 },
+        { text: "Strongly — I am my failures — this conflation is pervasive and automatic", score: 3 },
+      ]
+    },
+    { text: "I feel deeply frightened of being truly known — I believe that if others saw all of me, they would reject or abandon me.",
+      sub: "Brown's (2010) shame research identifies this fear of full disclosure as central to chronic shame.",
+      answers: [
+        { text: "Rarely — I can let people in without the expectation of rejection", score: 0 },
+        { text: "Sometimes — there are specific areas where I fear exposure would lead to rejection", score: 1 },
+        { text: "Often — the fear that being fully known would lead to rejection significantly shapes my relationships", score: 2 },
+        { text: "Persistently — I operate on the belief that full disclosure would lead others to leave or reject me", score: 3 },
+      ]
+    },
+    { text: "After I fail at something, I feel worthless — as though the failure has stripped away my value as a person.",
+      answers: [
+        { text: "Rarely — failure is disappointing but doesn't reach my sense of worth as a person", score: 0 },
+        { text: "Sometimes — significant failures do temporarily deplete my sense of worth", score: 1 },
+        { text: "Often — failure reliably produces a sense of worthlessness", score: 2 },
+        { text: "Almost always — failure and worthlessness feel directly connected in my experience", score: 3 },
+      ]
+    },
+    { text: "When others react with disappointment, disapproval, or criticism, I experience shame rather than just concern or regret.",
+      sub: "The difference: concern/regret is about the behaviour; shame is about what their reaction reveals about you.",
+      answers: [
+        { text: "Rarely — others' negative reactions produce concern or regret, not shame about who I am", score: 0 },
+        { text: "Sometimes — certain people's disapproval or certain contexts trigger shame", score: 1 },
+        { text: "Often — disappointment or criticism from others frequently triggers shame rather than just regret", score: 2 },
+        { text: "Almost always — others' negative reactions are a powerful trigger for feelings of fundamental inadequacy", score: 3 },
+      ]
+    },
+    { text: "I believe I am fundamentally less worthy than other people — that there is something essentially defective about me that others don't have.",
+      sub: "This belief in fundamental unworthiness is the core of what Brown (2010) calls 'toxic shame'.",
+      answers: [
+        { text: "Rarely — I see myself as fundamentally similar to others in basic worth", score: 0 },
+        { text: "Sometimes — I can feel fundamentally lesser, though not as a fixed belief", score: 1 },
+        { text: "Often — a sense of fundamental inadequacy compared to others is a regular presence", score: 2 },
+        { text: "Persistently — the belief that I am fundamentally more defective or less worthy than others is stable and pervasive", score: 3 },
+      ]
+    },
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = '🟢 Healthy guilt';
+    const meterRight = 'High shame 🩹';
+    if (pct < 26) {
+      icon = '🟢'; title = 'Low Shame, Healthy Guilt';
+      subtitle = 'You appear to relate to failure and mistakes with guilt (behaviour-focused) rather than shame (self-focused) — a psychologically healthier pattern.';
+      traits = [
+        { icon: '✅', text: '<strong>Guilt is adaptive; shame is not</strong> — Tangney & Dearing (2002) found in repeated studies that guilt-proneness (I did something wrong) predicts prosocial behaviour, empathy, and repair. Shame-proneness predicts avoidance, aggression, and depression.' },
+        { icon: '💡', text: '<strong>Healthy self-criticism is specific and behavioural</strong> — Lewis (1971) found that the healthiest people can say "I made a mistake" without it spreading into "I am a mistake." This distinction is the core of the shame-guilt differentiation.' },
+        { icon: '🌱', text: '<strong>Low shame is associated with better relationships</strong> — Brown\'s (2010) research found that people with lower shame levels have greater capacity for vulnerability, which in turn predicts relationship quality, creativity, and belonging.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low shame range<br><br>Based on: Lewis, H.B. (1971). <em>Shame and Guilt in Neurosis.</em> Nathanson, D.L. (1992). <em>Shame and Pride.</em> Tangney, J.P. & Dearing, R.L. (2002). <em>Shame and Guilt.</em> Brown, B. (2010). <em>The Gifts of Imperfection.</em>`;
+    } else if (pct < 50) {
+      icon = '🩺'; title = 'Moderate Shame';
+      subtitle = 'Some chronic shame is present — you carry it in particular areas, and it occasionally colours how you respond to failure or exposure.';
+      traits = [
+        { icon: '🔍', text: '<strong>Moderate shame often operates in specific domains</strong> — Nathanson\'s Compass of Shame identifies four defensive responses: withdrawal (hiding), avoidance (denial/distraction), attack self (self-criticism), attack others (externalising blame). Identifying your default compass point helps.' },
+        { icon: '🌊', text: '<strong>Shame thrives in secrecy</strong> — Brown\'s research found that the most effective antidote to shame is sharing the experience with someone trustworthy. Shame "cannot survive being shared with someone who responds with empathy".' },
+        { icon: '🧠', text: '<strong>Self-compassion directly counteracts shame</strong> — Neff\'s (2003) research found that self-compassion (treating yourself as you would treat a good friend who failed) specifically targets the global self-attack that characterises shame, and predicts better wellbeing outcomes than self-esteem.' },
+        { icon: '💡', text: '<strong>Shame and perfectionism often travel together</strong> — at this level, perfectionism driven by fear of exposure is common. Frost\'s research found that socially-prescribed perfectionism (performing for others\' approval) has the strongest link to shame and negative affect.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate shame range<br><br>Based on: Lewis (1971). Nathanson (1992). Tangney & Dearing (2002). Brown, B. (2010). Neff, K.D. (2003). Self-compassion. <em>Self and Identity, 2</em>(2).`;
+    } else if (pct < 75) {
+      icon = '🩹'; title = 'Significant Shame';
+      subtitle = 'Chronic shame is a significant presence — it shapes how you relate to failure, others\' perceptions, and your own worthiness.';
+      traits = [
+        { icon: '🔴', text: '<strong>Significant shame is associated with depression, social anxiety, and self-harm</strong> — Tangney et al.\'s research found that shame-proneness is a robust predictor of depression, anxiety, and a range of self-destructive behaviours, while guilt-proneness predicts none of these outcomes.' },
+        { icon: '🧬', text: '<strong>Shame and aggression are connected</strong> — Lewis (1971) identified "shame-rage" — the explosive anger that arises from intolerable shame. Nathanson\'s Compass of Shame shows that "attack others" (externalising through rage) is as common a shame defence as withdrawal.' },
+        { icon: '🛠️', text: '<strong>Evidence-based treatments include</strong>: shame-focused CBT, compassion-focused therapy (CFT, Paul Gilbert), schema therapy (identifying and working with the "defective/worthless" schema), and EMDR for shame-laden memories.' },
+        { icon: '🌱', text: '<strong>Shame has developmental roots</strong> — Brown\'s research identified several shame-producing experiences: being punished/rejected for expressing emotion, having needs shamed, appearance scrutiny, and environments where belonging was conditional on performance.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — significant shame range<br><br>Based on: Lewis (1971). Nathanson (1992). Tangney & Dearing (2002). Brown (2010). Gilbert, P. (2010). <em>The Compassionate Mind.</em> Professional support is recommended at this level.`;
+    } else {
+      icon = '💔'; title = 'High Shame';
+      subtitle = 'Chronic shame is deeply present and is likely a central organising principle of how you experience yourself, others, and the world.';
+      traits = [
+        { icon: '❗', text: '<strong>High chronic shame is one of the most painful human experiences</strong> — it carries the belief that the self is fundamentally defective, unlovable, and undeserving. This level of shame is associated with serious depression, self-harm, suicidal ideation, and substance use.' },
+        { icon: '🧠', text: '<strong>Shame at this level often has early developmental origins</strong> — Brown\'s research, Lewis\'s clinical work, and van der Kolk\'s trauma findings all converge: early experiences of abuse, abandonment, conditional love, or chronic emotional shaming wire the self-concept around fundamental inadequacy.' },
+        { icon: '🔗', text: '<strong>Shame is interpersonally transmitted and interpersonally healed</strong> — because shame is rooted in relational experience ("I am not acceptable to others"), healing requires a corrective relational experience: a therapist or relationship where full disclosure doesn\'t lead to rejection.' },
+        { icon: '🤝', text: '<strong>Please seek support</strong> — compassion-focused therapy (CFT), schema therapy, and EMDR have the strongest evidence for working with high shame. The most important thing is finding a therapist who understands shame and can tolerate hearing it without flinching.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high shame range<br><br>Based on: Lewis (1971). <em>Shame and Guilt in Neurosis.</em> Nathanson (1992). <em>Shame and Pride.</em> Tangney & Dearing (2002). Brown (2010). van der Kolk, B. (2014). <em>The Body Keeps the Score.</em> Professional therapeutic support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
 }; // end genericQuizzes
