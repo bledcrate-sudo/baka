@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const STARS = Array.from({ length: 90 }, (_, i) => ({
+const STARS = Array.from({ length: 60 }, (_, i) => ({
   id: i,
   x: Math.random() * 100,
   y: Math.random() * 100,
-  size: 0.8 + Math.random() * 2,
-  delay: Math.random() * 4,
-  dur: 2 + Math.random() * 3,
+  size: 0.7 + Math.random() * 1.6,
+  delay: Math.random() * 5,
+  dur: 2.5 + Math.random() * 3,
 }))
 
 function StarField({ side }) {
@@ -22,12 +22,12 @@ function StarField({ side }) {
             width: s.size,
             height: s.size,
             borderRadius: '50%',
-            background: side === 'left' ? 'rgba(168,161,248,0.9)' : 'rgba(232,96,122,0.9)',
+            background: side === 'left' ? 'oklch(74% 0.15 284)' : 'oklch(62% 0.18 11)',
             animation: `twinkle ${s.dur}s ease-in-out infinite alternate`,
             animationDelay: `${s.delay}s`,
             boxShadow: side === 'left'
-              ? `0 0 ${s.size * 4}px rgba(168,161,248,0.7)`
-              : `0 0 ${s.size * 4}px rgba(232,96,122,0.7)`,
+              ? `0 0 ${s.size * 3}px oklch(74% 0.15 284 / 0.6)`
+              : `0 0 ${s.size * 3}px oklch(62% 0.18 11 / 0.6)`,
           }}
         />
       ))}
@@ -48,113 +48,35 @@ export default function Landing({ goTo }) {
   return (
     <div
       className="landing-root"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        zIndex: 10,
-      }}
+      style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', zIndex: 10 }}
     >
-      {/* Header */}
-      <div
-        className="landing-header"
-        style={{
-          flexShrink: 0,
-          zIndex: 20,
-          padding: '28px 36px 40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: vis ? 1 : 0,
-          transform: vis ? 'translateY(0)' : 'translateY(-16px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
-          background: 'radial-gradient(ellipse 100% 140% at 50% 10%, rgba(150,138,255,0.22) 0%, rgba(210,80,115,0.10) 50%, transparent 80%)',
-          maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          {/* Brand pill */}
-          <div className="landing-label" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            fontFamily: '"Cormorant Garamond", serif',
-            fontSize: '0.75rem',
-            letterSpacing: '0.3em',
-            color: 'rgba(168,161,248,0.6)',
-            textTransform: 'uppercase',
-            fontWeight: 600,
-            marginBottom: 18,
-            padding: '5px 14px',
-            borderRadius: 100,
-            border: '1px solid rgba(168,161,248,0.15)',
-            background: 'rgba(168,161,248,0.05)',
-          }}>
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(168,161,248,0.7)', display: 'inline-block', boxShadow: '0 0 6px rgba(168,161,248,0.8)' }} />
-            Shugi
-          </div>
-
-          <div className="landing-title" style={{
-            fontFamily: '"Cormorant Garamond", serif',
-            fontSize: 'clamp(2rem, 4.5vw, 3.1rem)',
-            fontWeight: 600,
-            lineHeight: 1.2,
-            letterSpacing: '-0.01em',
-            color: 'oklch(94% 0.009 284)',
-            marginBottom: 14,
-            opacity: vis ? 1 : 0,
-            transform: vis ? 'translateY(0)' : 'translateY(12px)',
-            transition: 'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
-          }}>
-            Your{' '}
-            <em style={{ color: 'oklch(70% 0.16 284)', fontStyle: 'italic', fontWeight: 500 }}>mind</em>
-            {' '}deserves care.
-            <br />
-            <span style={{
-              fontSize: '0.78em',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              color: 'oklch(60% 0.1 284)',
-              letterSpacing: '0em',
-            }}>Let healing begin.</span>
-          </div>
-
-          <div className="landing-sub" style={{
-            fontFamily: 'Manrope, sans-serif',
-            fontSize: 'clamp(0.79rem, 1.4vw, 0.9rem)',
-            color: 'oklch(50% 0.04 284)',
-            letterSpacing: '0.02em',
-            fontWeight: 400,
-            fontStyle: 'italic',
-            opacity: vis ? 1 : 0,
-            transform: vis ? 'translateY(0)' : 'translateY(10px)',
-            transition: 'opacity 0.9s ease 0.45s, transform 0.9s ease 0.45s',
-          }}>
-            Talk to someone who listens. Understand yourself better. One step at a time.
-          </div>
+      {/* Wordmark — absolute overlay */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, zIndex: 30,
+        display: 'flex', justifyContent: 'center', padding: '26px 0',
+        opacity: vis ? 1 : 0,
+        transition: 'opacity 0.8s ease 0.1s',
+        pointerEvents: 'none',
+      }}>
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 7,
+          fontFamily: 'Manrope, sans-serif',
+          fontSize: '0.68rem', letterSpacing: '0.3em',
+          color: 'oklch(52% 0.05 284)',
+          textTransform: 'uppercase', fontWeight: 700,
+          padding: '6px 16px', borderRadius: 100,
+          border: '1px solid oklch(22% 0.028 284)',
+          background: 'oklch(7% 0.018 284 / 0.85)',
+          backdropFilter: 'blur(8px)',
+        }}>
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'oklch(70% 0.14 284)', display: 'inline-block', boxShadow: '0 0 5px oklch(70% 0.14 284 / 0.8)' }} />
+          Shugi
         </div>
       </div>
 
-      {/* Separator line between header and panels */}
-      <div style={{
-        height: 1,
-        flexShrink: 0,
-        background: 'linear-gradient(to right, transparent 0%, rgba(168,161,248,0.2) 30%, rgba(232,96,122,0.2) 70%, transparent 100%)',
-        opacity: vis ? 1 : 0,
-        transition: 'opacity 1s ease 0.5s',
-        zIndex: 20,
-      }} />
+      {/* Panels */}
+      <div className="panels-row" style={{ display: 'flex', flex: 1 }}>
 
-      {/* Two panels */}
-      <div style={{
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-      }}
-        className="panels-row"
-      >
         {/* AI Panel */}
         <button
           className="landing-panel"
@@ -167,133 +89,105 @@ export default function Landing({ goTo }) {
             border: 'none',
             cursor: 'pointer',
             background: hoverAI
-              ? 'radial-gradient(ellipse at 30% 50%, rgba(168,161,248,0.2) 0%, rgba(10,8,18,0.98) 65%)'
-              : 'radial-gradient(ellipse at 30% 50%, rgba(168,161,248,0.09) 0%, rgba(10,8,18,0.98) 65%)',
+              ? 'radial-gradient(ellipse 75% 70% at 15% 65%, oklch(22% 0.11 284 / 0.55) 0%, oklch(5.5% 0.018 284) 70%)'
+              : 'radial-gradient(ellipse 65% 60% at 15% 65%, oklch(18% 0.09 284 / 0.35) 0%, oklch(5.5% 0.018 284) 70%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '60px 40px',
-            transition: 'background 0.5s ease',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-start',
+            padding: '0 52px 72px 52px',
+            transition: 'background 0.65s ease',
             opacity: vis ? 1 : 0,
-            transform: vis ? 'translateX(0)' : 'translateX(-30px)',
+            transform: vis ? 'none' : 'translateX(-24px)',
             transitionProperty: 'background, opacity, transform',
-            transitionDuration: '0.5s, 0.8s, 0.8s',
-            transitionDelay: '0s, 0.1s, 0.1s',
+            transitionDuration: '0.65s, 0.85s, 0.85s',
             overflow: 'hidden',
+            textAlign: 'left',
           }}
         >
           <StarField side="left" />
 
-          {/* Divider glow — right edge */}
-          <div style={{
-            position: 'absolute',
-            right: 0,
-            top: '8%',
-            bottom: '8%',
-            width: 1,
-            background: 'linear-gradient(to bottom, transparent, rgba(168,161,248,0.4) 35%, rgba(232,96,122,0.4) 65%, transparent)',
+          {/* Vertical divider — right edge */}
+          <div className="panel-divider-v" style={{
+            position: 'absolute', right: 0, top: '6%', bottom: '6%', width: 1,
+            background: 'linear-gradient(to bottom, transparent, oklch(35% 0.06 284 / 0.4) 30%, oklch(35% 0.07 11 / 0.4) 70%, transparent)',
             zIndex: 2,
-          }} className="hidden sm:block" />
+          }} />
 
           {/* Glow blob */}
           <div style={{
-            position: 'absolute',
-            width: 380,
-            height: 380,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(168,161,248,0.22), transparent 70%)',
-            filter: 'blur(70px)',
-            transform: hoverAI ? 'scale(1.35)' : 'scale(1)',
-            transition: 'transform 0.7s ease',
+            position: 'absolute', left: '-60px', bottom: '-60px',
+            width: 440, height: 440, borderRadius: '50%',
+            background: 'radial-gradient(circle, oklch(20% 0.1 284 / 0.35), transparent 70%)',
+            filter: 'blur(80px)',
+            transform: hoverAI ? 'scale(1.3)' : 'scale(1)',
+            transition: 'transform 0.8s ease',
             pointerEvents: 'none',
           }} />
 
-          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 340 }}>
-            {/* Emoji in glowing circle */}
-            <div className="panel-icon" style={{
-              width: 72,
-              height: 72,
-              borderRadius: '50%',
-              background: hoverAI ? 'rgba(168,161,248,0.18)' : 'rgba(168,161,248,0.09)',
-              border: '1px solid rgba(168,161,248,0.25)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2.2rem',
-              marginBottom: 20,
-              boxShadow: hoverAI ? '0 0 32px rgba(168,161,248,0.4), inset 0 0 20px rgba(168,161,248,0.08)' : '0 0 16px rgba(168,161,248,0.15)',
-              transition: 'all 0.4s ease',
-              transform: hoverAI ? 'scale(1.08)' : 'scale(1)',
-            }}>
-              🌙
-            </div>
-
-            {/* Label chip */}
+          <div style={{ position: 'relative', zIndex: 2, maxWidth: 360 }}>
             <div style={{
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.62rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(168,161,248,0.5)',
-              fontWeight: 700,
-              marginBottom: 8,
-            }}>AI Companion</div>
+              fontSize: '0.6rem', letterSpacing: '0.25em',
+              textTransform: 'uppercase', color: 'oklch(60% 0.1 284)',
+              fontWeight: 700, marginBottom: 18,
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.7s ease 0.3s',
+            }}>
+              AI Companion
+            </div>
 
-            <div className="panel-title" style={{
+            <div style={{
               fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: '#f0ecfc',
-              marginBottom: 12,
-              letterSpacing: '-0.01em',
+              fontSize: 'clamp(3.2rem, 5.5vw, 5rem)',
+              fontWeight: 700, lineHeight: 1.0, letterSpacing: '-0.025em',
+              color: 'oklch(94% 0.008 284)',
+              marginBottom: 20,
+              opacity: vis ? 1 : 0,
+              transform: vis ? 'none' : 'translateY(16px)',
+              transition: 'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
             }}>
               Shugi AI
             </div>
 
-            <div className="panel-desc" style={{
+            <div style={{
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.88rem',
-              color: 'rgba(168,161,248,0.8)',
-              lineHeight: 1.7,
-              letterSpacing: '0.01em',
-              marginBottom: 28,
+              fontSize: '0.86rem',
+              color: 'oklch(45% 0.05 284)',
+              lineHeight: 1.7, marginBottom: 32,
+              fontWeight: 400,
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.8s ease 0.5s',
             }}>
-              Talk to an AI that thinks<br />deeply about you
+              Talk freely about what you're carrying.<br />No judgment. No agenda.
             </div>
 
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '12px 28px',
-              borderRadius: 100,
-              border: '1px solid rgba(168,161,248,0.35)',
-              background: hoverAI ? 'rgba(168,161,248,0.15)' : 'rgba(168,161,248,0.06)',
-              color: 'rgba(168,161,248,0.95)',
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              transition: 'all 0.3s ease',
-              transform: hoverAI ? 'translateY(-2px)' : 'none',
-              boxShadow: hoverAI ? '0 4px 20px rgba(168,161,248,0.2)' : 'none',
-            }}>
-              Enter
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <div
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                color: hoverAI ? 'oklch(78% 0.15 284)' : 'oklch(65% 0.13 284)',
+                fontFamily: 'Manrope, sans-serif',
+                fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.05em',
+                borderBottom: '1px solid oklch(65% 0.13 284 / 0.4)',
+                paddingBottom: 3,
+                transition: 'color 0.3s ease, opacity 0.8s ease',
+                opacity: vis ? 1 : 0,
+                transitionDelay: '0s, 0.65s',
+              }}
+            >
+              Start talking
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
 
-            {/* Trust line */}
             <div style={{
-              marginTop: 12,
+              marginTop: 14,
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.7rem',
-              color: 'rgba(255,255,255,0.2)',
-              letterSpacing: '0.05em',
+              fontSize: '0.67rem', color: 'oklch(32% 0.03 284)',
+              letterSpacing: '0.04em',
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.8s ease 0.7s',
             }}>
               Free · No account needed
             </div>
@@ -312,187 +206,149 @@ export default function Landing({ goTo }) {
             border: 'none',
             cursor: 'pointer',
             background: hoverQ
-              ? 'radial-gradient(ellipse at 70% 50%, rgba(232,96,122,0.2) 0%, rgba(10,8,18,0.98) 65%)'
-              : 'radial-gradient(ellipse at 70% 50%, rgba(232,96,122,0.09) 0%, rgba(10,8,18,0.98) 65%)',
+              ? 'radial-gradient(ellipse 75% 70% at 85% 35%, oklch(20% 0.1 11 / 0.55) 0%, oklch(5.5% 0.018 284) 70%)'
+              : 'radial-gradient(ellipse 65% 60% at 85% 35%, oklch(16% 0.08 11 / 0.35) 0%, oklch(5.5% 0.018 284) 70%)',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '60px 40px',
-            transition: 'background 0.5s ease',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-end',
+            padding: '88px 52px 0 52px',
+            transition: 'background 0.65s ease',
             opacity: vis ? 1 : 0,
-            transform: vis ? 'translateX(0)' : 'translateX(30px)',
+            transform: vis ? 'none' : 'translateX(24px)',
             transitionProperty: 'background, opacity, transform',
-            transitionDuration: '0.5s, 0.8s, 0.8s',
-            transitionDelay: '0s, 0.25s, 0.25s',
+            transitionDuration: '0.65s, 0.85s, 0.85s',
+            transitionDelay: '0s, 0.15s, 0.15s',
             overflow: 'hidden',
+            textAlign: 'right',
           }}
         >
           <StarField side="right" />
 
           {/* Glow blob */}
           <div style={{
-            position: 'absolute',
-            width: 380,
-            height: 380,
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(232,96,122,0.22), transparent 70%)',
-            filter: 'blur(70px)',
-            transform: hoverQ ? 'scale(1.35)' : 'scale(1)',
-            transition: 'transform 0.7s ease',
+            position: 'absolute', right: '-60px', top: '-60px',
+            width: 440, height: 440, borderRadius: '50%',
+            background: 'radial-gradient(circle, oklch(18% 0.1 11 / 0.35), transparent 70%)',
+            filter: 'blur(80px)',
+            transform: hoverQ ? 'scale(1.3)' : 'scale(1)',
+            transition: 'transform 0.8s ease',
             pointerEvents: 'none',
           }} />
 
-          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 340 }}>
-            {/* Emoji in glowing circle */}
-            <div className="panel-icon" style={{
-              width: 72,
-              height: 72,
-              borderRadius: '50%',
-              background: hoverQ ? 'rgba(232,96,122,0.18)' : 'rgba(232,96,122,0.09)',
-              border: '1px solid rgba(232,96,122,0.25)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2.2rem',
-              marginBottom: 20,
-              boxShadow: hoverQ ? '0 0 32px rgba(232,96,122,0.4), inset 0 0 20px rgba(232,96,122,0.08)' : '0 0 16px rgba(232,96,122,0.15)',
-              transition: 'all 0.4s ease',
-              transform: hoverQ ? 'scale(1.08)' : 'scale(1)',
-            }}>
-              🪐
-            </div>
-
-            {/* Label chip */}
+          <div style={{ position: 'relative', zIndex: 2, maxWidth: 360 }}>
             <div style={{
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.62rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(232,96,122,0.5)',
-              fontWeight: 700,
-              marginBottom: 8,
-            }}>20 Quizzes</div>
+              fontSize: '0.6rem', letterSpacing: '0.25em',
+              textTransform: 'uppercase', color: 'oklch(58% 0.1 11)',
+              fontWeight: 700, marginBottom: 18,
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.7s ease 0.45s',
+            }}>
+              20 Psychology Quizzes
+            </div>
 
-            <div className="panel-title" style={{
+            <div style={{
               fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: '#f0ecfc',
-              marginBottom: 12,
-              letterSpacing: '-0.01em',
+              fontSize: 'clamp(3.2rem, 5.5vw, 5rem)',
+              fontWeight: 700, lineHeight: 1.0, letterSpacing: '-0.025em',
+              color: 'oklch(94% 0.008 284)',
+              marginBottom: 20,
+              opacity: vis ? 1 : 0,
+              transform: vis ? 'none' : 'translateY(16px)',
+              transition: 'opacity 0.9s ease 0.35s, transform 0.9s ease 0.35s',
             }}>
-              Know Yourself
-            </div>
-
-            <div className="panel-desc" style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.88rem',
-              color: 'rgba(232,96,122,0.8)',
-              lineHeight: 1.7,
-              letterSpacing: '0.01em',
-              marginBottom: 28,
-            }}>
-              Discover your patterns through<br />guided psychology quizzes
+              Know{' '}
+              <em style={{ color: 'oklch(67% 0.17 11)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
             </div>
 
             <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '12px 28px',
-              borderRadius: 100,
-              border: '1px solid rgba(232,96,122,0.35)',
-              background: hoverQ ? 'rgba(232,96,122,0.15)' : 'rgba(232,96,122,0.06)',
-              color: 'rgba(232,96,122,0.95)',
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              transition: 'all 0.3s ease',
-              transform: hoverQ ? 'translateY(-2px)' : 'none',
-              boxShadow: hoverQ ? '0 4px 20px rgba(232,96,122,0.2)' : 'none',
+              fontSize: '0.86rem',
+              color: 'oklch(45% 0.05 284)',
+              lineHeight: 1.7, marginBottom: 32,
+              fontWeight: 400,
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.8s ease 0.6s',
             }}>
-              Explore
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              Validated clinical tools for love,<br />burnout, anxiety, and trauma.
+            </div>
+
+            <div
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                color: hoverQ ? 'oklch(73% 0.17 11)' : 'oklch(60% 0.15 11)',
+                fontFamily: 'Manrope, sans-serif',
+                fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.05em',
+                borderBottom: '1px solid oklch(60% 0.15 11 / 0.4)',
+                paddingBottom: 3,
+                transition: 'color 0.3s ease, opacity 0.8s ease',
+                opacity: vis ? 1 : 0,
+                transitionDelay: '0s, 0.75s',
+              }}
+            >
+              Explore quizzes
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
 
-            {/* Trust line */}
             <div style={{
-              marginTop: 12,
+              marginTop: 14,
               fontFamily: 'Manrope, sans-serif',
-              fontSize: '0.7rem',
-              color: 'rgba(255,255,255,0.2)',
-              letterSpacing: '0.05em',
+              fontSize: '0.67rem', color: 'oklch(32% 0.03 284)',
+              letterSpacing: '0.04em',
+              opacity: vis ? 1 : 0,
+              transition: 'opacity 0.8s ease 0.8s',
             }}>
-              Free · Love · Burnout · Anxiety · 11 more
+              Free · Love · Burnout · Anxiety · 17 more
             </div>
           </div>
         </button>
       </div>
 
-      {/* Bottom tagline */}
+      {/* Bottom signature */}
       <div style={{
-        position: 'absolute',
-        bottom: 20,
-        left: 0,
-        right: 0,
+        position: 'absolute', bottom: 20, left: 0, right: 0,
         textAlign: 'center',
-        opacity: vis ? 0.25 : 0,
-        transition: 'opacity 1.2s ease 0.6s',
-        pointerEvents: 'none',
+        opacity: vis ? 0.18 : 0,
+        transition: 'opacity 1.4s ease 0.8s',
+        pointerEvents: 'none', zIndex: 20,
       }}>
         <span style={{
-          fontFamily: 'Manrope, sans-serif',
-          fontSize: '0.65rem',
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.5)',
-        }}>
-          — R
-        </span>
+          fontFamily: 'Manrope, sans-serif', fontSize: '0.62rem',
+          letterSpacing: '0.22em', textTransform: 'uppercase',
+          color: 'oklch(55% 0.03 284)',
+        }}>— R</span>
       </div>
 
       <style>{`
         @keyframes twinkle {
-          from { opacity: 0.15; }
-          to { opacity: 1; }
+          from { opacity: 0.12; }
+          to { opacity: 0.9; }
         }
-        @media (min-width: 640px) {
-          .sm\\:flex-row { flex-direction: row !important; }
-          .sm\\:block { display: block !important; }
-        }
-        .hidden { display: none; }
         @media (min-width: 700px) {
           .panels-row { flex-direction: row !important; }
+          .panel-divider-v { display: block !important; }
         }
         @media (max-width: 699px) {
           .panels-row { flex-direction: column !important; }
-          /* Make landing scrollable on mobile — fixed+inset kills scroll */
+          .panel-divider-v { display: none !important; }
           .landing-root {
-            position: relative !important;
-            inset: auto !important;
-            min-height: 100svh !important;
-            min-height: 100dvh !important;
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch !important;
+            position: relative !important; inset: auto !important;
+            min-height: 100svh !important; min-height: 100dvh !important;
+            overflow-y: auto !important; -webkit-overflow-scrolling: touch !important;
           }
-          .panels-row { flex: none !important; }
-          .landing-panel { flex: none !important; min-height: 290px !important; }
+          .landing-panel {
+            flex: none !important; min-height: 52svh !important; min-height: 52dvh !important;
+            padding: 52px 28px 40px !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+          }
         }
-        @media (max-width: 639px) {
-          .landing-header { padding: 16px 20px 20px !important; }
-          .landing-title { font-size: clamp(1.5rem, 7vw, 2rem) !important; margin-bottom: 8px !important; }
-          .landing-sub { font-size: 0.75rem !important; }
-          .landing-label { font-size: 0.75rem !important; margin-bottom: 10px !important; }
-          .landing-panel { padding: 28px 20px !important; }
-          .panel-icon { width: 56px !important; height: 56px !important; font-size: 1.8rem !important; margin-bottom: 14px !important; }
-          .panel-title { font-size: clamp(1.6rem, 8vw, 2.2rem) !important; }
-          .panel-desc { font-size: 0.82rem !important; margin-bottom: 18px !important; }
+        @media (max-width: 480px) {
+          .landing-panel { min-height: 55svh !important; padding: 44px 24px 36px !important; }
         }
       `}</style>
     </div>
