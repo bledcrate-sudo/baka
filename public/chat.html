@@ -77,12 +77,10 @@ body::before {
 #auth-screen { padding: 20px; }
 
 .auth-card {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur) saturate(150%);
-  -webkit-backdrop-filter: var(--glass-blur) saturate(150%);
-  border: 1px solid var(--glass-border);
+  background: oklch(8.5% 0.02 284);
+  border: 1px solid rgba(155,143,245,0.12);
   border-radius: 28px;
-  box-shadow: var(--glass-shadow);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04) inset;
   padding: 52px 44px 44px;
   width: 100%; max-width: 428px;
   position: relative; overflow: hidden;
@@ -95,19 +93,19 @@ body::before {
 }
 .auth-card::after {
   content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
-  width: 240px; height: 120px;
-  background: radial-gradient(ellipse, rgba(155,143,245,0.12) 0%, transparent 70%);
+  width: 240px; height: 160px;
+  background: radial-gradient(ellipse, rgba(155,143,245,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .auth-logo-wrap { display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
 .auth-logo {
   width: 64px; height: 64px; border-radius: 20px;
-  background: var(--glass-bg);
-  border: 1px solid rgba(255,255,255,0.10);
-  box-shadow: 0 8px 32px rgba(155,143,245,0.20), inset 0 1px 0 rgba(255,255,255,0.08);
+  background: oklch(12% 0.025 284);
+  border: 1px solid rgba(155,143,245,0.18);
+  box-shadow: 0 8px 32px rgba(155,143,245,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
   display: flex; align-items: center; justify-content: center;
-  font-size: 30px; backdrop-filter: blur(12px);
+  font-size: 30px;
   animation: logo-breathe 4s ease-in-out infinite;
 }
 @keyframes logo-breathe {
@@ -118,11 +116,10 @@ body::before {
 .auth-title {
   font-family: var(--font-display); font-size: 2.4rem; font-weight: 600;
   text-align: center;
-  background: linear-gradient(135deg, #e8607a 0%, #c490f5 50%, #9b8ff5 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: oklch(93% 0.012 284);
   margin-bottom: 6px; letter-spacing: 0.01em; line-height: 1.1;
 }
-.auth-sub { text-align: center; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.4px; margin-bottom: 34px; }
+.auth-sub { text-align: center; color: oklch(58% 0.03 284); font-size: 0.79rem; letter-spacing: 0.2px; margin-bottom: 34px; font-style: italic; }
 
 .auth-tabs {
   display: flex; background: rgba(255,255,255,0.03); border-radius: 10px;
@@ -211,8 +208,7 @@ body::before {
   display: flex; align-items: center; gap: 8px;
   font-family: var(--font-display);
   font-size: 1.25rem; font-weight: 600; letter-spacing: 0.02em;
-  background: linear-gradient(135deg, #e8607a, #9b8ff5);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: oklch(84% 0.04 284);
 }
 
 .btn-new-chat {
@@ -369,19 +365,18 @@ body::before {
 .chat-brand-center { text-align: center; }
 .chat-brand-name {
   font-family: var(--font-display); font-size: 1.3rem; font-weight: 600;
-  background: linear-gradient(135deg, #e8607a, #9b8ff5);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: oklch(92% 0.012 284);
   letter-spacing: 0.02em; line-height: 1;
   display: block;
 }
 .chat-brand-status {
   display: flex; align-items: center; justify-content: center; gap: 5px;
-  font-size: 0.71rem; color: var(--teal); font-weight: 500; margin-top: 2px;
+  font-size: 0.71rem; color: oklch(65% 0.06 284); font-weight: 500; margin-top: 2px;
 }
 .status-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--teal); box-shadow: 0 0 8px var(--teal);
-  animation: pulse-dot 2.4s ease-in-out infinite;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: oklch(72% 0.08 284); box-shadow: 0 0 6px oklch(72% 0.08 284 / 0.5);
+  animation: pulse-dot 3s ease-in-out infinite;
 }
 @keyframes pulse-dot {
   0%,100% { opacity: 1; transform: scale(1); }
@@ -409,10 +404,10 @@ body::before {
   text-align: center; padding: 60px 20px; gap: 12px; flex: 1;
   min-height: 300px;
 }
-.welcome-icon { font-size: 40px; margin-bottom: 4px; opacity: 0.7; animation: welcome-float 3.5s ease-in-out infinite; }
-@keyframes welcome-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-.welcome-quote { font-family: var(--font-display); font-style: italic; font-size: 1.4rem; font-weight: 400; color: var(--muted); line-height: 1.4; max-width: 360px; }
-.welcome-sub { font-size: 0.81rem; color: var(--muted-2); max-width: 280px; line-height: 1.6; }
+.welcome-icon { font-size: 36px; margin-bottom: 8px; opacity: 0.5; animation: welcome-float 4s ease-in-out infinite; }
+@keyframes welcome-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.welcome-quote { font-family: var(--font-display); font-style: italic; font-size: 1.55rem; font-weight: 300; color: oklch(72% 0.025 284); line-height: 1.45; max-width: 400px; letter-spacing: 0.01em; }
+.welcome-sub { font-size: 0.78rem; color: oklch(55% 0.02 284); max-width: 240px; line-height: 1.7; margin-top: 4px; }
 
 .msg { display: flex; align-items: flex-start; gap: 10px; animation: msg-in .3s var(--ease-spring); }
 @keyframes msg-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -432,9 +427,9 @@ body::before {
   font-size: 0.875rem; line-height: 1.7; word-break: break-word; position: relative;
 }
 .msg-ai .msg-bubble {
-  background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.04);
+  background: oklch(11% 0.018 284);
+  border: 1px solid rgba(155,143,245,0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
   border-bottom-left-radius: 4px; color: var(--text);
 }
 .msg-user .msg-bubble {
@@ -449,8 +444,8 @@ body::before {
 
 .typing-row { display: flex; align-items: flex-end; gap: 10px; animation: msg-in .25s var(--ease-smooth); }
 .typing-bubble {
-  background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: oklch(11% 0.018 284);
+  border: 1px solid rgba(155,143,245,0.1);
   border-radius: 18px; border-bottom-left-radius: 4px;
   padding: 14px 18px; display: flex; gap: 5px; align-items: center;
 }
@@ -551,7 +546,7 @@ body::before {
   <div class="auth-card" id="auth-card">
     <div class="auth-logo-wrap"><div class="auth-logo">🌙</div></div>
     <h1 class="auth-title">Shugi AI</h1>
-    <p class="auth-sub">Personal Mental Health Assistant</p>
+    <p class="auth-sub">A quiet space to think things through</p>
 
     <div class="auth-tabs" role="tablist">
       <button class="auth-tab active" id="tab-login" role="tab" aria-selected="true" onclick="switchTab('login')">Sign In</button>
@@ -616,7 +611,7 @@ body::before {
       <div class="chat-brand-center">
         <span class="chat-brand-name">Shugi AI</span>
         <div class="chat-brand-status">
-          <span class="status-dot" aria-hidden="true"></span>Online
+          <span class="status-dot" aria-hidden="true"></span>Here with you
         </div>
       </div>
       <div class="header-spacer"></div>
@@ -871,8 +866,8 @@ function renderWelcome() {
   div.className = 'welcome-state'; div.id = 'welcome-state';
   div.innerHTML = `
     <div class="welcome-icon">🌙</div>
-    <p class="welcome-quote">"This is a safe space. Take your time."</p>
-    <p class="welcome-sub">I'm here to listen without judgment. What's on your mind today?</p>`;
+    <p class="welcome-quote">"Whatever you're carrying tonight — you don't have to carry it alone."</p>
+    <p class="welcome-sub">No agenda. No judgment. Just talk.</p>`;
   msgs.appendChild(div);
 }
 
