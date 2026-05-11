@@ -4399,4 +4399,747 @@ shame: {
   }
 },
 
+
+bodydysmorphia: {
+  id: 'bodydysmorphia', color: '#f472b6',
+  icon: '🪞', title: 'Do I Have Body Dysmorphia Signs?',
+  descHtml: `Based on the <strong>Body Dysmorphic Disorder Questionnaire (BDDQ)</strong> (Phillips, 1996), this quiz measures preoccupation with perceived appearance flaws and the distress and functional impairment they cause.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I am preoccupied with a part of my appearance that I believe looks wrong, ugly, or defective.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'Rarely', score: 1 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often or always', score: 3 },
+    ]},
+    { text: 'I spend significant time each day thinking about this perceived flaw.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'Less than an hour', score: 1 },
+      { text: '1–3 hours', score: 2 },
+      { text: 'More than 3 hours', score: 3 },
+    ]},
+    { text: 'I check my appearance in mirrors, phone cameras, or reflective surfaces repeatedly.', answers: [
+      { text: 'Rarely or never', score: 0 },
+      { text: 'Once or twice a day', score: 1 },
+      { text: 'Several times a day', score: 2 },
+      { text: 'Constantly throughout the day', score: 3 },
+    ]},
+    { text: 'I compare how my appearance looks relative to other people in person or in media.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Occasionally', score: 1 },
+      { text: 'Frequently', score: 2 },
+      { text: 'Almost constantly', score: 3 },
+    ]},
+    { text: 'Concerns about my appearance cause me significant distress or emotional pain.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'Mild distress', score: 1 },
+      { text: 'Moderate distress', score: 2 },
+      { text: 'Severe distress', score: 3 },
+    ]},
+    { text: 'I avoid social situations, activities, or relationships because of how I look.', answers: [
+      { text: 'Never', score: 0 },
+      { text: 'Occasionally', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Frequently or always', score: 3 },
+    ]},
+    { text: 'I seek reassurance from others about how a specific part of my body looks.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'I try to camouflage or hide the perceived flaw with clothing, makeup, posture, or other means.', answers: [
+      { text: 'Never', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Most days', score: 2 },
+      { text: 'Every day', score: 3 },
+    ]},
+    { text: 'My appearance concerns interfere with my ability to work, study, or maintain relationships.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'A little', score: 1 },
+      { text: 'Moderately', score: 2 },
+      { text: 'A great deal', score: 3 },
+    ]},
+    { text: 'Others have told me the flaw I focus on is minor or not noticeable, but I cannot believe them.', answers: [
+      { text: 'Never applies', score: 0 },
+      { text: 'Rarely', score: 1 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Always — I trust my own perception over theirs', score: 3 },
+    ]},
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Low concern', meterRight = 'High BDD indicators';
+    if (pct <= 25) {
+      icon = '🪞'; title = 'Low Appearance Concern';
+      subtitle = 'Your responses suggest that appearance-related thoughts are not significantly impacting your daily life or emotional wellbeing.';
+      traits = [
+        { icon: '✅', text: '<strong>Occasional self-criticism about appearance is universal</strong> — research suggests over 70% of people report some body image dissatisfaction. What distinguishes BDD is the intensity, duration, and functional impairment of those concerns.' },
+        { icon: '🧠', text: '<strong>Body image exists on a spectrum</strong> — at this level, your relationship with your appearance appears relatively balanced. Minor insecurities are human and do not indicate a disorder.' },
+        { icon: '🌱', text: '<strong>Protective factors include</strong> self-compassion, reduced social comparison, and critical engagement with media standards. These buffers are worth maintaining.' },
+        { icon: '💡', text: '<strong>If concerns ever increase</strong>, early awareness is one of the strongest predictors of successful intervention. Cognitive-behavioural therapy (CBT) has the strongest evidence base for body image concerns at any level.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low concern range<br><br>Based on: Phillips, K.A. (1996). <em>The Broken Mirror.</em> Oxford University Press. This quiz is educational only and does not replace clinical assessment.`;
+    } else if (pct <= 50) {
+      icon = '🔍'; title = 'Mild Appearance Preoccupation';
+      subtitle = 'You show some patterns of appearance preoccupation that, while not severely impairing, are worth paying attention to.';
+      traits = [
+        { icon: '🔄', text: '<strong>Mild appearance preoccupation often escalates during stress</strong> — Phillips\' clinical research found that BDD symptoms frequently worsen during periods of anxiety, depression, or social pressure, making early awareness valuable.' },
+        { icon: '📱', text: '<strong>Social media significantly amplifies appearance concerns</strong> — Fardouly et al. (2015) found that exposure to idealised images drives social comparison and body dissatisfaction, particularly in people already prone to appearance preoccupation.' },
+        { icon: '🛑', text: '<strong>Mirror-checking and reassurance-seeking maintain the cycle</strong> — these behaviours feel relieving in the moment but reinforce the belief that the flaw is real and threatening. Brief checking limits (one check, then redirect) can interrupt this.' },
+        { icon: '🌿', text: '<strong>Mindfulness-based approaches help</strong> — practising noticing appearance-related thoughts without engaging with them as facts reduces the rumination that drives mild preoccupation into moderate impairment.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild preoccupation range<br><br>Based on: Phillips, K.A. (1996). Fardouly, J. et al. (2015). Social comparisons on social media. <em>Journal of Experimental Social Psychology.</em>`;
+    } else if (pct <= 75) {
+      icon = '⚠️'; title = 'Moderate BDD Signs';
+      subtitle = 'Your responses indicate moderate signs consistent with body dysmorphic concerns — appearance preoccupation appears to be causing real distress and some functional interference.';
+      traits = [
+        { icon: '🧬', text: '<strong>BDD is more common than widely recognised</strong> — Phillips\' epidemiological work estimates BDD prevalence at approximately 1.7–2.4% in the general population, rising to 9–15% in dermatology and cosmetic surgery settings.' },
+        { icon: '🔁', text: '<strong>Compulsive behaviours maintain BDD</strong> — checking, camouflaging, reassurance-seeking, and skin-picking are reinforced by temporary relief. CBT with Exposure and Response Prevention (ERP) directly targets these maintaining cycles.' },
+        { icon: '🚫', text: '<strong>Cosmetic procedures rarely help</strong> — Phillips\' outcome research found that the majority of BDD patients who undergo cosmetic procedures do not improve and often transfer preoccupation to a new feature. Treating the underlying cognition is essential.' },
+        { icon: '🤝', text: '<strong>Treatment works</strong> — CBT specifically designed for BDD and SSRIs (particularly at higher doses) have strong evidence from RCTs. Speaking with a mental health professional familiar with BDD is the recommended next step.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate signs range<br><br>Based on: Phillips, K.A. (1996, 2005). <em>The Broken Mirror.</em> Veale, D. & Willson, R. (2009). <em>Overcoming Body Image Problems.</em> Professional assessment is recommended.`;
+    } else {
+      icon = '🆘'; title = 'High BDD Indicators';
+      subtitle = 'Your responses suggest significant patterns consistent with Body Dysmorphic Disorder — the intensity of appearance preoccupation and its impact on daily functioning are at a clinical level.';
+      traits = [
+        { icon: '❗', text: '<strong>BDD causes profound suffering</strong> — Phillips\' longitudinal research found BDD associated with rates of suicidal ideation and attempts significantly higher than the general population and comparable to major depressive disorder. Please take these results seriously.' },
+        { icon: '🧠', text: '<strong>BDD is a neurobiological condition, not vanity</strong> — neuroimaging research shows BDD involves abnormal processing of visual detail and hyperactivation of threat-detection circuits. The distorted perception is real and not a character flaw.' },
+        { icon: '🛠️', text: '<strong>Effective treatment exists</strong> — CBT with ERP, delivered by a therapist trained in BDD, has the strongest evidence. SSRI medication (at higher doses than used for depression) also has strong RCT support. Combined treatment is often most effective.' },
+        { icon: '🤝', text: '<strong>Please seek professional support</strong> — the BDD Foundation and IOCDF provide therapist directories. Recovery from BDD is achievable with the right treatment approach. You are not alone in this experience.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high BDD indicator range<br><br>Based on: Phillips, K.A. (1996). <em>The Broken Mirror.</em> Veale, D. (2004). CBT for body dysmorphic disorder. <em>Behaviour Research and Therapy.</em> Professional assessment is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+hypersensitivity: {
+  id: 'hypersensitivity', color: '#a78bfa',
+  icon: '🌊', title: 'Am I Highly Sensitive?',
+  descHtml: `Based on the <strong>Highly Sensitive Person Scale (HSPS)</strong> (Aron & Aron, 1996), this quiz assesses the trait of Sensory Processing Sensitivity — a deep processing of sensory, emotional, and social information that characterises approximately 15–20% of the population.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I am easily overwhelmed by things like bright lights, strong smells, rough textures, or loud sounds.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'A little', score: 1 },
+      { text: 'Moderately', score: 2 },
+      { text: 'Very much', score: 3 },
+    ]},
+    { text: 'I notice and appreciate fine details in art, music, food, or my surroundings that others often miss.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I feel deeply moved by music, film, literature, or art in a way that affects me physically or emotionally.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I become uncomfortable when there is a lot going on around me — noise, people, activity.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'After a busy or intense day, I need to withdraw to a quiet space to recover.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I am deeply affected by other people\'s moods and emotions, even when they don\'t say anything directly.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'I am rattled or distressed when asked to do too many things at once or in a short time.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'Changes to my routine, environment, or plans cause me more discomfort than they seem to cause others.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I process experiences deeply — I reflect on events, conversations, and decisions long after they happen.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'I am sensitive to hunger, caffeine, pain, or minor physical discomforts more than most people seem to be.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'I find myself thinking about the ethical and moral dimensions of situations more than others around me.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very often', score: 3 },
+    ]},
+    { text: 'Being observed while performing a task makes me more nervous and affects my performance.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Low sensitivity', meterRight = 'Highly sensitive';
+    if (pct <= 30) {
+      icon = '🌊'; title = 'Low Sensitivity';
+      subtitle = 'Your nervous system processes stimulation at a lower-than-average threshold — you tend to handle busy, stimulating environments without becoming overwhelmed.';
+      traits = [
+        { icon: '💪', text: '<strong>Low sensory sensitivity is an adaptive trait in many environments</strong> — Aron\'s research identified that high-sensation-seeking, fast-paced, and competitive environments tend to reward low-HSP traits, including comfort with stimulation and quick decision-making.' },
+        { icon: '🔄', text: '<strong>Stimulation tolerance is not emotional depth</strong> — low scores on the HSPS reflect nervous system reactivity, not emotional intelligence or empathy. These are separate dimensions.' },
+        { icon: '🌱', text: '<strong>Low sensitivity can sometimes mean missing subtle cues</strong> — Aron\'s research noted that low-SPS individuals may benefit from intentional practice noticing emotional nuance, physical sensations, and interpersonal subtlety.' },
+        { icon: '💡', text: '<strong>The HSP trait exists on a spectrum</strong> — sensitivity levels can also vary with stress, sleep deprivation, and life stage. This score reflects your current typical experience.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low sensitivity range<br><br>Based on: Aron, E.N. & Aron, A. (1997). Sensory-processing sensitivity and its relation to introversion and emotionality. <em>Journal of Personality and Social Psychology, 73</em>(2).`;
+    } else if (pct <= 55) {
+      icon = '🌤️'; title = 'Moderate Sensitivity';
+      subtitle = 'You show a moderate level of sensory and emotional sensitivity — you can handle stimulation reasonably well but do notice and feel things more deeply in certain contexts.';
+      traits = [
+        { icon: '⚖️', text: '<strong>Moderate SPS offers a balance of advantages</strong> — Aron\'s research found moderate-SPS individuals often combine social flexibility with the capacity for deep processing, giving them versatility across both stimulating and reflective contexts.' },
+        { icon: '🧠', text: '<strong>Deep processing is a core feature of SPS</strong> — even at moderate levels, sensitive individuals tend to think more carefully before acting, notice more connections between ideas, and are often more affected by social and environmental contexts than low-SPS peers.' },
+        { icon: '🔋', text: '<strong>Energy management matters</strong> — at moderate levels, recovery time after stimulating events is still important, even if less pronounced than for high HSPs. Regular downtime protects against cumulative overload.' },
+        { icon: '🌿', text: '<strong>The trait is stable across life but manageable</strong> — Aron\'s longitudinal work found SPS trait levels are moderately heritable and relatively stable, but HSPs who understand their trait report significantly better wellbeing than those who don\'t.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate sensitivity range<br><br>Based on: Aron, E.N. & Aron, A. (1997). Aron, E.N. (1999). <em>The Highly Sensitive Person.</em> Broadway Books.`;
+    } else if (pct <= 75) {
+      icon = '🌊'; title = 'High Sensitivity';
+      subtitle = 'You show strong signs of high sensory processing sensitivity — your nervous system processes stimulation, emotion, and information more deeply and intensively than average.';
+      traits = [
+        { icon: '🎨', text: '<strong>High SPS is associated with heightened aesthetic and emotional experience</strong> — Aron\'s research found HSPs report richer aesthetic experiences, stronger emotional responses to art and music, and more vivid inner lives than non-HSPs.' },
+        { icon: '🔋', text: '<strong>Overstimulation is a genuine physiological experience</strong> — not a weakness or social anxiety. Aron\'s brain imaging studies found HSPs show greater activation in regions associated with attention, action planning, and emotional processing when processing stimuli.' },
+        { icon: '🌿', text: '<strong>HSPs thrive with adequate downtime and low-stimulation recovery</strong> — creating deliberate "recharge" periods is not self-indulgence but neurological necessity. Without it, cumulative overarousal leads to irritability, exhaustion, and shutdown.' },
+        { icon: '🤝', text: '<strong>HSPs are often drawn to meaning-making work</strong> — counselling, education, the arts, healthcare, and animal care overrepresent HSPs. The depth of processing that causes overwhelm in some contexts is a profound asset in others.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high sensitivity range<br><br>Based on: Aron, E.N. & Aron, A. (1997). Jagiellowicz, J. et al. (2011). The trait of sensory processing sensitivity and neural responses to changes in visual scenes. <em>Social Cognitive and Affective Neuroscience.</em>`;
+    } else {
+      icon = '🌪️'; title = 'Highly Sensitive Person';
+      subtitle = 'Your responses are strongly consistent with the Highly Sensitive Person trait — you process sensory, emotional, and social information with exceptional depth and intensity.';
+      traits = [
+        { icon: '🧬', text: '<strong>HSP is a biologically-based trait found in 15–20% of the population</strong> — and in over 100 species. Aron\'s evolutionary model proposes that high SPS is a "pause to check" survival strategy, conferring advantages in low-stimulation, safe environments requiring deep analysis.' },
+        { icon: '⚡', text: '<strong>The greatest challenge for HSPs is chronic overstimulation</strong> — in modern environments with constant noise, digital input, and social demands, the HSP nervous system is rarely given the recovery time it requires. Burnout and emotional exhaustion are common consequences.' },
+        { icon: '🌱', text: '<strong>Environment matters enormously for HSPs</strong> — Aron\'s "differential susceptibility" research found HSPs are more damaged by adverse environments than non-HSPs, but also more positively affected by enriching, supportive environments. The trait amplifies experience in both directions.' },
+        { icon: '💎', text: '<strong>Your sensitivity is a profound asset</strong> — HSPs consistently score higher on creativity, conscientiousness, empathy, and capacity for nuanced thinking. The goal is not to become less sensitive, but to build a life structurally compatible with how your nervous system works.' },
+        { icon: '📚', text: '<strong>Recommended resources</strong>: Aron\'s <em>The Highly Sensitive Person</em> (1996) and <em>Psychotherapy and the Highly Sensitive Person</em> (2010). Therapy with an HSP-aware therapist can be transformative.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — highly sensitive person range<br><br>Based on: Aron, E.N. & Aron, A. (1997). Boyce, W.T. & Ellis, B.J. (2005). Biological sensitivity to context. <em>Development and Psychopathology.</em>`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+dependency: {
+  id: 'dependency', color: '#fb923c',
+  icon: '🧲', title: 'Am I Emotionally Dependent?',
+  descHtml: `Based on the <strong>Emotional Dependency Scale</strong> (Lemos & Londoño, 2006), this quiz assesses patterns of excessive need for approval, fear of abandonment, and self-subordination in close relationships — a pattern distinct from healthy interdependence.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I need frequent reassurance from the people I care about that they still love or value me.', answers: [
+      { text: 'Rarely or never', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'The thought of being rejected or abandoned by someone important to me causes intense anxiety.', answers: [
+      { text: 'Little anxiety', score: 0 },
+      { text: 'Mild anxiety', score: 1 },
+      { text: 'Significant anxiety', score: 2 },
+      { text: 'Overwhelming anxiety', score: 3 },
+    ]},
+    { text: 'I find it extremely difficult to be alone or to function well when an important relationship ends.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'A little', score: 1 },
+      { text: 'Quite a lot', score: 2 },
+      { text: 'Very much so', score: 3 },
+    ]},
+    { text: 'I change my opinions, preferences, or behaviour to match what I think others want from me.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'My mood and sense of self-worth depend heavily on whether the people I care about are pleased with me.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Very much so', score: 3 },
+    ]},
+    { text: 'I prioritise the needs and feelings of others over my own, often to my own detriment.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I feel anxious or unsettled when someone important hasn\'t responded to a message for several hours.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I have stayed in relationships that were unhealthy or painful because I feared being alone.', answers: [
+      { text: 'Never', score: 0 },
+      { text: 'Once or twice', score: 1 },
+      { text: 'More than once', score: 2 },
+      { text: 'This is a pattern for me', score: 3 },
+    ]},
+    { text: 'I find it hard to make decisions without approval or input from people I depend on.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'When someone I care about seems distant or less warm, I assume I did something wrong.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I idealise people I become close to and feel devastated if they turn out to be different than I imagined.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I feel that my sense of who I am or my sense of safety depends on being in a close relationship.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'Somewhat', score: 1 },
+      { text: 'Quite a lot', score: 2 },
+      { text: 'Very much so', score: 3 },
+    ]},
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Secure', meterRight = 'High dependency';
+    if (pct <= 25) {
+      icon = '🧲'; title = 'Secure Relational Style';
+      subtitle = 'Your responses suggest a relatively secure and autonomous relationship style — you value connection without depending on it for your sense of self or safety.';
+      traits = [
+        { icon: '✅', text: '<strong>Secure attachment supports healthy interdependence</strong> — Lemos & Londoño\'s research distinguishes emotional dependency from healthy closeness. Secure individuals can need others, ask for support, and feel hurt by rejection without their identity or functioning collapsing.' },
+        { icon: '🌱', text: '<strong>Your sense of self appears internally anchored</strong> — rather than regulated primarily through others\' approval, your wellbeing seems to have a stable internal base. This is associated with higher relationship satisfaction and individual resilience.' },
+        { icon: '💪', text: '<strong>Healthy relational autonomy includes</strong> the capacity to tolerate being alone, to disagree with people you love, and to have needs without fear of abandonment. These appear to be present in your responses.' },
+        { icon: '💡', text: '<strong>Dependency traits can emerge under high stress</strong> — even securely attached people show more dependent patterns when frightened, exhausted, or triggered by past relational wounds. Awareness is a protective factor.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — secure range<br><br>Based on: Lemos, S. & Londoño, N.H. (2006). Construcción y validación del Cuestionario de Dependencia Emocional. <em>Psicología desde el Caribe.</em>`;
+    } else if (pct <= 50) {
+      icon = '🔗'; title = 'Some Dependency Traits';
+      subtitle = 'You show some patterns of emotional dependency that, while not severe, suggest areas where your relational security could be strengthened.';
+      traits = [
+        { icon: '🔍', text: '<strong>Mild dependency often has roots in early attachment</strong> — Bowlby\'s attachment theory, updated by Lemos & Londoño\'s dependency framework, suggests that patterns of seeking excessive reassurance or fearing rejection often originate in inconsistent early caregiving.' },
+        { icon: '🧩', text: '<strong>Common mild patterns include</strong>: over-interpreting others\' distance as rejection, difficulty voicing needs directly, and mild self-silencing to avoid conflict. These are worth examining without self-judgment.' },
+        { icon: '🌿', text: '<strong>Building internal validation practices helps</strong> — journalling, self-compassion exercises, and identifying your own values independent of others\' approval all build the internal anchor that reduces reliance on external validation.' },
+        { icon: '🤝', text: '<strong>Therapy can accelerate this work</strong> — schema therapy and emotionally-focused therapy (EFT) both target the core beliefs (e.g., "I am not lovable alone") that underlie emotional dependency patterns.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — some dependency traits<br><br>Based on: Lemos, S. & Londoño, N.H. (2006). Castelló, J. (2005). <em>Dependencia emocional: Características y tratamiento.</em> Alianza Editorial.`;
+    } else if (pct <= 75) {
+      icon = '⚠️'; title = 'Dependent Patterns';
+      subtitle = 'Your responses suggest significant emotional dependency patterns — relationships may feel essential to your sense of safety, identity, and emotional regulation in ways that create pain.';
+      traits = [
+        { icon: '🔴', text: '<strong>Emotional dependency is associated with relationship instability</strong> — Lemos & Londoño\'s clinical research found dependent individuals are more likely to remain in harmful relationships, experience intense jealousy, and report lower relationship satisfaction despite investing heavily in relationships.' },
+        { icon: '🧠', text: '<strong>The dependency cycle is self-reinforcing</strong> — anxious attachment behaviour (excessive checking, reassurance-seeking, self-sacrifice) often drives away the connection being sought, which confirms the fear of abandonment and escalates the dependent behaviour.' },
+        { icon: '🛠️', text: '<strong>Schema therapy is highly effective</strong> — Young\'s schema therapy directly addresses the "abandonment/instability" and "subjugation" schemas that underlie emotional dependency, with strong evidence from clinical trials.' },
+        { icon: '🌱', text: '<strong>Building a relationship with yourself matters</strong> — Castelló\'s work emphasises that dependent individuals often have an underdeveloped relationship with their own preferences, needs, and identity. Therapeutic work focuses on building this internal relationship first.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — dependent patterns range<br><br>Based on: Lemos, S. & Londoño, N.H. (2006). Young, J.E. (1994). <em>Cognitive Therapy for Personality Disorders.</em> Professional support is recommended.`;
+    } else {
+      icon = '🆘'; title = 'High Emotional Dependency';
+      subtitle = 'Your responses indicate high emotional dependency — relationships appear to be the primary source of your sense of safety, self-worth, and identity, creating a cycle of intense need and pain.';
+      traits = [
+        { icon: '❗', text: '<strong>High emotional dependency causes significant suffering</strong> — Castelló\'s clinical work identifies it as involving an extreme need for affection and approval, patterns of self-subordination that amount to self-erasure, and catastrophic fear of relational loss.' },
+        { icon: '🧬', text: '<strong>Dependency and early trauma are strongly linked</strong> — research consistently finds that emotional dependency is associated with childhood emotional neglect, inconsistent parenting, and early experiences of abandonment or conditional love.' },
+        { icon: '🔗', text: '<strong>The relationship pattern repeats</strong> — dependent individuals often cycle through intense idealisation, followed by fear and desperate clinging, followed by perceived or actual abandonment, which reinforces the original wound. This cycle is treatable.' },
+        { icon: '🤝', text: '<strong>Please seek therapeutic support</strong> — schema therapy, EFT, and DBT-informed therapy all have strong evidence for high emotional dependency. A skilled therapist can help you build the internal sense of security that makes healthy connection possible.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — high dependency range<br><br>Based on: Lemos, S. & Londoño, N.H. (2006). Castelló, J. (2005). Bowlby, J. (1988). <em>A Secure Base.</em> Professional therapeutic support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+anhedonia: {
+  id: 'anhedonia', color: '#64748b',
+  icon: '🩶', title: 'Am I Losing the Ability to Feel Pleasure?',
+  descHtml: `Based on the <strong>Snaith-Hamilton Pleasure Scale (SHAPS)</strong> (Snaith et al., 1995), this quiz measures anhedonia — the reduced or absent ability to experience pleasure from activities that normally bring enjoyment. Anhedonia is a core symptom of depression and several other conditions.<br><br><strong>10 questions · ~2 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I would enjoy my favourite food or meal the way I used to.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would find pleasure in a hobby or activity I used to enjoy.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would enjoy spending time with friends or family.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would find pleasure in nature — a walk, sunlight, or a peaceful scene.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would feel satisfied or proud after completing a task or achieving something.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would find something genuinely funny and feel real amusement.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would enjoy a warm bath, comfortable environment, or physical comfort.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I feel genuine anticipation or excitement when something I\'m looking forward to is coming up.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'When I listen to music I normally love, it moves me or brings me pleasure.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+    { text: 'I would feel warmth or connection when someone I care about shows me affection.', answers: [
+      { text: 'Definitely agree', score: 0 },
+      { text: 'Agree', score: 1 },
+      { text: 'Disagree', score: 2 },
+      { text: 'Strongly disagree', score: 3 },
+    ]},
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Healthy pleasure', meterRight = 'Severe anhedonia';
+    if (pct <= 20) {
+      icon = '🩶'; title = 'Healthy Pleasure Capacity';
+      subtitle = 'Your responses suggest your capacity to experience pleasure and positive emotion is largely intact — you can enjoy food, connection, hobbies, and beauty in ways that feel rewarding.';
+      traits = [
+        { icon: '✅', text: '<strong>Intact hedonic capacity is a core component of wellbeing</strong> — Snaith et al.\'s SHAPS research demonstrates that the ability to experience consummatory pleasure (actually feeling it) and anticipatory pleasure (looking forward to it) are both important indicators of psychological health.' },
+        { icon: '🧠', text: '<strong>Pleasure is neurobiologically grounded</strong> — dopamine drives anticipation ("wanting") while opioid circuits drive enjoyment ("liking"). Both appear to be functioning well at this score level.' },
+        { icon: '🌱', text: '<strong>Maintaining pleasure capacity requires protecting the basics</strong> — chronic sleep deprivation, social isolation, and high stress all blunt hedonic response over time, even without an underlying condition.' },
+        { icon: '💡', text: '<strong>Gratitude and savouring practices sustain hedonic wellbeing</strong> — Bryant & Veroff\'s research on savouring found that actively attending to and appreciating positive experiences amplifies their impact and builds positive affect over time.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — healthy pleasure capacity<br><br>Based on: Snaith, R.P. et al. (1995). A scale for the assessment of hedonic tone: The Snaith-Hamilton Pleasure Scale. <em>British Journal of Psychiatry, 167</em>(1).`;
+    } else if (pct <= 45) {
+      icon = '🌤️'; title = 'Mild Pleasure Reduction';
+      subtitle = 'You show some reduction in your capacity to experience pleasure — certain activities or rewards may feel less engaging or satisfying than they once did.';
+      traits = [
+        { icon: '🔍', text: '<strong>Mild anhedonia is often a warning sign of developing depression or burnout</strong> — Snaith et al.\'s research found SHAPS scores in this range frequently precede or accompany mild-to-moderate depressive episodes and are sensitive to early-stage decline.' },
+        { icon: '🔋', text: '<strong>Anhedonia and energy depletion are linked</strong> — when the reward system is under-functioning, even activities that would normally energise become effort-heavy. This can create avoidance of the very things that might help.' },
+        { icon: '🌿', text: '<strong>Behavioural activation is evidence-based</strong> — the CBT technique of scheduling pleasurable activities even when motivation is absent has strong evidence for restoring hedonic response. The engagement tends to precede the feeling.' },
+        { icon: '💡', text: '<strong>Sleep and physical activity have direct effects on reward circuitry</strong> — improving sleep quality and light aerobic exercise both show measurable effects on dopaminergic reward system functioning in clinical studies.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — mild reduction range<br><br>Based on: Snaith, R.P. et al. (1995). Treadway, M.T. & Zald, D.H. (2011). Reconsidering anhedonia in depression. <em>Neuroscience & Biobehavioral Reviews.</em>`;
+    } else if (pct <= 70) {
+      icon = '⚠️'; title = 'Moderate Anhedonia';
+      subtitle = 'Your responses indicate moderate anhedonia — the dimming of pleasure is significant enough to affect multiple areas of your life and likely reflects an underlying mental health concern worth addressing.';
+      traits = [
+        { icon: '🧬', text: '<strong>Anhedonia reflects reduced dopamine and opioid system activity</strong> — Treadway & Zald\'s (2011) neurobiological review found that anhedonia specifically involves reduced willingness to expend effort for rewards, reduced consummatory pleasure, and blunted anticipatory pleasure — three distinct but overlapping mechanisms.' },
+        { icon: '🔴', text: '<strong>Moderate anhedonia is a significant symptom of clinical depression</strong> — DSM-5 lists anhedonia as one of the two cardinal symptoms of major depressive disorder. If this has persisted for more than two weeks, professional assessment is recommended.' },
+        { icon: '🛠️', text: '<strong>Treatment is available and effective</strong> — antidepressants (particularly SNRIs and bupropion which target reward circuits more directly than standard SSRIs), alongside CBT with behavioural activation, show strong evidence for restoring hedonic capacity.' },
+        { icon: '🤝', text: '<strong>Please speak with someone</strong> — whether a GP, psychiatrist, or psychologist. Anhedonia at this level deserves professional attention. It is treatable, and you do not have to live with the flatness of reduced pleasure.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — moderate anhedonia range<br><br>Based on: Snaith, R.P. et al. (1995). Treadway, M.T. & Zald, D.H. (2011). Professional assessment is recommended.`;
+    } else {
+      icon = '🆘'; title = 'Severe Anhedonia Signs';
+      subtitle = 'Your responses indicate severe anhedonia — the capacity to feel pleasure appears significantly diminished across multiple domains. This is a serious symptom that warrants professional attention.';
+      traits = [
+        { icon: '❗', text: '<strong>Severe anhedonia is a hallmark of serious depression</strong> — Snaith et al.\'s SHAPS research found that high SHAPS scores strongly predict clinical depression severity and are associated with longer episode duration and poorer treatment response without targeted intervention.' },
+        { icon: '🧠', text: '<strong>Anhedonia is not the same as sadness</strong> — it is the absence of positive emotion rather than the presence of negative emotion. Many people with severe anhedonia describe feeling "flat", "numb", or "empty" rather than overtly sad, which can make it harder to recognise.' },
+        { icon: '🔗', text: '<strong>Anhedonia is also associated with</strong> schizophrenia, PTSD, substance use disorders, and prolonged grief. Accurate diagnosis matters because treatment differs by underlying cause.' },
+        { icon: '🤝', text: '<strong>Please reach out for professional support urgently</strong> — severe anhedonia significantly reduces quality of life and is associated with suicidal ideation. A psychiatrist can assess underlying causes and offer targeted treatment. You deserve to feel pleasure again.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — severe anhedonia range<br><br>Based on: Snaith, R.P. et al. (1995). American Psychiatric Association (2013). <em>DSM-5.</em> Urgent professional support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+fearofabandonment: {
+  id: 'fearofabandonment', color: '#e8607a',
+  icon: '💔', title: 'How Strong Is My Fear of Abandonment?',
+  descHtml: `Based on the <strong>Abandonment Schema Scale</strong> (Young, 1994), this quiz measures the core schema of abandonment and instability — the belief that significant others will leave, are unpredictable, or cannot be counted on for lasting connection.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I worry that the people I love will eventually leave me, even when there is no clear reason to believe this.', answers: [
+      { text: 'Rarely or never', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'When a partner or close friend seems distant or quiet, I immediately fear something is wrong with the relationship.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I feel a strong need for constant closeness or reassurance from the people I care about most.', answers: [
+      { text: 'Not at all', score: 0 },
+      { text: 'Somewhat', score: 1 },
+      { text: 'Quite a lot', score: 2 },
+      { text: 'Very much so', score: 3 },
+    ]},
+    { text: 'The possibility of being left fills me with a level of panic or dread that feels overwhelming.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I read into silences, short replies, or changes in tone as signs that someone is pulling away from me.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I hold back parts of myself in relationships because I fear that being fully known will cause the person to leave.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'When someone I love hasn\'t contacted me in a while, I worry they have lost interest in me.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'The end of a relationship — even a minor one — leaves me feeling devastated and destabilised.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I sometimes cling to relationships or do whatever it takes to prevent the other person from leaving.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I feel fundamentally insecure in close relationships, even when things are objectively going well.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I find it hard to trust that someone\'s love or commitment will last, no matter what they say or do.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+    { text: 'I sometimes push people away or test them to see if they will leave, even when I desperately want them to stay.', answers: [
+      { text: 'Rarely', score: 0 },
+      { text: 'Sometimes', score: 1 },
+      { text: 'Often', score: 2 },
+      { text: 'Almost always', score: 3 },
+    ]},
+  ],
+  getResult(pct) {
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Low fear', meterRight = 'Core wound';
+    if (pct <= 25) {
+      icon = '💔'; title = 'Low Fear of Abandonment';
+      subtitle = 'Your responses suggest you feel relatively secure in close relationships — you can tolerate distance, silence, and uncertainty without it triggering intense fear of loss.';
+      traits = [
+        { icon: '✅', text: '<strong>Low abandonment fear is associated with secure attachment</strong> — Young\'s schema therapy research found that individuals without a dominant abandonment schema have typically received consistent, reliable caregiving that built an internal model of relationships as stable and trustworthy.' },
+        { icon: '🌱', text: '<strong>Relational security allows for healthy individuation</strong> — you can tolerate the natural ebbs and flows of closeness in relationships without catastrophising them as signs of permanent loss.' },
+        { icon: '💡', text: '<strong>Security doesn\'t mean indifference</strong> — low abandonment fear does not mean you don\'t care deeply. It means your nervous system has learned that relationships can survive distance, disagreement, and change.' },
+        { icon: '🔍', text: '<strong>Past losses can reactivate this schema</strong> — even people with low baseline abandonment fear can have the schema activated by significant losses (bereavement, break-ups, betrayal). Awareness helps.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — low fear range<br><br>Based on: Young, J.E. (1994). <em>Cognitive Therapy for Personality Disorders: A Schema-Focused Approach.</em> Professional Resources Press.`;
+    } else if (pct <= 50) {
+      icon = '🔍'; title = 'Some Sensitivity to Abandonment';
+      subtitle = 'You carry some sensitivity to relational loss that, while not overwhelming, influences how you relate to distance, silence, and uncertainty in close relationships.';
+      traits = [
+        { icon: '🧩', text: '<strong>Moderate abandonment sensitivity is extremely common</strong> — Young\'s schema therapy research estimates the abandonment/instability schema is one of the most prevalent in the general population, often originating in childhood relational experiences.' },
+        { icon: '🔄', text: '<strong>Common patterns at this level</strong>: over-interpreting a partner\'s quietness as withdrawal, mild anxiety when messages go unanswered, or difficulty fully relaxing into the security of a relationship even when it\'s going well.' },
+        { icon: '🌿', text: '<strong>Schema awareness is the first step in schema healing</strong> — Young\'s research found that simply recognising the pattern ("this is my abandonment schema activating, not evidence of abandonment") can reduce its emotional charge significantly.' },
+        { icon: '🤝', text: '<strong>Sharing this with a trusted partner helps</strong> — when both people understand the schema, reassurance can be offered in a way that genuinely helps, rather than inadvertently reinforcing the dependency cycle.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — some sensitivity range<br><br>Based on: Young, J.E. (1994). Young, J.E., Klosko, J. & Weishaar, M. (2003). <em>Schema Therapy: A Practitioner's Guide.</em>`;
+    } else if (pct <= 75) {
+      icon = '⚠️'; title = 'Strong Fear of Abandonment';
+      subtitle = 'You carry a strong fear of abandonment that significantly shapes your relationship experience — the anticipation of loss is a persistent presence affecting trust, closeness, and behaviour.';
+      traits = [
+        { icon: '🔴', text: '<strong>Strong abandonment schema creates a painful paradox</strong> — the intense need for closeness drives behaviours (clinging, testing, jealousy) that push people away, which then confirms the feared abandonment. Young identified this as one of the most self-perpetuating schema dynamics.' },
+        { icon: '🧬', text: '<strong>This pattern often has roots in early instability</strong> — parental inconsistency, early loss, divorce, or unpredictable caregiving in childhood are the most common origins of the abandonment schema according to Young\'s developmental model.' },
+        { icon: '🛠️', text: '<strong>Schema therapy has strong evidence</strong> — Young\'s RCT data shows significant and lasting reduction in core schema activation through mode work, limited reparenting, and schema-challenging behavioural experiments.' },
+        { icon: '🌱', text: '<strong>Healing is possible and is happening for many people</strong> — the goal is not to stop caring about connection, but to build enough internal security that relational uncertainty is tolerable rather than catastrophic.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — strong fear range<br><br>Based on: Young, J.E. (1994). Young, J.E. et al. (2003). Giesen-Bloo, J. et al. (2006). Outpatient psychotherapy for borderline personality disorder. <em>Archives of General Psychiatry.</em>`;
+    } else {
+      icon = '💔'; title = 'Core Abandonment Wound';
+      subtitle = 'Your responses are consistent with a core abandonment wound — the fear of being left appears to be a central organising experience in how you relate to others, yourself, and your sense of safety.';
+      traits = [
+        { icon: '❗', text: '<strong>A core abandonment schema is one of the most painful early maladaptive schemas</strong> — Young\'s clinical research describes it as involving the belief that loved ones are inherently unreliable, unstable, or will leave. This belief filters all relational experience through a lens of impending loss.' },
+        { icon: '🧠', text: '<strong>The schema operates largely outside awareness</strong> — because it was formed early, it feels like reality rather than a pattern. The hypervigilance to rejection cues, the desperate clinging, and the push-pull dynamics feel like reasonable responses to a genuinely dangerous world.' },
+        { icon: '🔗', text: '<strong>Attachment trauma often underlies this level</strong> — disorganised attachment (Hesse & Main, 1999) and early loss or abandonment experiences leave the nervous system wired for relational threat detection in a way that is hard to override through willpower alone.' },
+        { icon: '🤝', text: '<strong>Please seek therapeutic support</strong> — schema therapy, EMDR for relational trauma, and DBT distress tolerance skills all have strong evidence at this level. Healing a core abandonment wound is one of the most profound and life-changing therapeutic journeys possible.' },
+      ];
+      extra = `<strong>Score:</strong> ${pct}% — core wound range<br><br>Based on: Young, J.E. (1994). Main, M. & Hesse, E. (1990). Parents\' unresolved traumatic experiences are related to infant disorganized attachment status. <em>Attachment in the Preschool Years.</em> Professional therapeutic support is strongly recommended.`;
+    }
+    return { icon, title, subtitle, traits, meterPct: pct, meterLeft, meterRight, extra };
+  }
+},
+
+emotionalintelligence: {
+  id: 'emotionalintelligence', color: '#10b981',
+  icon: '🧭', title: 'What Is My Emotional Intelligence?',
+  descHtml: `Based on the <strong>Schutte Self-Report Emotional Intelligence Test (SSEIT)</strong> (Schutte et al., 1998), this quiz measures four dimensions of emotional intelligence: perceiving emotions, managing own emotions, managing others\' emotions, and using emotions to guide thinking.<br><br><strong>12 questions · ~3 minutes</strong>`,
+  type: 'spectrum',
+  questions: [
+    { text: 'I am aware of my emotions as I experience them, even when they are subtle or mixed.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'When I am upset or angry, I can calm myself down relatively quickly.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I can tell how people are feeling from their tone of voice, facial expression, or body language.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I use my emotional state to help guide what tasks or decisions I take on at a given time.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I find it easy to name and articulate what I am feeling with some precision.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'When I feel a strong emotion, I can reflect on it rather than just reacting impulsively.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I can sense when a conversation partner is uncomfortable, confused, or hiding something emotionally.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I am able to motivate myself emotionally — finding reasons to persist even when tasks are hard.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'When supporting someone in distress, I can attune to their emotional state without becoming overwhelmed myself.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'My emotions provide useful information that guides my decisions, rather than just getting in the way.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I can recognise when I am being triggered by past experiences rather than present reality.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+    { text: 'I adjust how I express my emotions depending on the context and what will be most helpful.', answers: [
+      { text: 'Rarely', score: 3 },
+      { text: 'Sometimes', score: 2 },
+      { text: 'Often', score: 1 },
+      { text: 'Almost always', score: 0 },
+    ]},
+  ],
+  getResult(pct) {
+    // pct is inverted for EI: high raw score = low EI, so we flip it
+    const eiPct = 100 - pct;
+    let icon, title, subtitle, traits, extra;
+    const meterLeft = 'Developing EI', meterRight = 'High EI';
+    if (eiPct <= 30) {
+      icon = '🧭'; title = 'Developing Emotional Intelligence';
+      subtitle = 'Your responses suggest emotional intelligence is an area where you have significant room to grow — recognising, managing, and using emotions may currently feel difficult or confusing.';
+      traits = [
+        { icon: '🌱', text: '<strong>Emotional intelligence is a skill set, not a fixed trait</strong> — Schutte et al.\'s (1998) foundational research established that EI is learnable and improvable across the lifespan, unlike fixed personality traits. Low scores now do not predict low scores in the future.' },
+        { icon: '🧠', text: '<strong>Emotion recognition is the foundation</strong> — without the ability to accurately identify what you are feeling, regulation and social attunement are difficult. Building an "emotion vocabulary" (naming beyond happy/sad/angry) is the essential first step.' },
+        { icon: '🔄', text: '<strong>Reactivity without reflection is a common pattern at this level</strong> — emotions drive behaviour directly, without the pause between feeling and action that regulation requires. DBT\'s STOP skill (Stop, Take a breath, Observe, Proceed) directly builds this capacity.' },
+        { icon: '📚', text: '<strong>Recommended starting points</strong>: Goleman\'s <em>Emotional Intelligence</em> (1995) for an accessible overview; DBT skills workbooks for practical regulation tools; and psychotherapy to explore emotional patterns in a safe context.' },
+      ];
+      extra = `<strong>Score:</strong> ${eiPct}% EI — developing range<br><br>Based on: Schutte, N.S. et al. (1998). Development and validation of a measure of emotional intelligence. <em>Personality and Individual Differences, 25</em>(2).`;
+    } else if (eiPct <= 55) {
+      icon = '🌤️'; title = 'Moderate Emotional Intelligence';
+      subtitle = 'Your emotional intelligence is developing — you have meaningful awareness and regulation capacity in some areas, while others still present challenges.';
+      traits = [
+        { icon: '⚖️', text: '<strong>Moderate EI is the most common profile</strong> — Schutte et al.\'s normative data shows most adults fall in this range, with uneven development across the four branches: perceiving, using, understanding, and managing emotions.' },
+        { icon: '🔍', text: '<strong>Typical patterns at this level</strong>: reasonably good at reading others, but struggle to regulate own intense emotions; or good at self-awareness but less skilled at attuning to others\' emotional states.' },
+        { icon: '🛠️', text: '<strong>Targeted practice builds EI fastest</strong> — identify your weakest of the four branches (perception, use, understanding, management) and focus development there. Mayer & Salovey\'s ability model research found branch-specific practice is more effective than general EI training.' },
+        { icon: '🤝', text: '<strong>Relationship quality improves with moderate EI gains</strong> — Schutte et al.\'s research found that even modest EI improvements significantly predicted better relationship satisfaction, conflict resolution, and empathic accuracy.' },
+      ];
+      extra = `<strong>Score:</strong> ${eiPct}% EI — moderate range<br><br>Based on: Schutte, N.S. et al. (1998). Mayer, J.D. & Salovey, P. (1997). What is emotional intelligence? In <em>Emotional Development and Emotional Intelligence.</em>`;
+    } else if (eiPct <= 75) {
+      icon = '🧭'; title = 'Good Emotional Intelligence';
+      subtitle = 'You demonstrate good emotional intelligence — you have solid capacity to recognise, manage, and use emotions in yourself and read them accurately in others.';
+      traits = [
+        { icon: '✅', text: '<strong>Good EI predicts meaningful life outcomes</strong> — Schutte et al.\'s meta-analytic research found higher EI associated with better mental health, more satisfying relationships, higher occupational performance in interpersonally demanding roles, and greater life satisfaction.' },
+        { icon: '🌿', text: '<strong>Emotional regulation is a particular strength at this level</strong> — the capacity to feel strong emotions without being overwhelmed by them, and to return to baseline without suppression, is one of the most protective psychological capacities known.' },
+        { icon: '💡', text: '<strong>Using emotions to guide thinking is the most advanced EI skill</strong> — Mayer & Salovey\'s four-branch model places this at the top of the hierarchy. At this level, you are beginning to harness emotions as information rather than just managing them as noise.' },
+        { icon: '🔍', text: '<strong>Blind spots remain valuable to explore</strong> — even good EI has contextual limitations. High-stress situations, certain relationship dynamics, and fatigue all reliably reduce EI functioning. Identifying your specific triggers for EI regression is the next growth edge.' },
+      ];
+      extra = `<strong>Score:</strong> ${eiPct}% EI — good range<br><br>Based on: Schutte, N.S. et al. (1998). Schutte, N.S. et al. (2007). A meta-analytic investigation of the relationship between emotional intelligence and health. <em>Personality and Individual Differences.</em>`;
+    } else {
+      icon = '💎'; title = 'High Emotional Intelligence';
+      subtitle = 'Your responses reflect high emotional intelligence — you demonstrate strong capacity across all four domains: perceiving emotions accurately, using them to guide thinking, understanding their complexity, and managing them skillfully.';
+      traits = [
+        { icon: '🌟', text: '<strong>High EI is one of the strongest predictors of effective leadership and deep relationships</strong> — Goleman\'s research in organisational settings found EI accounted for 67% of the competencies considered most important for performance in senior roles, more than IQ or technical skill.' },
+        { icon: '🧠', text: '<strong>Emotional perception at this level involves nuance</strong> — not just recognising that someone is upset, but discerning whether it is fear, shame, grief, or anger; whether it is directed inward or outward; and what it needs. This is a rare and valuable capacity.' },
+        { icon: '🔄', text: '<strong>High EI includes knowing your own limits</strong> — the most emotionally intelligent people recognise when they are triggered, depleted, or biased, and adjust accordingly. Self-awareness of EI limitations is itself a high-EI characteristic.' },
+        { icon: '💎', text: '<strong>Your EI is a resource for others</strong> — high EI individuals often become de facto emotional anchors in groups, teams, and families. Sustainable use of this capacity requires boundaries and intentional self-replenishment, or compassion fatigue becomes a real risk.' },
+        { icon: '🌱', text: '<strong>EI continues to grow with intentional practice</strong> — even at high levels, emotional granularity (distinguishing between subtly different emotions), cultural emotional literacy, and systemic emotional awareness all represent frontier growth areas.' },
+      ];
+      extra = `<strong>Score:</strong> ${eiPct}% EI — high range<br><br>Based on: Schutte, N.S. et al. (1998). Goleman, D. (1998). <em>Working with Emotional Intelligence.</em> Bantam Books. Mayer, J.D., Salovey, P. & Caruso, D.R. (2004). Emotional intelligence: Theory, findings, and implications. <em>Psychological Inquiry.</em>`;
+    }
+    return { icon, title, subtitle, traits, meterPct: eiPct, meterLeft, meterRight, extra };
+  }
+},
+
 }; // end genericQuizzes

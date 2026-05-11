@@ -39,9 +39,15 @@ const HUB_QUIZZES = [
   { id: 'alexithymia', icon: '🔇', title: 'Can I Name My Emotions?', sub: 'TAS-20 (Bagby et al., 1994) — measures alexithymia, the clinical difficulty identifying and describing feelings.', color: '#8b5cf6', colorRgb: '139,92,246', section: 'Inner World', onClick: (_, l) => l('alexithymia') },
   { id: 'lifesatisfaction', icon: '🌅', title: 'How Satisfied Am I with My Life?', sub: 'SWLS (Diener et al., 1985) — one of the most widely-used wellbeing measures in psychology worldwide.', color: '#10b981', colorRgb: '16,185,129', section: 'Self & Social', onClick: (_, l) => l('lifesatisfaction') },
   { id: 'shame', icon: '🩹', title: 'How Much Shame Do I Carry?', sub: 'Based on Nathanson\'s Compass of Shame (1992) and Tangney\'s GASP scale — maps chronic shame vs. healthy guilt.', color: '#ec4899', colorRgb: '236,72,153', section: 'Inner World', onClick: (_, l) => l('shame') },
+  { id: 'bodydysmorphia', icon: '🪞', title: 'Do I Have Body Dysmorphia Signs?', sub: 'BDDQ (Phillips, 1996) — measures preoccupation with appearance flaws, distress, and functional impairment.', color: '#f472b6', colorRgb: '244,114,182', section: 'Mental Health Screening', onClick: (_, l) => l('bodydysmorphia') },
+  { id: 'hypersensitivity', icon: '🌊', title: 'Am I Highly Sensitive?', sub: 'HSPS (Aron & Aron, 1996) — measures Sensory Processing Sensitivity found in 15–20% of the population.', color: '#a78bfa', colorRgb: '167,139,250', section: 'Personality', onClick: (_, l) => l('hypersensitivity') },
+  { id: 'dependency', icon: '🧲', title: 'Am I Emotionally Dependent?', sub: 'Emotional Dependency Scale (Lemos & Londoño, 2006) — maps need for approval and fear of abandonment in relationships.', color: '#fb923c', colorRgb: '251,146,60', section: 'Relationships', onClick: (_, l) => l('dependency') },
+  { id: 'anhedonia', icon: '🩶', title: 'Am I Losing the Ability to Feel Pleasure?', sub: 'SHAPS (Snaith et al., 1995) — the clinical standard for measuring anhedonia, a core symptom of depression.', color: '#64748b', colorRgb: '100,116,139', section: 'Mental Health Screening', onClick: (_, l) => l('anhedonia') },
+  { id: 'fearofabandonment', icon: '💔', title: 'How Strong Is My Fear of Abandonment?', sub: 'Abandonment Schema Scale (Young, 1994) — maps the core belief that loved ones are unstable or will leave.', color: '#e8607a', colorRgb: '232,96,122', section: 'Relationships', onClick: (_, l) => l('fearofabandonment') },
+  { id: 'emotionalintelligence', icon: '🧭', title: 'What Is My Emotional Intelligence?', sub: 'SSEIT (Schutte et al., 1998) — measures perceiving, using, understanding, and managing emotions across contexts.', color: '#10b981', colorRgb: '16,185,129', section: 'Inner World', onClick: (_, l) => l('emotionalintelligence') },
 ]
 
-const SECTIONS = ['All', 'Relationships', 'Inner World', 'Mental Health Screening', 'Stress & Burnout', 'Self & Social']
+const SECTIONS = ['All', 'Relationships', 'Inner World', 'Mental Health Screening', 'Stress & Burnout', 'Self & Social', 'Personality']
 
 const TAB_COLORS = {
   'All': { color: '#e8607a', colorRgb: '232,96,122' },
@@ -50,6 +56,7 @@ const TAB_COLORS = {
   'Mental Health Screening': { color: '#9b8ff5', colorRgb: '155,143,245' },
   'Stress & Burnout': { color: '#f97316', colorRgb: '249,115,22' },
   'Self & Social': { color: '#10b981', colorRgb: '16,185,129' },
+  'Personality': { color: '#a78bfa', colorRgb: '167,139,250' },
 }
 
 const TAB_LABELS = {
@@ -59,6 +66,7 @@ const TAB_LABELS = {
   'Mental Health Screening': 'Mental Health',
   'Stress & Burnout': 'Stress & Burnout',
   'Self & Social': 'Self & Social',
+  'Personality': 'Personality',
 }
 
 export default function Hub({ goTo, launchQuiz }) {
@@ -139,10 +147,10 @@ export default function Hub({ goTo, launchQuiz }) {
           <em style={{ color: 'oklch(72% 0.17 20)', fontStyle: 'italic', fontWeight: 600 }}>Yourself</em>
         </h1>
         <p className="hidden sm:block text-[#7e79a0] text-sm leading-[1.75] max-w-[380px] mx-auto">
-          31 psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
+          37 psychology-based tools to understand your inner world — your patterns in love, your wounds, your stress, and your path to healing.
         </p>
         <p className="sm:hidden text-[#7e79a0] text-[0.78rem] leading-[1.6]">
-          31 psychology tools. Pick a category below.
+          37 psychology tools. Pick a category below.
         </p>
       </div>
 
